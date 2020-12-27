@@ -51,7 +51,7 @@ interface SQL_Schema {
 	 * Returns all the defined columns
 	 *
 	 * @since 0.2.0
-	 * @return array<int, array>
+	 * @return array<string, array>
 	 */
 	public function get_columns(): array;
 

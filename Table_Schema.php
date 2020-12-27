@@ -289,7 +289,7 @@ final class Table_Schema implements SQL_Schema {
 	 * Returns all the defined columns
 	 *
 	 * @since 0.2.0
-	 * @return array<int, array>
+	 * @return array<string, array>
 	 */
 	public function get_columns(): array {
 		return $this->columns;
@@ -376,7 +376,7 @@ final class Table_Schema implements SQL_Schema {
 	 * Sets column as datetime with an optional default.
 	 *
 	 * @since 0.2.0
-	 * @param int|null $length
+	 * @param string|null $default
 	 * @return self
 	 */
 	public function datetime( ?string $default = null ): self {
@@ -391,7 +391,7 @@ final class Table_Schema implements SQL_Schema {
 	 * Sets column as timestamp with an optional default.
 	 *
 	 * @since 0.2.0
-	 * @param int|null $default
+	 * @param string|null $default
 	 * @return self
 	 */
 	public function timestamp( ?string $default = null ): self {

@@ -27,7 +27,7 @@ class Test_Simple_Table extends WP_UnitTestCase {
 	 *
 	 * @var wpdb
 	 */
-	protected $cpt;
+	protected $wpdb;
 
 	/**
 	 * Undocumented variable
@@ -68,21 +68,6 @@ class Test_Simple_Table extends WP_UnitTestCase {
 		$this->assertEquals( 'id', $this->schema->get_primary_key() );
 		$this->assertEmpty( $this->schema->get_indexes() );
 		$this->assertCount( 3, $this->schema->get_columns() );
-	}
-
-	/**
-	 * Tests all values for id.
-	 *
-	 * @return void
-	 */
-	public function test_id_column(): void {
-		$this->assertArrayHasKey( 'id', $this->schema->get_columns() );
-		$this->assertArrayNotHasKey( 'default', $this->schema->get_columns()['id'] );
-		$this->assertEquals( 'id', $this->schema->get_columns()['id']['key'] );
-		$this->assertEquals( 11, $this->schema->get_columns()['id']['length'] );
-		$this->assertTrue( $this->schema->get_columns()['id']['auto_increment'] );
-		$this->assertTrue( $this->schema->get_columns()['id']['unsigned'] );
-		$this->assertFalse( $this->schema->get_columns()['id']['null'] );
 	}
 
 	/**

@@ -17,7 +17,6 @@ use WP_UnitTestCase;
 use PinkCrab\Modules\Table_Builder\Table_Index;
 use PinkCrab\Modules\Table_Builder\Table_Schema;
 use PinkCrab\Modules\Table_Builder\Builders\DB_Delta;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema;
 
 class Test_Table_With_Indexes extends WP_UnitTestCase {
 
@@ -28,7 +27,7 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 	 *
 	 * @var wpdb
 	 */
-	protected $cpt;
+	protected $wpdb;
 
 	/**
 	 * Undocumented variable

@@ -40,20 +40,20 @@ final class Table_Index {
 	public $keyname;
 
 	/**
-	 * Columns
+	 * Column referenced
 	 *
 	 * @since 0.1.0
-	 * @var array<string, array>
+	 * @var string
 	 */
-	public $column = array();
+	public $column;
 
 	/**
 	 * Sets the reference column
 	 *
 	 * @since 0.1.0
-	 * @var array
+	 * @var string
 	 */
-	public $reference_column = array();
+	public $reference_column;
 
 	/**
 	 * The table used.
@@ -113,7 +113,7 @@ final class Table_Index {
 
 
 	public function __construct( string $keyname ) {
-		$this->name = $keyname;
+		$this->keyname = $keyname;
 	}
 
 	/**
@@ -204,7 +204,7 @@ final class Table_Index {
 	 * Add reference_column to the key.
 	 *
 	 * @since 0.1.0
-	 * @param string $columns
+	 * @param string $reference_column
 	 * @return self
 	 */
 	public function reference_column( string $reference_column ): self {

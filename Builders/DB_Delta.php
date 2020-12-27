@@ -64,7 +64,6 @@ class DB_Delta implements SQL_Builder {
 	/**
 	 * Builds the table use dbDelta();
 	 *
-	 * @param bool $use_prefix
 	 * @return void
 	 */
 	protected function render(): void {
