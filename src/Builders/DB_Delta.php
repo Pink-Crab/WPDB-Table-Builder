@@ -16,21 +16,21 @@
  *
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @package PinkCrab\Modules\Table_Builder
+ * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Modules\Table_Builder\Builders;
+namespace PinkCrab\Table_Builder\Builders;
 
 use wpdb;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Builder;
+use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
+use PinkCrab\Table_Builder\Interfaces\SQL_Builder;
 
 class DB_Delta implements SQL_Builder {
 
 	/**
 	 * Holds the schema
 	 *
-	 * @var \PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema $schema
+	 * @var \PinkCrab\Table_Builder\Interfaces\SQL_Schema $schema
 	 */
 	protected $schema;
 
@@ -53,7 +53,7 @@ class DB_Delta implements SQL_Builder {
 	/**
 	 * Builds a table based on a passed schema.
 	 *
-	 * @param \PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema $schema
+	 * @param \PinkCrab\Table_Builder\Interfaces\SQL_Schema $schema
 	 * @return void
 	 */
 	public function build( SQL_Schema $schema ): void {
