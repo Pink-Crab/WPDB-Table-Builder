@@ -16,21 +16,21 @@
  *
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @package PinkCrab\Modules\Table_Builder
+ * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Modules\Table_Builder\Builders;
+namespace PinkCrab\Table_Builder\Builders;
 
 use wpdb;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Builder;
+use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
+use PinkCrab\Table_Builder\Interfaces\SQL_Builder;
 
 class DB_Delta implements SQL_Builder {
 
 	/**
 	 * Holds the schema
 	 *
-	 * @var \PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema $schema
+	 * @var \PinkCrab\Table_Builder\Interfaces\SQL_Schema $schema
 	 */
 	protected $schema;
 
@@ -53,7 +53,7 @@ class DB_Delta implements SQL_Builder {
 	/**
 	 * Builds a table based on a passed schema.
 	 *
-	 * @param \PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema $schema
+	 * @param \PinkCrab\Table_Builder\Interfaces\SQL_Schema $schema
 	 * @return void
 	 */
 	public function build( SQL_Schema $schema ): void {
@@ -114,6 +114,12 @@ COLLATE {$this->wpdb->collate} ";
 		);
 	}
 
+	/**
+	 * Parses the DEFUALT value in the column definition.
+	 *
+	 * @param array<string, mixed> $column
+	 * @return string
+	 */
 	protected function parse_default( array $column ): string {
 		$protected_constants = array( 'CURRENT_TIMESTAMP' );
 
@@ -138,7 +144,7 @@ COLLATE {$this->wpdb->collate} ";
 				function( $index ) {
 					$unique = $index->unique ? 'UNIQUE ' : '';
 					$hash   = $index->hash ? ' USING HASH' : '';
-					return "{$unique}INDEX {$index->name} ({$index->column}){$hash}";
+					return "{$unique}INDEX {$index->keyname} ({$index->column}){$hash}";
 				},
 				$indexes['is_simple']
 			),
@@ -160,8 +166,8 @@ COLLATE {$this->wpdb->collate} ";
 	/**
 	 * Composes the simple and complex indexes into a single array of query strings.
 	 *
-	 * @var array All indexes for the table.
-	 * @return array
+	 * @param array<string, \PinkCrab\Table_Builder\Table_Index> $indexes All indexes for the table.
+	 * @return array<string, mixed>
 	 */
 	protected function parseForeignTableQuery( array $indexes ):array {
 		// Group into index and key groups.
@@ -184,10 +190,10 @@ COLLATE {$this->wpdb->collate} ";
 	 * Compiles the (foreign) key query.
 	 * Its a bit knarly i know.
 	 *
-	 * @var array $table Each related tables indexes.
+	 * @param array<string, \PinkCrab\Table_Builder\Table_Index> $table Each related tables indexes.
 	 * @return string
 	 */
-	protected function compile_foreign_key_query( $table ): string {
+	protected function compile_foreign_key_query( array $table ): string {
 		$remote_table = array_values(
 			array_unique(
 				array_map(
@@ -224,8 +230,8 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 	/**
 	 * Returns a comma seperated string of any column from a tables refernces.
 	 *
-	 * @var array $table A tables indexes.
-	 * @var string $column The column to return.
+	 * @param array<string, \PinkCrab\Table_Builder\Table_Index> $table A tables indexes.
+	 * @param string $column The column to return.
 	 * @return string
 	 */
 	protected function index_local_table( $table, string $column ): string {
@@ -243,16 +249,16 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 	/**
 	 * Compiles the indexes into a forign and simple.
 	 *
-	 * @return array Array of both simple and complex indexes (complex grouped by referenced table.)
+	 * @return array<string, mixed> Array of both simple and complex indexes (complex grouped by referenced table.)
 	 */
 	protected function compile_indexes(): array {
 		return array_reduce(
 			$this->schema->get_indexes(),
 			function( $carry, $index ) {
 				if ( $index->foreign_key ) {
-					$carry['is_foreign'][ $index->reference_table ][ $index->name ] = $index;
+					$carry['is_foreign'][ $index->reference_table ][ $index->keyname ] = $index;
 				} else {
-					$carry['is_simple'][ $index->name ] = $index;
+					$carry['is_simple'][ $index->keyname ] = $index;
 				}
 				return $carry;
 			},
@@ -266,7 +272,7 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 	/**
 	 * Return the string for NULL or NOT NULL.
 	 *
-	 * @var bool|null If true set to NULL.
+	 * @param bool|null $null If true set to NULL.
 	 * @return string
 	 */
 	protected function parse_null( ?bool $null ): string {
@@ -280,8 +286,8 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 	/**
 	 * Parses the type based on its type and length passed.
 	 *
-	 * @var string|null The column type.
-	 * @var int|null The allowed length.
+	 * @param string|null $type The column type.
+	 * @param int|null $length The allowed length.
 	 * @return string The parse column type(length).
 	 */
 	protected function parse_type( ?string $type = '', ?int $length = null ): string {
@@ -322,7 +328,7 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 	/**
 	 * Replaces the values entered with alias suited for dbDelta.
 	 *
-	 * @var string The defined column type.
+	 * @param string $type The defined column type.
 	 * @return string The replaced value.
 	 */
 	protected function type_alias( string $type ): string {

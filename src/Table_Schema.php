@@ -17,15 +17,15 @@
  * @since 0.1.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @package PinkCrab\Modules\Table_Builder
+ * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Modules\Table_Builder;
+namespace PinkCrab\Table_Builder;
 
 use Exception;
-use PinkCrab\Modules\Table_Builder\Table_Index;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema;
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Builder;
+use PinkCrab\Table_Builder\Table_Index;
+use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
+use PinkCrab\Table_Builder\Interfaces\SQL_Builder;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
@@ -279,7 +279,7 @@ final class Table_Schema implements SQL_Schema {
 	 * Returns all the defined indexes.
 	 *
 	 * @since 0.2.0
-	 * @return array<int, \PinkCrab\Modules\Table_Builder\Table_Index>
+	 * @return array<int, \PinkCrab\Table_Builder\Table_Index>
 	 */
 	public function get_indexes(): array {
 		return $this->indexes;

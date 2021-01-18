@@ -11,12 +11,12 @@ declare(strict_types=1);
  * @package PinkCrab\Core
  */
 
-namespace PinkCrab\Modules\Registerables\Tests;
+namespace PinkCrab\Table_Builder\Tests;
 
 use WP_UnitTestCase;
-use PinkCrab\Modules\Table_Builder\Table_Index;
-use PinkCrab\Modules\Table_Builder\Table_Schema;
-use PinkCrab\Modules\Table_Builder\Builders\DB_Delta;
+use PinkCrab\Table_Builder\Table_Index;
+use PinkCrab\Table_Builder\Table_Schema;
+use PinkCrab\Table_Builder\Builders\DB_Delta;
 
 class Test_Table_With_Indexes extends WP_UnitTestCase {
 
@@ -32,7 +32,7 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 	/**
 	 * Undocumented variable
 	 *
-	 * @var \PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema
+	 * @var \PinkCrab\Table_Builder\Interfaces\SQL_Schema
 	 */
 	protected $schema;
 
