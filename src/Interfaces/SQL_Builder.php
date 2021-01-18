@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @package PinkCrab\Core
  */
 
-namespace PinkCrab\Modules\Table_Builder\Interfaces;
+namespace PinkCrab\Table_Builder\Interfaces;
 
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Schema;
+use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
 
 
 interface SQL_Builder {

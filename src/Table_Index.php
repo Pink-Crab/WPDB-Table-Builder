@@ -20,10 +20,10 @@ declare(strict_types=1);
  * @since 0.1.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @package PinkCrab\Modules\Table_Builder
+ * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Modules\Table_Builder;
+namespace PinkCrab\Table_Builder;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	die;
