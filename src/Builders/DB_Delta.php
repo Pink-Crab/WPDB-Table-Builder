@@ -138,7 +138,7 @@ COLLATE {$this->wpdb->collate} ";
 				function( $index ) {
 					$unique = $index->unique ? 'UNIQUE ' : '';
 					$hash   = $index->hash ? ' USING HASH' : '';
-					return "{$unique}INDEX {$index->name} ({$index->column}){$hash}";
+					return "{$unique}INDEX {$index->keyname} ({$index->column}){$hash}";
 				},
 				$indexes['is_simple']
 			),
@@ -250,9 +250,9 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 			$this->schema->get_indexes(),
 			function( $carry, $index ) {
 				if ( $index->foreign_key ) {
-					$carry['is_foreign'][ $index->reference_table ][ $index->name ] = $index;
+					$carry['is_foreign'][ $index->reference_table ][ $index->keyname ] = $index;
 				} else {
-					$carry['is_simple'][ $index->name ] = $index;
+					$carry['is_simple'][ $index->keyname ] = $index;
 				}
 				return $carry;
 			},

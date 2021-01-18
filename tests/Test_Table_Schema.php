@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace PinkCrab\Table_Builder\Tests;
 
 use WP_UnitTestCase;
+use PinkCrab\PHPUnit_Helpers\Objects;
 use PinkCrab\Table_Builder\Table_Index;
 use PinkCrab\Table_Builder\Table_Schema;
 
@@ -91,6 +92,7 @@ class Test_Table_Schema extends WP_UnitTestCase {
 	public function test_can_get_index(): void {
 		$index  = Table_Index::name( 'test' );
 		$schema = Table_Schema::create( 'test' )->index( $index );
+
 		$this->assertFalse( empty( $schema->get_indexes() ) );
 		$this->assertEquals( $index, $schema->get_indexes()[0] );
 	}
@@ -155,7 +157,7 @@ class Test_Table_Schema extends WP_UnitTestCase {
 		$schema->column( 'timestamp' )->timestamp();
 
 		// Get the columns
-		$columns = \_getPrivateProperty( $schema, 'columns' );
+		$columns = Objects::get_private_property( $schema, 'columns' );
 
 		// Int
 		$this->assertEquals( 'int', $columns['int']['type'] );
