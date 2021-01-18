@@ -84,5 +84,6 @@ $ composer analyse
 ### MIT License ###
 http://www.opensource.org/licenses/mit-license.html  
 
-## Update Log ##
+## Change Log ##
 0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
+
