@@ -86,3 +86,4 @@ http://www.opensource.org/licenses/mit-license.html
 
 ## Change Log ##
 0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
+
