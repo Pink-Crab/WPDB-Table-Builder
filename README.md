@@ -84,6 +84,5 @@ $ composer analyse
 ### MIT License ###
 http://www.opensource.org/licenses/mit-license.html  
 
-## Update Log ##
-0.3.1 - Minor docblock changes for phpstan lv8
-0.3.2 - Added in tests and expanded view
+## Change Log ##
+0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
