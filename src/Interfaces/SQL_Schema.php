@@ -8,9 +8,9 @@ declare(strict_types=1);
  * @package PinkCrab\Core
  */
 
-namespace PinkCrab\Modules\Table_Builder\Interfaces;
+namespace PinkCrab\Table_Builder\Interfaces;
 
-use PinkCrab\Modules\Table_Builder\Interfaces\SQL_Builder;
+use PinkCrab\Table_Builder\Interfaces\SQL_Builder;
 
 interface SQL_Schema {
 
@@ -18,7 +18,7 @@ interface SQL_Schema {
 	 * Constructs the table.
 	 *
 	 * @since 0.1.0
-	 * @param \PinkCrab\Modules\Table_Builder\Interfaces\SQL_Builder $builder
+	 * @param \PinkCrab\Table_Builder\Interfaces\SQL_Builder $builder
 	 * @return void
 	 */
 	public function create_table( SQL_Builder $builder ): void;
@@ -43,7 +43,7 @@ interface SQL_Schema {
 	 * Returns all the defined indexes.
 	 *
 	 * @since 0.2.0
-	 * @return array<int, \PinkCrab\Modules\Table_Builder\Table_Index>
+	 * @return array<int, \PinkCrab\Table_Builder\Table_Index>
 	 */
 	public function get_indexes(): array;
 
