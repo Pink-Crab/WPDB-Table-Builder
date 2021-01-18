@@ -39,8 +39,7 @@
         "phpunit/phpunit-dom-assertions": "~2"
     },
     "require": {
-        "php": ">=7.1.0",
-        "pinkcrab/plugin-framework": "0.3.*"
+        "php": ">=7.1.0"
     },
     "scripts": {
         "test": "phpunit",
