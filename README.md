@@ -2,7 +2,7 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version-0.2.0-yellow.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-0.2.1-yellow.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
 ![alt text](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat " ") 
@@ -15,7 +15,7 @@ https://app.gitbook.com/@glynn-quelch/s/pinkcrab/
 
 
 ## Version ##
-**Release 0.2.0**
+**Release 0.2.1**
 
 We have made no changes to how this works from V0.1.*, but we have now moved to using composer purely for this package. You can still use it without composer, but the classes and interfaces would need to be added manually.
 
@@ -86,4 +86,3 @@ http://www.opensource.org/licenses/mit-license.html
 
 ## Change Log ##
 0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
-
