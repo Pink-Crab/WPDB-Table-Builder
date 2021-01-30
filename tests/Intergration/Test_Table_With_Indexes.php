@@ -15,6 +15,7 @@ namespace PinkCrab\Table_Builder\Tests;
 
 use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Table_Index;
+use PinkCrab\PHPUnit_Helpers\Reflection;
 use PinkCrab\Table_Builder\Table_Schema;
 use PinkCrab\Table_Builder\Builders\DB_Delta;
 
@@ -146,4 +147,5 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 			$this->assertEquals( $expected[ $column->Field ]['Extra'], $column->Extra );
 		}
 	}
+
 }

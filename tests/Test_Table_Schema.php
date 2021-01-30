@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Tests;
 
+use Exception;
 use WP_UnitTestCase;
 use PinkCrab\PHPUnit_Helpers\Objects;
 use PinkCrab\Table_Builder\Table_Index;
+use PinkCrab\PHPUnit_Helpers\Reflection;
 use PinkCrab\Table_Builder\Table_Schema;
 
 class Test_Table_Schema extends WP_UnitTestCase {
@@ -151,10 +153,12 @@ class Test_Table_Schema extends WP_UnitTestCase {
 		$schema = new Table_Schema( 'test' );
 		$schema->column( 'int' )->int( 10 );
 		$schema->column( 'float' )->float();
+		$schema->column( 'float_legnth' )->float(42);
 		$schema->column( 'double' )->double( 8 );
 		$schema->column( 'varchar' )->varchar( 256 );
 		$schema->column( 'datetime' )->datetime( 'CURRENT_TIMESTAMP' );
 		$schema->column( 'timestamp' )->timestamp();
+		$schema->column( 'timestamp_default' )->timestamp('CURRENT_TIMESTAMP');
 
 		// Get the columns
 		$columns = Objects::get_private_property( $schema, 'columns' );
@@ -166,6 +170,7 @@ class Test_Table_Schema extends WP_UnitTestCase {
 		// FLoat
 		$this->assertEquals( 'float', $columns['float']['type'] );
 		$this->assertEquals( null, $columns['float']['length'] );
+		$this->assertEquals( 42, $columns['float_legnth']['length'] );
 
 		// Double
 		$this->assertEquals( 'double', $columns['double']['type'] );
@@ -181,5 +186,37 @@ class Test_Table_Schema extends WP_UnitTestCase {
 
 		$this->assertEquals( 'timestamp', $columns['timestamp']['type'] );
 		$this->assertArrayNotHasKey( 'default', $columns['timestamp'] );
+		$this->assertEquals( 'CURRENT_TIMESTAMP', $columns['timestamp_default']['default'] );
+	}
+
+	/**
+	 * Test throws excetpion if trying to define properties when no
+	 * columns psuhed.
+	 *
+	 * @return void
+	 */
+	public function test_push_to_last_column_throws_exception(): void {
+		$this->expectException( Exception::class );
+		$table = new Table_Schema();
+		$table->length( 12 );
+	}
+
+	/**
+	 * Test text alias
+	 *
+	 * @return void
+	 */
+	public function test_text_type_alias_method() {
+		 $table = new Table_Schema();
+		$table->column( 'key' )->text();
+		$table->column( 'key2' )->text( 99 );
+
+		$columns = Reflection::get_private_property( $table, 'columns' );
+
+		$this->assertEquals( 'text', $columns['key']['type'] );
+		$this->assertEquals( null, $columns['key']['length'] );
+
+		$this->assertEquals( 'text', $columns['key2']['type'] );
+		$this->assertEquals( 99, $columns['key2']['length'] );
 	}
 }

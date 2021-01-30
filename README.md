@@ -2,7 +2,7 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version-0.2.0-yellow.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-0.2.1-yellow.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 
 ![alt text](https://img.shields.io/badge/PHPStan-level%208-brightgreen.svg?style=flat " ") 
@@ -15,7 +15,7 @@ https://app.gitbook.com/@glynn-quelch/s/pinkcrab/
 
 
 ## Version ##
-**Release 0.2.0**
+**Release 0.2.1**
 
 We have made no changes to how this works from V0.1.*, but we have now moved to using composer purely for this package. You can still use it without composer, but the classes and interfaces would need to be added manually.
 
@@ -56,7 +56,13 @@ $builder = new DB_Delta($wpdb);
 
 // Build table.
 $table->create_table($builder);
+// or
+$buider->create( $table );
+
+// You can also drop tables with.
+$buider->drop( $table );
 ```
+> A tablename and valid columns are required, will throw Exceptions if any values are missing
 
 ## Testing ##
 
@@ -67,6 +73,9 @@ $ phpunit
 ````
 ````bash 
 $ composer test
+
+# To generate coverage report (/coverage-report/*)
+$ composer coverage
 ````
 
 ### PHP Stan ###
@@ -85,4 +94,5 @@ $ composer analyse
 http://www.opensource.org/licenses/mit-license.html  
 
 ## Change Log ##
-0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
+* 0.2.1 - Added in more tests, now has 100% test coverage. Added in more valdation around columns, tablename and indexes. Previously threw php errors for missing or malformed data. Now throw exceptions if Table has no name, a column is lacking key, null, type or length and all indexes which are foreign keys, must have a valid refierence table and column. No changes public methods.
+* 0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
