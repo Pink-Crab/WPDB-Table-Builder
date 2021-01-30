@@ -22,6 +22,7 @@
 namespace PinkCrab\Table_Builder\Builders;
 
 use wpdb;
+use Exception;
 use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
 use PinkCrab\Table_Builder\Interfaces\SQL_Builder;
 
@@ -58,7 +59,73 @@ class DB_Delta implements SQL_Builder {
 	 */
 	public function build( SQL_Schema $schema ): void {
 		$this->schema = $schema;
+		$this->validate_schema();
 		$this->render();
+	}
+
+	/**
+	 * Drops a table if it exists, based on the schema passed.
+	 *
+	 * @param SQL_Schema $schema
+	 * @return void
+	 */
+	public function drop( SQL_Schema $schema ): void {
+		$this->validate_schema();
+		$this->wpdb->get_results( "DROP TABLE IF EXISTS {$schema->get_table_name()};" ); // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared 
+	}
+
+	/**
+	 * Checks all required values are defined.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	protected function validate_schema(): void {
+		// Check has table name.
+		if ( ! is_string( $this->schema->get_table_name() ) || empty( $this->schema->get_table_name() ) ) {
+			throw new Exception( 'Table name not defined in schema' );
+		}
+
+		// Check all columns have required fields
+		$invalid_columns = array_filter(
+			$this->schema->get_columns(),
+			function( array $col ): bool {
+				return ! \array_key_exists( 'key', $col )
+					|| ! \array_key_exists( 'null', $col )
+					|| ! \array_key_exists( 'type', $col )
+					|| ! \array_key_exists( 'length', $col );
+			}
+		);
+		if ( ! empty( $invalid_columns ) ) {
+			throw new Exception( sprintf( 'Columns in %s schema are missing required properties.', $this->schema->get_table_name() ) );
+		}
+
+		if ( ! empty( $this->schema->get_indexes() ) ) {
+			$this->validate_indexes();
+		}
+	}
+
+	/**
+	 * Validates indexes if set.
+	 *
+	 * @return void
+	 * @throws Exception
+	 */
+	protected function validate_indexes(): void {
+		foreach ( $this->schema->get_indexes() as $key => $index ) {
+			if ( $index->foreign_key === true && (
+				empty( $index->reference_table ) || empty( $index->reference_column )
+			) ) {
+				throw new Exception(
+					sprintf(
+						'Foreign key index "%s" requires both reference table(%s) and reference column(%s) defined.',
+						$index->keyname,
+						! empty( $index->reference_table ) ? $index->reference_table : 'UNDEFINED',
+						! empty( $index->reference_column ) ? $index->reference_column : 'UNDEFINED'
+					)
+				);
+			}
+		}
 	}
 
 	/**
@@ -67,21 +134,38 @@ class DB_Delta implements SQL_Builder {
 	 * @return void
 	 */
 	protected function render(): void {
-		$query = "CREATE TABLE {$this->schema->get_table_name()} (
-{$this->parse_columns()},
-PRIMARY KEY  ({$this->schema->get_primary_key()}){$this->parse_indexes()})
-COLLATE {$this->wpdb->collate} ";
-
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $query );
+		dbDelta( $this->compile_create_sql() );
+	}
+
+	/**
+	 * Compiles the SQL query for creating table
+	 *
+	 * @return string
+	 */
+	protected function compile_create_sql(): string {
+		return "CREATE TABLE {$this->schema->get_table_name()} (
+{$this->parse_columns()},
+{$this->parse_primary_key()}{$this->parse_indexes()})
+COLLATE {$this->wpdb->collate} ";
+	}
+
+	/**
+	 * Parses the primary key, if set.
+	 *
+	 * @return string
+	 */
+	public function parse_primary_key(): string {
+		return ! empty( $this->schema->get_primary_key() )
+		? "PRIMARY KEY  ({$this->schema->get_primary_key()})" : '';
 	}
 
 	/**
 	 * Parses the columns to a string
 	 *
-		 * @return string The query string for parsing the coloumns.
+	 * @return string The query string for parsing the coloumns.
 	 */
-	protected function parse_columns():string {
+	protected function parse_columns(): string {
 		return implode(
 			',' . PHP_EOL,
 			array_map(
@@ -124,8 +208,8 @@ COLLATE {$this->wpdb->collate} ";
 		$protected_constants = array( 'CURRENT_TIMESTAMP' );
 
 		return in_array( $column['default'], $protected_constants, true )
-			? ' DEFAULT ' . $column['default']
-			: " DEFAULT '{$column['default']}'";
+		? ' DEFAULT ' . $column['default']
+		: " DEFAULT '{$column['default']}'";
 	}
 
 	/**
@@ -160,7 +244,7 @@ COLLATE {$this->wpdb->collate} ";
 		);
 
 		return ( ! empty( $indexes['formatted'] ) ? $new_line : '' )
-			. implode( $new_line, $indexes['formatted'] );
+		. implode( $new_line, $indexes['formatted'] );
 	}
 
 	/**
@@ -223,7 +307,7 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 				break;
 			}
 		}
-		return $query;
+		return $query . "\n";
 
 	}
 
@@ -269,19 +353,20 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 		);
 	}
 
-	/**
-	 * Return the string for NULL or NOT NULL.
-	 *
-	 * @param bool|null $null If true set to NULL.
-	 * @return string
-	 */
-	protected function parse_null( ?bool $null ): string {
-		// If null
-		if ( is_null( $null ) ) {
-			return '';
-		}
-		return $null ? 'NULL' : 'NOT NULL';
-	}
+	// /**
+	//  * Return the string for NULL or NOT NULL.
+	//  *
+	//  * @param bool|null $null If true set to NULL.
+	//  * @return string
+	//  * @deprecated 0.2.1 Not actually used.....
+	//  */
+	// protected function parse_null( ?bool $null ): string {
+	// 	// If null
+	// 	if ( is_null( $null ) ) {
+	// 		return '';
+	// 	}
+	// 	return $null ? 'NULL' : 'NOT NULL';
+	// }
 
 	/**
 	 * Parses the type based on its type and length passed.
@@ -332,6 +417,7 @@ REFERENCES {$remote_table[0]}({$this->index_local_table( $table, 'reference_colu
 	 * @return string The replaced value.
 	 */
 	protected function type_alias( string $type ): string {
+		// This is current unused, but kept incase mapping is needed later.
 		return $type;
 	}
 }
