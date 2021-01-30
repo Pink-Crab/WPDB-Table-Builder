@@ -1,2 +1,5 @@
 vendor
 wordpress
+coverage-report
+coverage.xml
+composer.lock

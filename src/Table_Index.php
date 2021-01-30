@@ -25,10 +25,6 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
 final class Table_Index {
 
 	/**
@@ -85,7 +81,7 @@ final class Table_Index {
 	 * @since 0.2.0
 	 * @var bool
 	 */
-	public  $full_text = false;
+	public $full_text = false;
 
 	/**
 	 * Using HASH

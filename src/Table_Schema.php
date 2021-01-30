@@ -27,10 +27,6 @@ use PinkCrab\Table_Builder\Table_Index;
 use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
 use PinkCrab\Table_Builder\Interfaces\SQL_Builder;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	die;
-}
-
 final class Table_Schema implements SQL_Schema {
 
 	/**
@@ -127,6 +123,7 @@ final class Table_Schema implements SQL_Schema {
 			'key'    => $key,
 			'null'   => false,
 			'length' => null,
+			'type'   => null,
 		);
 		return $this;
 	}
@@ -167,10 +164,11 @@ final class Table_Schema implements SQL_Schema {
 	 * @param boolean $null
 	 * @return self
 	 * @deprecated version 0.2.0
+	 * @codeCoverageIgnore
 	 */
 	public function null( bool $null = true ): self {
 		// Trigger DEPRECATED notice
-		trigger_error(
+		trigger_error( // phpcs:disable WordPress.PHP.DevelopmentFunctions.error_log_trigger_error
 			'Method ' . __METHOD__ . ' is deprecated, pleae use nullable(bool): self in place. Will be removed in future versions.',
 			E_USER_DEPRECATED
 		);
