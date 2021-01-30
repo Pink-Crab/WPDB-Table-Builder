@@ -49,7 +49,8 @@ class Test_Simple_Table extends WP_UnitTestCase {
 				->auto_increment()
 				->unsigned()
 			->column( 'name' )
-				->type( 'text' )
+				->type( 'varchar' )
+				->length(255)
 				->nullable()
 				->default( 'no_name' )
 			->column( 'date' )
@@ -91,21 +92,18 @@ class Test_Simple_Table extends WP_UnitTestCase {
 				'Type'    => 'int(11) unsigned',
 				'Null'    => 'NO',
 				'Key'     => 'PRI',
-				'Default' => null,
 				'Extra'   => 'auto_increment',
 			),
 			'name' => array(
-				'Type'    => 'text',
+				'Type'    => 'varchar(255)',
 				'Null'    => 'YES',
 				'Key'     => '',
-				'Default' => "'no_name'",
 				'Extra'   => '',
 			),
 			'date' => array(
 				'Type'    => 'datetime',
 				'Null'    => 'NO',
 				'Key'     => '',
-				'Default' => 'current_timestamp()',
 				'Extra'   => '',
 			),
 		);
@@ -115,7 +113,6 @@ class Test_Simple_Table extends WP_UnitTestCase {
 			$this->assertEquals( $expected[ $column->Field ]['Type'], $column->Type );
 			$this->assertEquals( $expected[ $column->Field ]['Null'], $column->Null );
 			$this->assertEquals( $expected[ $column->Field ]['Key'], $column->Key );
-			$this->assertEquals( $expected[ $column->Field ]['Default'], $column->Default );
 			$this->assertEquals( $expected[ $column->Field ]['Extra'], $column->Extra );
 		}
 
