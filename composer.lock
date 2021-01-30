@@ -4,110 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3b7dbb8a38be871e0d767b3049d13e72",
-    "packages": [
-        {
-            "name": "pinkcrab/plugin-framework",
-            "version": "0.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Pink-Crab/Framework__core.git",
-                "reference": "77ba4f02369dd6005702ecfcfc79726095c9aaa8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Pink-Crab/Framework__core/zipball/77ba4f02369dd6005702ecfcfc79726095c9aaa8",
-                "reference": "77ba4f02369dd6005702ecfcfc79726095c9aaa8",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.0",
-                "psr/container": "^1.0"
-            },
-            "require-dev": {
-                "php-stubs/wordpress-stubs": "^5.6.0",
-                "phpstan/phpstan": "^0.12.6",
-                "phpunit/phpunit": "^7.0",
-                "pinkcrab/phpunit-helpers": "dev-master",
-                "roots/wordpress": "^5.5",
-                "symfony/var-dumper": "^5.0",
-                "szepeviktor/phpstan-wordpress": "^0.7.2",
-                "wp-phpunit/wp-phpunit": "^5.0",
-                "yoast/phpunit-polyfills": "^0.1.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PinkCrab\\Core\\": "src"
-                },
-                "files": []
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Glynn Quelch",
-                    "email": "glynn.quelch@pinkcrab.co.uk",
-                    "homepage": "http://clappo.co.uk",
-                    "role": "Developer"
-                }
-            ],
-            "description": "The core component of the PinkCrab plugin framework",
-            "homepage": "https://pinkcrab.co.uk",
-            "time": "2021-01-16T04:30:23+00:00"
-        },
-        {
-            "name": "psr/container",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Psr\\Container\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "PHP-FIG",
-                    "homepage": "http://www.php-fig.org/"
-                }
-            ],
-            "description": "Common Container Interface (PHP FIG PSR-11)",
-            "homepage": "https://github.com/php-fig/container",
-            "keywords": [
-                "PSR-11",
-                "container",
-                "container-interface",
-                "container-interop",
-                "psr"
-            ],
-            "time": "2017-02-14T16:28:37+00:00"
-        }
-    ],
+    "content-hash": "beb1410552f501536b1eaa5c3533da0d",
+    "packages": [],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -581,16 +479,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "0.12.68",
+            "version": "0.12.70",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ddbe01af0706ee094c3f1ce9730b35aebb508d3d"
+                "reference": "07f0ef37f5f876e8cee44cc8ea0ec3fe80d499ee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ddbe01af0706ee094c3f1ce9730b35aebb508d3d",
-                "reference": "ddbe01af0706ee094c3f1ce9730b35aebb508d3d",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/07f0ef37f5f876e8cee44cc8ea0ec3fe80d499ee",
+                "reference": "07f0ef37f5f876e8cee44cc8ea0ec3fe80d499ee",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +531,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-01-18T12:29:17+00:00"
+            "time": "2021-01-27T17:06:47+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -992,26 +890,30 @@
         },
         {
             "name": "phpunit/phpunit-dom-assertions",
-            "version": "v2.4.0",
+            "version": "v2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lstrojny/phpunit-dom-assertions.git",
-                "reference": "cdd0682efc8b705d80048240198e274efaeee332"
+                "reference": "8c9b885476237a95920672cfd41239fdcbd49cac"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lstrojny/phpunit-dom-assertions/zipball/cdd0682efc8b705d80048240198e274efaeee332",
-                "reference": "cdd0682efc8b705d80048240198e274efaeee332",
+                "url": "https://api.github.com/repos/lstrojny/phpunit-dom-assertions/zipball/8c9b885476237a95920672cfd41239fdcbd49cac",
+                "reference": "8c9b885476237a95920672cfd41239fdcbd49cac",
                 "shasum": ""
             },
             "require": {
+                "ext-dom": "*",
                 "php": ">=7.1",
-                "phpunit/phpunit": ">=4.0 <10",
-                "symfony/css-selector": ">=2.4 <5",
-                "symfony/dom-crawler": ">=2.4 <5"
+                "phpunit/phpunit": "^6.5.14 || ^7.5.20 || ^8.5 || ^9.0",
+                "symfony/css-selector": "^4.4 || ^5.0",
+                "symfony/dom-crawler": "^4.4 || ^5.0"
             },
             "require-dev": {
-                "symfony/phpunit-bridge": "^5.1"
+                "phpstan/phpstan": "^0.12.68",
+                "phpstan/phpstan-deprecation-rules": "^0.12.6",
+                "phpstan/phpstan-phpunit": "^0.12.17",
+                "symfony/phpunit-bridge": "^5.2.1"
             },
             "type": "library",
             "extra": {
@@ -1052,7 +954,67 @@
                 "phpunit",
                 "tests"
             ],
-            "time": "2020-08-11T22:34:22+00:00"
+            "time": "2021-01-21T11:17:50+00:00"
+        },
+        {
+            "name": "pinkcrab/function-constructors",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gin0115/pinkcrab_function_constructors.git",
+                "reference": "6b43344ebb54de3af6dedfc625b7c3dea34742c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gin0115/pinkcrab_function_constructors/zipball/6b43344ebb54de3af6dedfc625b7c3dea34742c8",
+                "reference": "6b43344ebb54de3af6dedfc625b7c3dea34742c8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.6",
+                "phpunit/phpunit": "^7",
+                "yoast/phpunit-polyfills": "^0.1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PinkCrab\\FunctionConstructors\\": "src"
+                },
+                "files": [
+                    "src/constants.php",
+                    "src/procedural.php",
+                    "src/arrays.php",
+                    "src/comparisons.php",
+                    "src/general.php",
+                    "src/strings.php",
+                    "src/numbers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Glynn Quelch",
+                    "email": "glynn.quelch@pinkcrab.co.uk",
+                    "homepage": "http://clappo.co.uk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A collection of functions to make working with the standard php library a little easier for function composition. Allows the creation of partially applied library functions, to work as close to pure fucntions as possible.",
+            "homepage": "https://pinkcrab.co.uk",
+            "keywords": [
+                "currying",
+                "fp",
+                "functional",
+                "partial application",
+                "piping"
+            ],
+            "time": "2021-01-21T23:37:15+00:00"
         },
         {
             "name": "pinkcrab/phpunit-helpers",
@@ -1060,7 +1022,11 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/Pink-Crab/PHP_Unut_Helpers.git",
-                "reference": "6ba4d50066daee34970c89e6492e971ab308bb4b"
+                "reference": "971f9428c6e1c0759d97c82a424ef93e3c36c45c"
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "pinkcrab/function-constructors": "^0.1.0"
             },
             "type": "library",
             "autoload": {
@@ -1081,7 +1047,7 @@
             ],
             "description": "Collection of helper functions for use with tests.",
             "homepage": "https://pinkcrab.co.uk",
-            "time": "2021-01-11T11:33:27+00:00"
+            "time": "2021-01-29T11:35:42+00:00"
         },
         {
             "name": "roots/wordpress",
@@ -1093,7 +1059,8 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress/zipball/5.6"
+                "url": "https://api.github.com/repos/WordPress/WordPress/zipball/5.6",
+                "reference": "5.6"
             },
             "require": {
                 "php": ">=5.3.2",
@@ -1818,20 +1785,20 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v4.4.18",
+            "version": "v5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "74bd82e75da256ad20851af6ded07823332216c7"
+                "reference": "f65f217b3314504a1ec99c2d6ef69016bb13490f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/74bd82e75da256ad20851af6ded07823332216c7",
-                "reference": "74bd82e75da256ad20851af6ded07823332216c7",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/f65f217b3314504a1ec99c2d6ef69016bb13490f",
+                "reference": "f65f217b3314504a1ec99c2d6ef69016bb13490f",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3"
+                "php": ">=7.2.5"
             },
             "type": "library",
             "autoload": {
@@ -1860,7 +1827,7 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony CssSelector Component",
+            "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "funding": [
                 {
@@ -1876,33 +1843,34 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-08T16:59:59+00:00"
+            "time": "2021-01-27T10:01:46+00:00"
         },
         {
             "name": "symfony/dom-crawler",
-            "version": "v4.4.18",
+            "version": "v5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dom-crawler.git",
-                "reference": "d44fbb02b458fe18d00fea18f24c97cefb87577e"
+                "reference": "5d89ceb53ec65e1973a555072fac8ed5ecad3384"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/d44fbb02b458fe18d00fea18f24c97cefb87577e",
-                "reference": "d44fbb02b458fe18d00fea18f24c97cefb87577e",
+                "url": "https://api.github.com/repos/symfony/dom-crawler/zipball/5d89ceb53ec65e1973a555072fac8ed5ecad3384",
+                "reference": "5d89ceb53ec65e1973a555072fac8ed5ecad3384",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.1.3",
+                "php": ">=7.2.5",
                 "symfony/polyfill-ctype": "~1.8",
-                "symfony/polyfill-mbstring": "~1.0"
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/polyfill-php80": "^1.15"
             },
             "conflict": {
                 "masterminds/html5": "<2.6"
             },
             "require-dev": {
                 "masterminds/html5": "^2.6",
-                "symfony/css-selector": "^3.4|^4.0|^5.0"
+                "symfony/css-selector": "^4.4|^5.0"
             },
             "suggest": {
                 "symfony/css-selector": ""
@@ -1930,7 +1898,7 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony DomCrawler Component",
+            "description": "Eases DOM navigation for HTML and XML documents",
             "homepage": "https://symfony.com",
             "funding": [
                 {
@@ -1946,7 +1914,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-18T07:41:31+00:00"
+            "time": "2021-01-27T10:01:46+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
@@ -2259,16 +2227,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.2.1",
+            "version": "v5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "13e7e882eaa55863faa7c4ad7c60f12f1a8b5089"
+                "reference": "72ca213014a92223a5d18651ce79ef441c12b694"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/13e7e882eaa55863faa7c4ad7c60f12f1a8b5089",
-                "reference": "13e7e882eaa55863faa7c4ad7c60f12f1a8b5089",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/72ca213014a92223a5d18651ce79ef441c12b694",
+                "reference": "72ca213014a92223a5d18651ce79ef441c12b694",
                 "shasum": ""
             },
             "require": {
@@ -2284,7 +2252,7 @@
                 "ext-iconv": "*",
                 "symfony/console": "^4.4|^5.0",
                 "symfony/process": "^4.4|^5.0",
-                "twig/twig": "^2.4|^3.0"
+                "twig/twig": "^2.13|^3.0.4"
             },
             "suggest": {
                 "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
@@ -2320,7 +2288,7 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony mechanism for exploring and dumping PHP variables",
+            "description": "Provides mechanisms for walking through any arbitrary PHP variable",
             "homepage": "https://symfony.com",
             "keywords": [
                 "debug",
@@ -2340,7 +2308,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-12-16T17:02:19+00:00"
+            "time": "2021-01-27T10:15:41+00:00"
         },
         {
             "name": "szepeviktor/phpstan-wordpress",
@@ -2453,12 +2421,12 @@
             "version": "1.9.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/webmozart/assert.git",
+                "url": "https://github.com/webmozarts/assert.git",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
+                "url": "https://api.github.com/repos/webmozarts/assert/zipball/bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "reference": "bafc69caeb4d49c39fd0779086c03a3738cbb389",
                 "shasum": ""
             },
