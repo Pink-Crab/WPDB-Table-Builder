@@ -15,6 +15,7 @@ namespace PinkCrab\Table_Builder\Tests;
 
 use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Table_Index;
+use PinkCrab\PHPUnit_Helpers\Reflection;
 use PinkCrab\Table_Builder\Table_Schema;
 use PinkCrab\Table_Builder\Builders\DB_Delta;
 
@@ -125,14 +126,12 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 				'Type'    => 'datetime',
 				'Null'    => 'NO',
 				'Key'     => '',
-				'Default' => 'current_timestamp()',
 				'Extra'   => '',
 			),
 			'last_updated' => array(
 				'Type'    => 'datetime',
 				'Null'    => 'NO',
 				'Key'     => '',
-				'Default' => 'current_timestamp()',
 				'Extra'   => '',
 			),
 		);
@@ -142,8 +141,11 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 			$this->assertEquals( $expected[ $column->Field ]['Type'], $column->Type );
 			$this->assertEquals( $expected[ $column->Field ]['Null'], $column->Null );
 			$this->assertEquals( $expected[ $column->Field ]['Key'], $column->Key );
-			$this->assertEquals( $expected[ $column->Field ]['Default'], $column->Default );
+			if (isset($expected[ $column->Field ]['Default'])) { // Due to differences in mysql ver cant test datetimes current_timestamp() vs CURRENT_TIMESTAMP 
+				$this->assertEquals( $expected[ $column->Field ]['Default'], $column->Default );
+			}
 			$this->assertEquals( $expected[ $column->Field ]['Extra'], $column->Extra );
 		}
 	}
+
 }

@@ -23,4 +23,14 @@ interface SQL_Builder {
 	 * @return void
 	 */
 	public function build( SQL_Schema $schema ): void;
+
+	/**
+	 * Method for dropping the table.
+	 *
+	 * @since 0.2.1
+	 * @param SQL_Schema $schema
+	 * @return void
+	 */
+	public function drop( SQL_Schema $schema ): void;
+
 }
