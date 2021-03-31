@@ -185,4 +185,13 @@ class Column {
 			'unique'   => $this->unique,
 		);
 	}
+
+	/**
+	 * Get column name
+	 *
+	 * @return string
+	 */
+	public function get_name(): string {
+		return $this->name;
+	}
 }

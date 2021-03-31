@@ -74,16 +74,86 @@ class Schema {
 	}
 
 	/**
+	 * Sets the table names prefix
+	 *
+	 * If null, will be treated as no preix.
+	 *
+	 * @param string|null $prefix
+	 * @return self
+	 */
+	public function prefix( ?string $prefix = null ): self {
+		$this->prefix = $prefix;
+		return $this;
+	}
+
+	/**
 	 * Adds a new column to the schema
 	 *
 	 * @param string $name
 	 * @return Column
 	 */
 	public function column( string $name ): Column {
-		$column          = new Column( $name );
-		$this->columns[$name] = $column;
+		$column                 = new Column( $name );
+		$this->columns[ $name ] = $column;
 		return $column;
 	}
 
+	/** GETTERS */
 
+	/**
+	 * Get the table name
+	 *
+	 * @return string
+	 */
+	public function get_table_name(): string {
+		return \sprintf(
+			'%s%s',
+			$this->get_prefix(),
+			$this->table_name
+		);
+	}
+
+	/**
+	 * Get table colums
+	 *
+	 * @return array<Column>
+	 */
+	public function get_columns(): array {
+		return $this->columns;
+	}
+
+	/**
+	 * Checks if a column has been set based on name.
+	 *
+	 * @param string $name
+	 * @return bool
+	 */
+	public function has_column( string $name ): bool {
+		return count(
+			array_filter(
+				$this->get_columns(),
+				function( Column $column ) use ( $name ): bool {
+					return $column->get_name() === $name;
+				}
+			)
+		) >= 1;
+	}
+
+	/**
+	 * Checks if the table name should be prefixed.
+	 *
+	 * @return bool
+	 */
+	public function has_prefix(): bool {
+		return $this->prefix !== null;
+	}
+
+	/**
+	 * Get the table name prefix
+	 *
+	 * @return string
+	 */
+	public function get_prefix(): string {
+		return $this->prefix ?? '';
+	}
 }
