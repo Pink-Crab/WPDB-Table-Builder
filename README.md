@@ -2,9 +2,8 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version-0.2.2-yellow.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-0.3.0-yellow.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-
 ![](https://github.com/Pink-Crab/Module__Table_Builder/workflows/GitHub_CI/badge.svg " ")
 [![codecov](https://codecov.io/gh/Pink-Crab/Module__Table_Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/Module__Table_Builder)
 
@@ -14,7 +13,9 @@ https://app.gitbook.com/@glynn-quelch/s/pinkcrab/
 
 
 ## Version ##
-**Release 0.2.2**
+**Release 0.3.0**
+
+**PLEASE NOTE 0.3.0 IS NOT FULLY COMPATIBLE WITH 0.2.0**
 
 We have made no changes to how this works from V0.1.*, but we have now moved to using composer purely for this package. You can still use it without composer, but the classes and interfaces would need to be added manually.
 
@@ -24,6 +25,35 @@ For those of you who have used DB_Delta to create tables in WordPress, to say it
 The PinkCrab Table_Builder module, makes creating you tables much easier as you have more expressive chainable API to define the schema, which can be passed to builder to create the table. 
 
 Out of the box, this package comes with the DB_Delta builder only, but thanks to the SQL_Builder interface, other table formats can be created easily.
+
+
+
+## Defining a Tables Schema
+
+You can define a tables schema in a few different ways.
+
+```php
+<?php
+
+$schema_a = new Schema('my_table', function(Schema $schema){
+    // Set columns
+    $schema->column('id')->int(11)->unsigned()->auto_increment();
+    $schema->column('user')->int(11);
+    
+    // Set keys and indexes.
+    $schema->primary_key('id');
+    $schema->index('user')->unique();
+});
+
+$schema_b = new Schema('my_table');
+// Set columns
+$schema_b->column('id')->int(11)->unsigned()->auto_increment();
+$schema_b->column('user')->int(11);
+
+// Set keys and indexes.
+$schema_b->primary_key('id');
+$schema_b->index('user')->unique();
+
 
 ## Example ##
 
