@@ -27,4 +27,85 @@ namespace PinkCrab\Table_Builder;
 
 class Index {
 
+    /**
+	 * Index name
+	 *
+	 * @since 0.1.0
+	 * @var string
+	 */
+	protected $keyname;
+
+	/**
+	 * Column referenced
+	 *
+	 * @since 0.1.0
+	 * @var string
+	 */
+	protected $column;
+
+	/**
+	 * Unique index
+	 *
+	 * @since 0.1.0
+	 * @var bool
+	 */
+	protected $unique = false;
+
+	/**
+	 * Allow full text index.
+	 *
+	 * @since 0.2.0
+	 * @var bool
+	 */
+	protected $full_text = false;
+
+	/**
+	 * Using HASH
+	 *
+	 * @since 0.1.0
+	 * @var bool
+	 */
+	protected $hash = false;
+
+	public function __construct( string $column, ?string $keyname = null ) {
+		$this->keyname = $keyname ?? 'ix_' . $column;
+        $this->column = $column;
+	}
+
+	/**
+	 * Are the key unique
+	 *
+	 * @since 0.1.0
+	 * @param boolean $unique
+	 * @return self
+	 */
+	public function unique( bool $unique = true ): self {
+		$this->unique = $unique;
+		return $this;
+	}
+
+	/**
+	 * Are the key unique
+	 *
+	 * @since 0.1.0
+	 * @param boolean $full_text
+	 * @return self
+	 */
+	public function full_text( bool $full_text = true ): self {
+		$this->full_text = $full_text;
+		return $this;
+	}
+
+	/**
+	 * Sets the index as using hash not btree
+	 *
+	 * @since 0.1.0
+	 * @param boolean $hash
+	 * @return self
+	 */
+	public function hash( bool $hash = true ): self {
+		$this->hash = $hash;
+		return $this;
+	}
+
 }
