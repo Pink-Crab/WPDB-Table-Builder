@@ -81,7 +81,7 @@ class Schema {
 	 */
 	public function column( string $name ): Column {
 		$column          = new Column( $name );
-		$this->columns[] = $column;
+		$this->columns[$name] = $column;
 		return $column;
 	}
 

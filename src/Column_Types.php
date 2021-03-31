@@ -34,7 +34,7 @@ trait Column_Types {
 	 * @param int|null $length
 	 * @return self
 	 */
-	private function varchar( ?int $length = null ): self {
+	public function varchar( ?int $length = null ): self {
 		$this->type( 'varchar' );
 		if ( $length ) {
 			$this->length( $length );
@@ -49,7 +49,7 @@ trait Column_Types {
 	 * @param int|null $length
 	 * @return self
 	 */
-	private function text( ?int $length = null ): self {
+	public function text( ?int $length = null ): self {
 		$this->type( 'text' );
 		if ( $length ) {
 			$this->length( $length );
@@ -64,7 +64,7 @@ trait Column_Types {
 	 * @param int|null $length
 	 * @return self
 	 */
-	private function int( ?int $length = null ): self {
+	public function int( ?int $length = null ): self {
 		$this->type( 'int' );
 		if ( $length ) {
 			$this->length( $length );
@@ -79,7 +79,7 @@ trait Column_Types {
 	 * @param int|null $length
 	 * @return self
 	 */
-	private function float( ?int $length = null ): self {
+	public function float( ?int $length = null ): self {
 		$this->type( 'float' );
 		if ( $length ) {
 			$this->length( $length );
@@ -94,7 +94,7 @@ trait Column_Types {
 	 * @param int|null $length
 	 * @return self
 	 */
-	private function double( ?int $length = null ): self {
+	public function double( ?int $length = null ): self {
 		$this->type( 'double' );
 		if ( $length ) {
 			$this->length( $length );
@@ -109,7 +109,7 @@ trait Column_Types {
 	 * @param string|null $default
 	 * @return self
 	 */
-	private function datetime( ?string $default = null ): self {
+	public function datetime( ?string $default = null ): self {
 		$this->type( 'datetime' );
 		if ( $default ) {
 			$this->default( $default );
@@ -124,7 +124,7 @@ trait Column_Types {
 	 * @param string|null $default
 	 * @return self
 	 */
-	private function timestamp( ?string $default = null ): self {
+	public function timestamp( ?string $default = null ): self {
 		$this->type( 'timestamp' );
 		if ( $default ) {
 			$this->default( $default );
