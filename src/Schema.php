@@ -215,7 +215,4 @@ class Schema {
 		return $index;
 	}
 
-
-
-
 }
