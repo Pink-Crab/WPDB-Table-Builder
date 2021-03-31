@@ -56,8 +56,8 @@ class Test_Schema extends WP_UnitTestCase {
 		$schema = new Schema(
 			'table',
 			function( $schema ) {
-				$schema->column( 'test_col' );
-				$schema->column( 'test_col' );
+				$schema->column( 'test_col' )->int(11)->nullable(false);
+				$schema->column( 'test_col' )->text()->default('n/a');
 			}
 		);
 
@@ -79,10 +79,9 @@ class Test_Schema extends WP_UnitTestCase {
 		$this->assertFalse( $schema_without_prefix->has_prefix() );
 	}
 
-    /** @testdox When getting the table name from a Schema definiton, if a prefix is set, the table name should have it included. */
-    public function test_table_name_with_prefix_if_set(): void
-    {
-        $schema_with_prefix = new Schema(
+	/** @testdox When getting the table name from a Schema definiton, if a prefix is set, the table name should have it included. */
+	public function test_table_name_with_prefix_if_set(): void {
+		$schema_with_prefix = new Schema(
 			'table',
 			function( $schema ) {
 				$schema->prefix( 'prefix_' );
@@ -91,7 +90,33 @@ class Test_Schema extends WP_UnitTestCase {
 
 		$schema_without_prefix = new Schema( 'table', function( $schema ) {} );
 
-        $this->assertEquals( 'prefix_table',$schema_with_prefix->get_table_name() );
-		$this->assertEquals( 'table',$schema_without_prefix->get_table_name() );
-    }
+		$this->assertEquals( 'prefix_table', $schema_with_prefix->get_table_name() );
+		$this->assertEquals( 'table', $schema_without_prefix->get_table_name() );
+	}
+
+	/** @testdox It should be possible to remove a column from the defined schema. */
+	public function test_can_remove_column(): void {
+		$schema = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+				$schema->column( 'b' );
+			}
+		);
+
+		$schema->remove_column( 'a' );
+		$this->assertCount( 1, $schema->get_columns() );
+	}
+
+    /** @testdox Attempting to remove a column from a schema which has not been defined, should result in an error and abort the operation. */
+	public function test_throws_exception_attempting_to_remove_none_set_column(): void {
+		$this->expectException( Exception::class );
+		$schema = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'b' );
+			}
+		);
+		$schema->remove_column( 'a' );
+	}
 }

@@ -25,6 +25,11 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder;
 
+use Exception;
+use PinkCrab\Table_Builder\Index;
+use PinkCrab\Table_Builder\Column;
+use PinkCrab\Table_Builder\Foreign_Key;
+
 class Schema {
 
 	/**
@@ -66,11 +71,13 @@ class Schema {
 	 * Creates an instance of Schema
 	 *
 	 * @param string $table_name
-	 * @param callable(Schema):void $configure
+	 * @param callable(Schema):void|null $configure
 	 */
-	public function __construct( string $table_name, callable $configure ) {
+	public function __construct( string $table_name, ?callable $configure = null ) {
 		$this->table_name = $table_name;
-		$configure( $this );
+		if ( is_callable( $configure ) ) {
+			$configure( $this );
+		}
 	}
 
 	/**
@@ -96,6 +103,18 @@ class Schema {
 		$column                 = new Column( $name );
 		$this->columns[ $name ] = $column;
 		return $column;
+	}
+
+	/**
+	 * Sets an index to the table.
+	 *
+	 * @param string $index_key
+	 * @return \PinkCrab\Table_Builder\Index
+	 */
+	public function index( string $index_key ): Index {
+		$index                       = new Index();
+		$this->indexes[ $index_key ] = $index;
+		return $index;
 	}
 
 	/** GETTERS */
@@ -140,6 +159,30 @@ class Schema {
 	}
 
 	/**
+	 * Removes a column from the stack based on its name.
+	 *
+	 * @param string $name
+	 * @return self
+	 * @throws Exception If columnn doesnt exist.
+	 */
+	public function remove_column( string $name ): self {
+		if ( ! $this->has_column( $name ) ) {
+			throw new Exception(
+				sprintf(
+					'%s doest exist in table %s',
+					$name,
+					$this->get_table_name()
+				),
+				1
+			);
+		}
+
+		unset( $this->columns[ $name ] );
+
+		return $this;
+	}
+
+	/**
 	 * Checks if the table name should be prefixed.
 	 *
 	 * @return bool
@@ -156,4 +199,6 @@ class Schema {
 	public function get_prefix(): string {
 		return $this->prefix ?? '';
 	}
+
+
 }
