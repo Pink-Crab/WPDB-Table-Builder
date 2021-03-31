@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -25,118 +25,164 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder;
 
+use PinkCrab\Table_Builder\Column_Types;
+
 class Column {
 
-    /**
-     * Column name
-     *
-     * @var string
-     */
-    protected $name;
+	/**
+	 * Gives access to various wrappers for
+	 * types
+	 *
+	 * @method varchar( ?int $length = null )
+	 * @method text( ?int $length = null )
+	 * @method int( ?int $length = null )
+	 * @method float( ?int $length = null )
+	 * @method double( ?int $length = null )
+	 * @method datetime( ?string $default = null )
+	 * @method timestamp( ?string $default = null )
+	 */
+	use Column_Types;
 
-    /**
-     * The column type
-     *
-     * @var string|null
-     */
-    protected $type = null;
+	/**
+	 * Column name
+	 *
+	 * @var string
+	 */
+	protected $name;
 
-    /**
-     * The column length
-     *
-     * @var int|null
-     */
-    protected $length = null;
+	/**
+	 * The column type
+	 *
+	 * @var string|null
+	 */
+	protected $type = null;
 
-    /**
-     * Denotes if the column is nullable
-     *
-     * @var bool|null
-     */
-    protected $nullable = null;
+	/**
+	 * The column length
+	 *
+	 * @var int|null
+	 */
+	protected $length = null;
 
-    /**
-     * The columns default value
-     *
-     * @var string|null
-     */
-    protected $default = null;
+	/**
+	 * Denotes if the column is nullable
+	 *
+	 * @var bool|null
+	 */
+	protected $nullable = null;
 
-    /**
-     * If the column has the auto incrememnt flag.
-     *
-     * @var bool|null
-     */
-    protected $auto_increment = null;
+	/**
+	 * The columns default value
+	 *
+	 * @var string|null
+	 */
+	protected $default = null;
 
-    /**
-     * Is the columns value unsigned
-     *
-     * @var bool|null
-     */
-    protected $usigned = null;
+	/**
+	 * If the column has the auto incrememnt flag.
+	 *
+	 * @var bool|null
+	 */
+	protected $auto_increment = null;
 
-    public function __construct(string $name) {
-        $this->name = $name;
-    }
+	/**
+	 * Is the columns value unsigned
+	 *
+	 * @var bool|null
+	 */
+	protected $unsigned = null;
 
-    /**
-     * Sets the columns type
-     *
-     * @param string $type
-     * @return self
-     */
-    public function type(string $type): self
-    {
-        $this->type = $type;
-        return $this;
-    }
+	/**
+	 * Is a unique columm
+	 *
+	 * @var bool|null
+	 */
+	protected $unique = null;
 
-    /**
-     * Sets the column length
-     *
-     * @param integer $length
-     * @return self
-     */
-    public function length(int $length): self
-    {
-        $this->length = $length;
-        return $this;
-    }
+	public function __construct( string $name ) {
+		$this->name = $name;
+	}
 
-    /**
-     * Denotes if the column is nullable
-     *
-     * @param boolean $nullable
-     * @return self
-     */
-    public function nullable(bool $nullable = true): self
-    {
-        $this->nullable = $nullable;
-        return $this;
-    }
+	/**
+	 * Sets the columns type
+	 *
+	 * @param string $type
+	 * @return self
+	 */
+	public function type( string $type ): self {
+		$this->type = $type;
+		return $this;
+	}
 
-    /**
-     * Sets the default value
-     *
-     * @param string $default
-     * @return self
-     */
-    public function default(string $default): self
-    {
-        $this->default = $default;
-        return $this;
-    }
+	/**
+	 * Sets the column length
+	 *
+	 * @param integer $length
+	 * @return self
+	 */
+	public function length( int $length ): self {
+		$this->length = $length;
+		return $this;
+	}
 
-    /**
-     * Denotes if the column is unsigned.
-     *
-     * @param boolean $unsigned
-     * @return self
-     */
-    public function unsigned(bool $unsigned): self
-    {
-        $this->default = $default;
-        return $this;
-    }
+	/**
+	 * Denotes if the column is nullable
+	 *
+	 * @param boolean $nullable
+	 * @return self
+	 */
+	public function nullable( bool $nullable = true ): self {
+		$this->nullable = $nullable;
+		return $this;
+	}
+
+	/**
+	 * Sets the default value
+	 *
+	 * @param string $default
+	 * @return self
+	 */
+	public function default( string $default ): self {
+		$this->default = $default;
+		return $this;
+	}
+
+	/**
+	 * Denotes if the column is unsigned.
+	 *
+	 * @param boolean $unsigned
+	 * @return self
+	 */
+	public function unsigned( bool $unsigned ): self {
+		$this->unsigned = $unsigned;
+		return $this;
+	}
+
+	/**
+	 * Set is a unique columm
+	 *
+	 * @param bool $unique  Is a unique columm
+	 * @return self
+	 */
+	public function unique( bool $unique = true ): self {
+		$this->unique = $unique;
+		return $this;
+	}
+
+	/**
+	 * Returns the column details as a stdClass
+	 *
+	 * @return object
+	 */
+	public function export() {
+		return (object) array(
+			'name'     => $this->name,
+			'type'     => $this->type,
+			'length'   => $this->length,
+			'nullable' => $this->nullable,
+			'default'  => $this->default,
+			'unsigned' => $this->unsigned,
+			'unique'   => $this->unique,
+		);
+	}
 }

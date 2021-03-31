@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -27,64 +27,63 @@ namespace PinkCrab\Table_Builder;
 
 class Schema {
 
-    /**
-     * The table name
-     *
-     * @var string
-     */
-    protected $table_name;
+	/**
+	 * The table name
+	 *
+	 * @var string
+	 */
+	protected $table_name;
 
-    /**
-     * The table name prefix
-     *
-     * @var string|null
-     */
-    protected $prefix = null;
+	/**
+	 * The table name prefix
+	 *
+	 * @var string|null
+	 */
+	protected $prefix = null;
 
-    /**
-     * Table colums
-     *
-     * @var array<Column>
-     */
-    protected $columns;
+	/**
+	 * Table colums
+	 *
+	 * @var array<Column>
+	 */
+	protected $columns;
 
-    /**
-     * All table indexes
-     *
-     * @var array<Index>
-     */
-    protected $indexes;
+	/**
+	 * All table indexes
+	 *
+	 * @var array<Index>
+	 */
+	protected $indexes;
 
-    /**
-     * All foreign key relations
-     *
-     * @var array<Foreign_Key>
-     */
-    protected $foreign_keys;
+	/**
+	 * All foreign key relations
+	 *
+	 * @var array<Foreign_Key>
+	 */
+	protected $foreign_keys;
 
-    /**
-     * Creates an instance of Schema
-     *
-     * @param string $table_name
-     * @param callable(Schema):void $configure
-     */
-    public function __construct(string $table_name , callable $configure ) {
-        $this->table_name = $table_name;
-        $configure($this);
-    }
+	/**
+	 * Creates an instance of Schema
+	 *
+	 * @param string $table_name
+	 * @param callable(Schema):void $configure
+	 */
+	public function __construct( string $table_name, callable $configure ) {
+		$this->table_name = $table_name;
+		$configure( $this );
+	}
 
-    /**
-     * Adds a new column to the schema
-     *
-     * @param string $name
-     * @return Column
-     */
-    public function column(string $name): Column
-    {
-        $column = new Column($name);
-        $this->columns[] = $column;
-        return $column;
-    }
+	/**
+	 * Adds a new column to the schema
+	 *
+	 * @param string $name
+	 * @return Column
+	 */
+	public function column( string $name ): Column {
+		$column          = new Column( $name );
+		$this->columns[] = $column;
+		return $column;
+	}
 
 
 }
