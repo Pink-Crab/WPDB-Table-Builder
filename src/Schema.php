@@ -81,6 +81,19 @@ class Schema {
 	}
 
 	/**
+	 * Get the table name
+	 *
+	 * @return string
+	 */
+	public function get_table_name(): string {
+		return \sprintf(
+			'%s%s',
+			$this->get_prefix(),
+			$this->table_name
+		);
+	}
+
+	/**
 	 * Sets the table names prefix
 	 *
 	 * If null, will be treated as no preix.
@@ -94,43 +107,37 @@ class Schema {
 	}
 
 	/**
+	 * Checks if the table name should be prefixed.
+	 *
+	 * @return bool
+	 */
+	public function has_prefix(): bool {
+		return $this->prefix !== null;
+	}
+
+	/**
+	 * Get the table name prefix
+	 *
+	 * @return string
+	 */
+	public function get_prefix(): string {
+		return $this->prefix ?? '';
+	}
+
+
+	/**
 	 * Adds a new column to the schema
 	 *
 	 * @param string $name
 	 * @return Column
 	 */
 	public function column( string $name ): Column {
-		$column                 = new Column( $name );
+		$column = new Column( $name );
+
 		$this->columns[ $name ] = $column;
 		return $column;
 	}
 
-	/**
-	 * Sets an index to the table.
-	 *
-	 * @param string $index_key
-	 * @return \PinkCrab\Table_Builder\Index
-	 */
-	public function index( string $index_key ): Index {
-		$index                       = new Index();
-		$this->indexes[ $index_key ] = $index;
-		return $index;
-	}
-
-	/** GETTERS */
-
-	/**
-	 * Get the table name
-	 *
-	 * @return string
-	 */
-	public function get_table_name(): string {
-		return \sprintf(
-			'%s%s',
-			$this->get_prefix(),
-			$this->table_name
-		);
-	}
 
 	/**
 	 * Get table colums
@@ -182,23 +189,33 @@ class Schema {
 		return $this;
 	}
 
-	/**
-	 * Checks if the table name should be prefixed.
+		/**
+	 * Sets an foreign key to the table
 	 *
-	 * @return bool
+	 * @param string $key
+	 * @return \PinkCrab\Table_Builder\Foreign_Key
 	 */
-	public function has_prefix(): bool {
-		return $this->prefix !== null;
+	public function foreign_key( string $key ): Foreign_Key {
+		$foreign_key = new Foreign_Key();
+
+		$this->foreign_keys[ $key ] = $foreign_key;
+		return $foreign_key;
 	}
 
 	/**
-	 * Get the table name prefix
+	 * Sets an index to the table.
 	 *
-	 * @return string
+	 * @param string $key
+	 * @return \PinkCrab\Table_Builder\Index
 	 */
-	public function get_prefix(): string {
-		return $this->prefix ?? '';
+	public function index( string $key ): Index {
+		$index = new Index();
+
+		$this->indexes[ $key ] = $index;
+		return $index;
 	}
+
+
 
 
 }
