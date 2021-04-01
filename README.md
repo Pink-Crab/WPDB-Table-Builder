@@ -53,9 +53,80 @@ $schema_b->column('user')->int(11);
 // Set keys and indexes.
 $schema_b->index('id')->primary();
 $schema_b->index('user')->unique();
-
 ```
 > Please note unless like previous versions, the column and index data can not be defined fluently.
+
+## Indexes and Foreign Keys
+
+You can setup a variety of Indexes and Foreign_Key's for your table(s). These can be set as the schema example above.
+
+### Index
+
+You can create index for any column of your table and denote the field as either just an index, unique, primary, full text or as a hash.
+
+```php
+<?php
+
+$schema_a = new Schema('my_table', function(Schema $schema){
+    // Set columns
+    $schema->column('id')->unsigned_int(11)->auto_increment();
+    $schema->column('user')->int(11);
+    $schema->column('details')->text();
+    
+    // Set keys and indexes.
+    $schema->index('id')->primary();
+    $schema->index('user')->unique();
+    $schema->index('details')->full_text();
+});
+```
+The above would generate
+
+```sql
+CREATE TABLE my_table(
+    id INT AUTO_INCREMENT
+    user INT(11),
+    details TEXT,
+    PIRMARY KEY ix_id (id),
+    UNIQUE INDEX ix_user (user),
+    FULLTEXT INDEX ix_details (details)
+);
+```
+
+If you wish to use more than 1 column for an index, please add them as single indexes and the builder will combine. You must also set a custom keyname for all grouped indexes.
+
+```php 
+$schema = new Schema('my_table', function(Schema $schema){
+    // Set columns
+    $schema->column('id')->unsigned_int(11)->auto_increment();
+    $schema->column('user')->int(11);
+    $schema->column('details')->text();
+    
+    // Set keys and indexes.
+    $schema->index('id')->primary();
+
+    $schema->index('user', 'unique_keys')->unique();
+    $schema->index('details', 'unique_keys')->unique();
+});
+```
+The above would generate
+
+```sql
+CREATE TABLE my_table(
+    id INT AUTO_INCREMENT
+    user INT(11),
+    details TEXT,
+    PIRMARY KEY ix_id (id),
+    UNIQUE INDEX unique_keys (user, details)
+);
+```
+### Foreign Key
+Like regular indexes, foreign keys can be assigned against a table. When the table is built, it will assume the reference table exists, so ensure that you create them in the correct order if you are creating all tables at once.
+
+
+
+
+
+
 ## Example ##
 
 Creates a simple table with 3 columns (id, name and date). 
