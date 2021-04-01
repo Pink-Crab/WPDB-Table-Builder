@@ -132,7 +132,9 @@ $schema = new Schema('my_table', function(Schema $schema){
     // Set keys and indexes.
     $schema->index('id')->primary();
     
-    $schema->foreign_key('user', 'custom_keyname')->reference_table('users')->reference_column('id');
+    $schema->foreign_key('user', 'custom_keyname')
+        ->reference_table('users')
+        ->reference_column('id');
 });
 ```
 The above would produce (provided the user table exists with an ID column)
