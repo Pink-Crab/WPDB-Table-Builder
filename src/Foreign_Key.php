@@ -51,7 +51,7 @@ class Foreign_Key {
 	 * Sets the reference column
 	 *
 	 * @since 0.1.0
-	 * @var string
+	 * @var string|null
 	 */
 	protected $reference_column;
 
@@ -59,7 +59,7 @@ class Foreign_Key {
 	 * The table used.
 	 *
 	 * @since 0.1.0
-	 * @var string
+	 * @var string|null
 	 */
 	protected $reference_table;
 
@@ -142,7 +142,52 @@ class Foreign_Key {
 		return $this->keyname;
 	}
 
-		/**
+	/**
+	 * Get column referenced
+	 *
+	 * @return string
+	 */
+	public function get_column(): string {
+		return $this->column;
+	}
+
+	/**
+	 * Get the table used.
+	 *
+	 * @return string|null
+	 */
+	public function get_reference_table(): ?string {
+		return $this->reference_table;
+	}
+
+	/**
+	 * Get the table used.
+	 *
+	 * @return string|null
+	 */
+	public function get_reference_column(): ?string {
+		return $this->reference_column;
+	}
+
+	/**
+	 * Get action to execute on update.
+	 *
+	 * @return string
+	 */
+	public function get_on_update(): string {
+		return $this->on_update;
+	}
+
+	/**
+	 * Get action to execute on delete.
+	 *
+	 * @return string
+	 */
+	public function get_on_delete(): string {
+		return $this->on_delete;
+	}
+
+	/**
 	 * Exports the index as a stdClass
 	 *
 	 * @return object
@@ -157,5 +202,6 @@ class Foreign_Key {
 			'on_delete'        => $this->on_delete,
 		);
 	}
+
 
 }
