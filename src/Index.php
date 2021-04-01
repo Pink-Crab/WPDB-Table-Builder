@@ -67,9 +67,28 @@ class Index {
 	 */
 	protected $hash = false;
 
+	/**
+	 * is primary key
+	 *
+	 * @since 0.3.0
+	 * @var bool
+	 */
+	protected $primary = false;
+
 	public function __construct( string $column, ?string $keyname = null ) {
 		$this->keyname = $keyname ?? 'ix_' . $column;
 		$this->column  = $column;
+	}
+
+	/**
+	 * Set is primary key
+	 *
+	 * @param bool $primary  is primary key
+	 * @return self
+	 */
+	public function primary( bool $primary = true ): self {
+		$this->primary = $primary;
+		return $this;
 	}
 
 	/**
@@ -126,10 +145,58 @@ class Index {
 		return (object) array(
 			'keyname'   => $this->keyname,
 			'column'    => $this->column,
+			'primary'   => $this->primary,
 			'unique'    => $this->unique,
 			'full_text' => $this->full_text,
 			'hash'      => $this->hash,
 		);
 	}
+
+
+	/**
+	 * Get column referenced
+	 *
+	 * @return string
+	 */
+	public function get_column(): string {
+		return $this->column;
+	}
+
+	/**
+	 * Checks if using a using HASH
+	 *
+	 * @return bool
+	 */
+	public function is_primary(): bool {
+		return $this->primary;
+	}
+
+	/**
+	 * Checks if using a unique index
+	 *
+	 * @return bool
+	 */
+	public function is_unique(): bool {
+		return $this->unique;
+	}
+
+	/**
+	 * Checks if using afull text index.
+	 *
+	 * @return bool
+	 */
+	public function is_full_text(): bool {
+		return $this->full_text;
+	}
+
+	/**
+	 * Checks if using HASH
+	 *
+	 * @return bool
+	 */
+	public function is_hash(): bool {
+		return $this->hash;
+	}
+
 
 }
