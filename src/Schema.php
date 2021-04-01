@@ -35,6 +35,7 @@ class Schema {
 	/**
 	 * The table name
 	 *
+	 * @since 0.3.0
 	 * @var string
 	 */
 	protected $table_name;
@@ -42,6 +43,7 @@ class Schema {
 	/**
 	 * The table name prefix
 	 *
+	 * @since 0.3.0
 	 * @var string|null
 	 */
 	protected $prefix = null;
@@ -49,6 +51,7 @@ class Schema {
 	/**
 	 * Table colums
 	 *
+	 * @since 0.3.0
 	 * @var array<Column>
 	 */
 	protected $columns;
@@ -56,6 +59,7 @@ class Schema {
 	/**
 	 * All table indexes
 	 *
+	 * @since 0.3.0
 	 * @var array<Index>
 	 */
 	protected $indexes;
@@ -63,6 +67,7 @@ class Schema {
 	/**
 	 * All foreign key relations
 	 *
+	 * @since 0.3.0
 	 * @var array<Foreign_Key>
 	 */
 	protected $foreign_keys;
@@ -70,6 +75,7 @@ class Schema {
 	/**
 	 * Creates an instance of Schema
 	 *
+	 * @since 0.3.0
 	 * @param string $table_name
 	 * @param callable(Schema):void|null $configure
 	 */
@@ -83,6 +89,7 @@ class Schema {
 	/**
 	 * Get the table name
 	 *
+	 * @since 0.3.0
 	 * @return string
 	 */
 	public function get_table_name(): string {
@@ -98,6 +105,7 @@ class Schema {
 	 *
 	 * If null, will be treated as no preix.
 	 *
+	 * @since 0.3.0
 	 * @param string|null $prefix
 	 * @return self
 	 */
@@ -109,6 +117,7 @@ class Schema {
 	/**
 	 * Checks if the table name should be prefixed.
 	 *
+	 * @since 0.3.0
 	 * @return bool
 	 */
 	public function has_prefix(): bool {
@@ -118,6 +127,7 @@ class Schema {
 	/**
 	 * Get the table name prefix
 	 *
+	 * @since 0.3.0
 	 * @return string
 	 */
 	public function get_prefix(): string {
@@ -128,6 +138,7 @@ class Schema {
 	/**
 	 * Adds a new column to the schema
 	 *
+	 * @since 0.3.0
 	 * @param string $name
 	 * @return Column
 	 */
@@ -142,6 +153,7 @@ class Schema {
 	/**
 	 * Get table colums
 	 *
+	 * @since 0.3.0
 	 * @return array<Column>
 	 */
 	public function get_columns(): array {
@@ -151,6 +163,7 @@ class Schema {
 	/**
 	 * Checks if a column has been set based on name.
 	 *
+	 * @since 0.3.0
 	 * @param string $name
 	 * @return bool
 	 */
@@ -168,6 +181,7 @@ class Schema {
 	/**
 	 * Removes a column from the stack based on its name.
 	 *
+	 * @since 0.3.0
 	 * @param string $name
 	 * @return self
 	 * @throws Exception If columnn doesnt exist.
@@ -192,6 +206,7 @@ class Schema {
 	/**
 	 * Sets an foreign key to the table
 	 *
+	 * @since 0.3.0
 	 * @param string $key
 	 * @return \PinkCrab\Table_Builder\Foreign_Key
 	 */
@@ -205,6 +220,7 @@ class Schema {
 	/**
 	 * Sets an index to the table.
 	 *
+	 * @since 0.3.0
 	 * @param string $key
 	 * @return \PinkCrab\Table_Builder\Index
 	 */
@@ -213,6 +229,27 @@ class Schema {
 
 		$this->indexes[ $key ] = $index;
 		return $index;
+	}
+
+	/**
+	 * Returns all the defined indexes.
+	 *
+	 * @since 0.2.0
+	 * @return array<int, \PinkCrab\Table_Builder\Index>
+	 */
+	public function get_indexes(): array {
+		return $this->indexes;
+	}
+
+	/**
+	 * 
+	 * Returns all the defined indexes.
+	 *
+	 * @since 0.3.0
+	 * @return array<int, \PinkCrab\Table_Builder\Foreign_Key>
+	 */
+	public function get_foreign_keys(): array {
+		return $this->foreign_keys;
 	}
 
 }

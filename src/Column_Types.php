@@ -131,4 +131,36 @@ trait Column_Types {
 		}
 		return $this;
 	}
+
+	/**
+	 * Sets column as an unsighed int wtih a definied length.
+	 *
+	 * @since 0.3.0
+	 * @param int|null $length
+	 * @return self
+	 */
+	public function unsigned_int( ?int $length = null ): self {
+		$this->type( 'int' );
+		$this->unsigned();
+		if ( $length ) {
+			$this->length( $length );
+		}
+		return $this;
+	}
+
+	/**
+	 * Sets column as an unsighed mediumint wtih a definied length.
+	 *
+	 * @since 0.3.0
+	 * @param int|null $length
+	 * @return self
+	 */
+	public function unsigned_medium( ?int $length = null ): self {
+		$this->type( 'mediumint' );
+		$this->unsigned();
+		if ( $length ) {
+			$this->length( $length );
+		}
+		return $this;
+	}
 }

@@ -37,24 +37,25 @@ You can define a tables schema in a few different ways.
 
 $schema_a = new Schema('my_table', function(Schema $schema){
     // Set columns
-    $schema->column('id')->int(11)->unsigned()->auto_increment();
+    $schema->column('id')->unsigned_int(11)->auto_increment();
     $schema->column('user')->int(11);
     
     // Set keys and indexes.
-    $schema->primary_key('id');
+    $schema->index('id')->primary();
     $schema->index('user')->unique();
 });
 
 $schema_b = new Schema('my_table');
 // Set columns
-$schema_b->column('id')->int(11)->unsigned()->auto_increment();
+$schema_b->column('id')->unsigned_int(11)->auto_increment();
 $schema_b->column('user')->int(11);
 
 // Set keys and indexes.
-$schema_b->primary_key('id');
+$schema_b->index('id')->primary();
 $schema_b->index('user')->unique();
 
-
+```
+> Please note unless like previous versions, the column and index data can not be defined fluently.
 ## Example ##
 
 Creates a simple table with 3 columns (id, name and date). 
