@@ -1,5 +1,15 @@
 # Schema
 
+> **Related Pages**
+>
+> » Columns
+> 
+> » Index
+> 
+> » Foreign_Key
+
+***
+
 ## public function __construct(string $table_name, ?callable $configure = null )
 * @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build
 * @param callable|null $configure Used to set the schema values are the same time as declaring the schema object.
@@ -145,7 +155,6 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->column('id')->unsigned_int(12)->auto_increment();
     $schema->column('user')->int(12);
     $schema->column('booking_ref')->varchar(16);
-
     $schema->index('id')->primary();
 });
 
@@ -153,10 +162,30 @@ $schema->has_indexes(); // TRUE
 ```
 ***
 
-## public function foreign_index( string $column, ?string $keyname = null ): Foreign_Index
+## public function get_indexes(): array
+* @return array<Index>
+
+Returns an array of all indexes currently set to the Schema.
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->column('user')->int(12);
+    $schema->column('booking_ref')->varchar(16);
+    $schema->index('id')->primary();
+    $schema->index('booking_ref')->unique();
+});
+
+$schema->get_indexes(); // [Index{column: id..}, Index{column: booking_ref..}]
+```
+
+***
+
+## public function foreign_key( string $column, ?string $keyname = null ): Foreign_Key
 * @param string $column Column index is applied to
 * @param string|null $keyname The indexes reference
-* @return \PinkCrab\Table_Builder\Foreign_Index
+* @return \PinkCrab\Table_Builder\Foreign_Key
 
 Creates a Foreign Key relationship with another table. Can be set with a custom or default keyname. Returns a partially applied 
 
@@ -170,3 +199,46 @@ $schema = new Schema('table', function(Schema $schema): void{
         ->reference_table('users')
         ->reference_column('id');
 });
+```
+
+***
+
+## public function has_foreign_keys(): bool
+* @return bool
+
+Returns if the table has Foreign Keys applied.
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->column('user')->int(12);
+    $schema->column('booking_ref')->varchar(16);
+    $schema->foreign_key('user', 'user_fk')
+        ->reference_table('users')
+        ->reference_column('id');
+});
+
+$schema->has_foreign_keys(); // TRUE
+```
+***
+
+## public function get_foreign_keys(): array
+* @return array<Foreign_Key>
+
+Returns an array of all Foreign Keys currently set to the Schema.
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->column('user')->int(12);
+    $schema->column('booking_ref')->varchar(16);
+    $schema->index('id')->primary();
+        $schema->foreign_key('user', 'user_fk')
+        ->reference_table('users')
+        ->reference_column('id');
+});
+
+$schema->get_indexes(); // [Foreign_Key{column: user..}]
+```
