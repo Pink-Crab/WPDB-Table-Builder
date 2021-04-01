@@ -124,11 +124,12 @@ class Test_Schema extends WP_UnitTestCase {
 	{
 		$schema = new Schema(
 			'table',
-			function( $schema ) {
+			function( Schema $schema ) {
 				$schema->index( 'a' )->unique();
-				$schema->column( 'b' );
-				$schema->foreign_key('c')->reference_table('bar')
-				->reference_column('id');
+				$schema->column( 'b' )
+					->text(25)->default('n/a');
+				$schema->foreign_key('c')
+					->reference_table('bar')->reference_column('id');
 			}
 		);
 		dump($schema);
