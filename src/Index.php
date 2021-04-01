@@ -145,7 +145,7 @@ class Index {
 		return (object) array(
 			'keyname'   => $this->keyname,
 			'column'    => $this->column,
-			'primary'    => $this->primary,
+			'primary'   => $this->primary,
 			'unique'    => $this->unique,
 			'full_text' => $this->full_text,
 			'hash'      => $this->hash,
