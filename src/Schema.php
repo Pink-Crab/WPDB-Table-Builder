@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 declare(strict_types=1);
 
@@ -25,66 +25,194 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder;
 
+use Exception;
+use PinkCrab\Table_Builder\Index;
+use PinkCrab\Table_Builder\Column;
+use PinkCrab\Table_Builder\Foreign_Key;
+
 class Schema {
 
-    /**
-     * The table name
-     *
-     * @var string
-     */
-    protected $table_name;
+	/**
+	 * The table name
+	 *
+	 * @var string
+	 */
+	protected $table_name;
 
-    /**
-     * The table name prefix
-     *
-     * @var string|null
-     */
-    protected $prefix = null;
+	/**
+	 * The table name prefix
+	 *
+	 * @var string|null
+	 */
+	protected $prefix = null;
 
-    /**
-     * Table colums
-     *
-     * @var array<Column>
-     */
-    protected $columns;
+	/**
+	 * Table colums
+	 *
+	 * @var array<Column>
+	 */
+	protected $columns;
 
-    /**
-     * All table indexes
-     *
-     * @var array<Index>
-     */
-    protected $indexes;
+	/**
+	 * All table indexes
+	 *
+	 * @var array<Index>
+	 */
+	protected $indexes;
 
-    /**
-     * All foreign key relations
-     *
-     * @var array<Foreign_Key>
-     */
-    protected $foreign_keys;
+	/**
+	 * All foreign key relations
+	 *
+	 * @var array<Foreign_Key>
+	 */
+	protected $foreign_keys;
 
-    /**
-     * Creates an instance of Schema
-     *
-     * @param string $table_name
-     * @param callable(Schema):void $configure
-     */
-    public function __construct(string $table_name , callable $configure ) {
-        $this->table_name = $table_name;
-        $configure($this);
-    }
+	/**
+	 * Creates an instance of Schema
+	 *
+	 * @param string $table_name
+	 * @param callable(Schema):void|null $configure
+	 */
+	public function __construct( string $table_name, ?callable $configure = null ) {
+		$this->table_name = $table_name;
+		if ( is_callable( $configure ) ) {
+			$configure( $this );
+		}
+	}
 
-    /**
-     * Adds a new column to the schema
-     *
-     * @param string $name
-     * @return Column
-     */
-    public function column(string $name): Column
-    {
-        $column = new Column($name);
-        $this->columns[] = $column;
-        return $column;
-    }
+	/**
+	 * Get the table name
+	 *
+	 * @return string
+	 */
+	public function get_table_name(): string {
+		return \sprintf(
+			'%s%s',
+			$this->get_prefix(),
+			$this->table_name
+		);
+	}
 
+	/**
+	 * Sets the table names prefix
+	 *
+	 * If null, will be treated as no preix.
+	 *
+	 * @param string|null $prefix
+	 * @return self
+	 */
+	public function prefix( ?string $prefix = null ): self {
+		$this->prefix = $prefix;
+		return $this;
+	}
+
+	/**
+	 * Checks if the table name should be prefixed.
+	 *
+	 * @return bool
+	 */
+	public function has_prefix(): bool {
+		return $this->prefix !== null;
+	}
+
+	/**
+	 * Get the table name prefix
+	 *
+	 * @return string
+	 */
+	public function get_prefix(): string {
+		return $this->prefix ?? '';
+	}
+
+
+	/**
+	 * Adds a new column to the schema
+	 *
+	 * @param string $name
+	 * @return Column
+	 */
+	public function column( string $name ): Column {
+		$column = new Column( $name );
+
+		$this->columns[ $name ] = $column;
+		return $column;
+	}
+
+
+	/**
+	 * Get table colums
+	 *
+	 * @return array<Column>
+	 */
+	public function get_columns(): array {
+		return $this->columns;
+	}
+
+	/**
+	 * Checks if a column has been set based on name.
+	 *
+	 * @param string $name
+	 * @return bool
+	 */
+	public function has_column( string $name ): bool {
+		return count(
+			array_filter(
+				$this->get_columns(),
+				function( Column $column ) use ( $name ): bool {
+					return $column->get_name() === $name;
+				}
+			)
+		) >= 1;
+	}
+
+	/**
+	 * Removes a column from the stack based on its name.
+	 *
+	 * @param string $name
+	 * @return self
+	 * @throws Exception If columnn doesnt exist.
+	 */
+	public function remove_column( string $name ): self {
+		if ( ! $this->has_column( $name ) ) {
+			throw new Exception(
+				sprintf(
+					'%s doest exist in table %s',
+					$name,
+					$this->get_table_name()
+				),
+				1
+			);
+		}
+
+		unset( $this->columns[ $name ] );
+
+		return $this;
+	}
+
+		/**
+	 * Sets an foreign key to the table
+	 *
+	 * @param string $key
+	 * @return \PinkCrab\Table_Builder\Foreign_Key
+	 */
+	public function foreign_key( string $key ): Foreign_Key {
+		$foreign_key = new Foreign_Key();
+
+		$this->foreign_keys[ $key ] = $foreign_key;
+		return $foreign_key;
+	}
+
+	/**
+	 * Sets an index to the table.
+	 *
+	 * @param string $key
+	 * @return \PinkCrab\Table_Builder\Index
+	 */
+	public function index( string $key ): Index {
+		$index = new Index();
+
+		$this->indexes[ $key ] = $index;
+		return $index;
+	}
 
 }
