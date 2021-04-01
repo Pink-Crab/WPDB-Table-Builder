@@ -60,20 +60,11 @@ class Test_Index extends WP_UnitTestCase {
 		$this->assertTrue( $index->is_full_text() );
 	}
 
-	/** @testdox It should be possible to create an index to denote the hash key on the table */
-	public function test_can_crate_hash_index(): void {
-		$index = new Index( 'column' );
-		$index->hash();
-
-		$this->assertTrue( $index->is_hash() );
-	}
-
 	/** @testdox It should be possible to export the current indexes details as a stdClass */
 	public function test_can_export_index_as_stdClass(): void {
 		$index = new Index( 'column', 'keyname' );
 		$index->unique();
-		$index->hash( false );
-		$index->full_text( true );
+		$index->full_text( false );
 		$index->primary( true );
 		
         $export = $index->export();
@@ -81,8 +72,7 @@ class Test_Index extends WP_UnitTestCase {
 		$this->assertEquals( 'keyname', $export->keyname );
 		$this->assertEquals( 'column', $export->column );
 		$this->assertTrue( $export->unique );
-		$this->assertFalse( $export->hash );
-		$this->assertTrue( $export->full_text );
+		$this->assertFalse( $export->full_text );
 		$this->assertTrue( $export->primary );
 	}
 }

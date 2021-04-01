@@ -219,6 +219,35 @@ class Schema {
 	}
 
 	/**
+	 * Checks if foreign keys have been set.
+	 *
+	 * @return bool
+	 */
+	public function has_foreign_keys(): bool {
+		return count( $this->foreign_keys ) !== 0;
+	}
+
+	/**
+	 *
+	 * Returns all the defined indexes.
+	 *
+	 * @since 0.3.0
+	 * @return array<int, \PinkCrab\Table_Builder\Foreign_Key>
+	 */
+	public function get_foreign_keys(): array {
+		return $this->foreign_keys;
+	}
+
+	/**
+	 * Checks if foreign keys have been set.
+	 *
+	 * @return bool
+	 */
+	public function has_indexes(): bool {
+		return count( $this->indexes ) !== 0;
+	}
+
+	/**
 	 * Sets an index to the table.
 	 *
 	 * @since 0.3.0
@@ -242,15 +271,5 @@ class Schema {
 		return $this->indexes;
 	}
 
-	/**
-	 *
-	 * Returns all the defined indexes.
-	 *
-	 * @since 0.3.0
-	 * @return array<int, \PinkCrab\Table_Builder\Foreign_Key>
-	 */
-	public function get_foreign_keys(): array {
-		return $this->foreign_keys;
-	}
 
 }
