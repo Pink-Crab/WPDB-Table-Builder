@@ -152,9 +152,9 @@ CREATE TABLE my_table(
 
 ## Methods
 
-### Schema::class
+> Schema::class
 
-#### public function __construct(string $table_name, ?callable $configure = null )
+### public function __construct(string $table_name, ?callable $configure = null )
 * @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build
 * @param callable|null $confifure Used to set the schema values are the same time as declaring the schema object.
 
@@ -168,14 +168,19 @@ $schema->column('id');
 ```
 **SETTERS**
 
-#### public function prefix( ?string $prefix = null ): self
+### public function prefix( ?string $prefix = null ): self
 * @param string|null $prefix
 * @return self
 You can set an optional table name prefix either at Schema definition or during the build/drop processes.
 ```php
 $schema = new Schema('table');
-$schema->prefix('my_');
-// table name = my_table
+$schema->prefix('my_'); // table name = my_table
+
+
+// Using WPDB to get the current sites prefix (acounts for multisite)
+global $wpdb;
+$schema = new Schema('table');
+$schema->prefix($wpdb->prefix); // table name = wp_table (assuming the prefix set in WPDB is wp_)
 ```
 
 
