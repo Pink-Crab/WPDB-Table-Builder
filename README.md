@@ -106,7 +106,7 @@ $schema = new Schema('my_table', function(Schema $schema){
     $schema->index('details', 'unique_keys')->unique();
 });
 ```
-The above would generate
+The above would generate the following for MYSQL
 
 ```sql
 CREATE TABLE my_table(
@@ -137,7 +137,7 @@ $schema = new Schema('my_table', function(Schema $schema){
         gh->reference_column('id');
 });
 ```
-The above would produce (provided the user table exists with an ID column)
+The above would produce for MYSQL (provided the user table exists with an ID column)
 
 ```sql
 CREATE TABLE my_table(
