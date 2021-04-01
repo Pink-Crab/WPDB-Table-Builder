@@ -2,7 +2,7 @@
 
 > **Related Pages**
 >
-> » Schema
+> » [Schema](Schema.md)
 
 ***
 
