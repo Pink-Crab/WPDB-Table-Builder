@@ -46,6 +46,21 @@ CREATE TABLE bookings(
 
 ***
 
+## public function get_keyname(): string
+* @return string The index keyname
+
+Returns the keyname, either defualt or defined.
+
+```php
+$index_a = new Index('id', 'id_key'); // Defined keyname
+$index_a = new Index('user');         // Defualt keyname (ix_{colmn_name})
+
+$index_a->get_keyname(); // 'id_key;
+$index_a->get_keyname(); // 'ix_user;
+```
+
+***
+
 ## public function primary( bool $primary = true ): self
 * @param bool $primary  is primary key
 
