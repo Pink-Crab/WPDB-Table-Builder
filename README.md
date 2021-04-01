@@ -134,7 +134,7 @@ $schema = new Schema('my_table', function(Schema $schema){
     
     $schema->foreign_key('user', 'custom_keyname')
         ->reference_table('users')
-        ->reference_column('id');
+        gh->reference_column('id');
 });
 ```
 The above would produce (provided the user table exists with an ID column)
@@ -148,6 +148,37 @@ CREATE TABLE my_table(
     FOREIGN INDEX custom_keyname (user) REFERENCES users(id)
 );
 ```
+
+
+## Methods
+
+### Schema::class
+
+#### public function __construct(string $table_name, ?callable $configure = null )
+* @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build
+* @param callable|null $confifure Used to set the schema values are the same time as declaring the schema object.
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    $schema->column('id');
+});
+// Can be also created  as 
+$schema = new Schema('table');
+$schema->column('id');
+```
+**SETTERS**
+
+#### public function prefix( ?string $prefix = null ): self
+* @param string|null $prefix
+* @return self
+You can set an optional table name prefix either at Schema definition or during the build/drop processes.
+```php
+$schema = new Schema('table');
+$schema->prefix('my_');
+// table name = my_table
+```
+
+
 
 
 ## License ##
