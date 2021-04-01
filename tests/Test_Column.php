@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Tests;
 
-use Exception;
 use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Column;
-use PinkCrab\Table_Builder\Schema;
 
 class Test_Column extends WP_UnitTestCase {
 

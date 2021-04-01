@@ -133,4 +133,29 @@ class Foreign_Key {
 		return $this;
 	}
 
+	/**
+	 * Get index name
+	 *
+	 * @return string
+	 */
+	public function get_keyname(): string {
+		return $this->keyname;
+	}
+
+		/**
+	 * Exports the index as a stdClass
+	 *
+	 * @return object
+	 */
+	public function export(): object {
+		return (object) array(
+			'keyname'          => $this->keyname,
+			'column'           => $this->column,
+			'reference_column' => $this->reference_column,
+			'reference_table'  => $this->reference_table,
+			'on_update'        => $this->on_update,
+			'on_delete'        => $this->on_delete,
+		);
+	}
+
 }

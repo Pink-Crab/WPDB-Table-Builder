@@ -39,10 +39,10 @@
         "php": ">=7.1.0"
     },
     "scripts": {
-        "test": "phpunit --coverage-clover coverage.xml --testdox",
+        "test": "phpunit --coverage-clover coverage.xml --testdox ",
         "coverage": "phpunit --coverage-html coverage-report --testdox",
-        "analyse": "vendor/bin/phpstan analyse src -l8",
-        "sniff": "./vendor/bin/phpcs src/ -v",
-        "all": "composer test && composer analyse && composer sniff"
+        "analyse": "vendor/bin/phpstan analyse src -l8 ",
+        "sniff": "./vendor/bin/phpcs src/ -v ",
+        "all": "composer test && composer analyse && composer sniff "
     }
 }

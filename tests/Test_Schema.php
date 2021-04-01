@@ -56,8 +56,8 @@ class Test_Schema extends WP_UnitTestCase {
 		$schema = new Schema(
 			'table',
 			function( $schema ) {
-				$schema->column( 'test_col' )->int(11)->nullable(false);
-				$schema->column( 'test_col' )->text()->default('n/a');
+				$schema->column( 'test_col' )->int( 11 )->nullable( false );
+				$schema->column( 'test_col' )->text()->default( 'n/a' );
 			}
 		);
 
@@ -108,7 +108,7 @@ class Test_Schema extends WP_UnitTestCase {
 		$this->assertCount( 1, $schema->get_columns() );
 	}
 
-    /** @testdox Attempting to remove a column from a schema which has not been defined, should result in an error and abort the operation. */
+	/** @testdox Attempting to remove a column from a schema which has not been defined, should result in an error and abort the operation. */
 	public function test_throws_exception_attempting_to_remove_none_set_column(): void {
 		$this->expectException( Exception::class );
 		$schema = new Schema(
@@ -118,5 +118,58 @@ class Test_Schema extends WP_UnitTestCase {
 			}
 		);
 		$schema->remove_column( 'a' );
+	}
+
+	/** @testdox It should be possible to define an index when setting up schema. */
+	public function test_can_create_index(): void {
+		$schema = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+				$schema->index( 'a' )->unique();
+			}
+		);
+
+		$indexes = $schema->get_indexes();
+		$this->assertCount( 1, $indexes );
+		$this->assertArrayHasKey( 'ix_a', $indexes );
+
+		$indexes = array_values( $indexes );
+		$a_index = $indexes[0]->export();
+
+		$this->assertEquals( 'ix_a', $a_index->keyname );
+		$this->assertEquals( 'a', $a_index->column );
+		$this->assertTrue( $a_index->unique );
+		$this->assertFalse( $a_index->full_text );
+		$this->assertFalse( $a_index->hash );
+	}
+
+	/** @testdox It should be possibe to defined a foreign key index for a column */
+	public function test_can_create_foreign_key(): void {
+		$schema = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+				$schema->foreign_key( 'a', 'named_fk' )
+					->reference_table( 'foo' )
+					->reference_column( 'bar' )
+					->on_update( 'update_go' )
+					->on_delete( 'delete_go' );
+			}
+		);
+
+		$f_keys = $schema->get_foreign_keys();
+		$this->assertCount( 1, $f_keys );
+		$this->assertArrayHasKey( 'named_fk', $f_keys );
+
+		$f_keys   = array_values( $f_keys );
+		$named_fk = $f_keys[0]->export();
+
+		$this->assertEquals( 'named_fk', $named_fk->keyname );
+		$this->assertEquals( 'a', $named_fk->column );
+		$this->assertEquals( 'foo', $named_fk->reference_table );
+		$this->assertEquals( 'bar', $named_fk->reference_column );
+		$this->assertEquals( 'update_go', $named_fk->on_update );
+		$this->assertEquals( 'delete_go', $named_fk->on_delete );
 	}
 }

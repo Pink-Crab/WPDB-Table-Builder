@@ -108,4 +108,28 @@ class Index {
 		return $this;
 	}
 
+	/**
+	 * Get index name
+	 *
+	 * @return string
+	 */
+	public function get_keyname(): string {
+		return $this->keyname;
+	}
+
+	/**
+	 * Exports the index as a stdClass
+	 *
+	 * @return object
+	 */
+	public function export(): object {
+		return (object) array(
+			'keyname'   => $this->keyname,
+			'column'    => $this->column,
+			'unique'    => $this->unique,
+			'full_text' => $this->full_text,
+			'hash'      => $this->hash,
+		);
+	}
+
 }

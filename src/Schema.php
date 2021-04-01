@@ -207,13 +207,14 @@ class Schema {
 	 * Sets an foreign key to the table
 	 *
 	 * @since 0.3.0
-	 * @param string $key
+	 * @param string $column The column this FK index is set to.
+	 * @param string|null $keyname if not set, will use the column name a tempalte.
 	 * @return \PinkCrab\Table_Builder\Foreign_Key
 	 */
-	public function foreign_key( string $key ): Foreign_Key {
-		$foreign_key = new Foreign_Key( $key );
+	public function foreign_key( string $column, ?string $keyname = null ): Foreign_Key {
+		$foreign_key = new Foreign_Key( $column, $keyname );
 
-		$this->foreign_keys[ $key ] = $foreign_key;
+		$this->foreign_keys[ $foreign_key->get_keyname() ] = $foreign_key;
 		return $foreign_key;
 	}
 
@@ -221,13 +222,13 @@ class Schema {
 	 * Sets an index to the table.
 	 *
 	 * @since 0.3.0
-	 * @param string $key
+	 * @param string $keyname
 	 * @return \PinkCrab\Table_Builder\Index
 	 */
-	public function index( string $key ): Index {
-		$index = new Index( $key );
+	public function index( string $column, ?string $keyname = null ): Index {
+		$index = new Index( $column, $keyname );
 
-		$this->indexes[ $key ] = $index;
+		$this->indexes[ $index->get_keyname() ] = $index;
 		return $index;
 	}
 
