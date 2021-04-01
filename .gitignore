@@ -3,3 +3,4 @@ wordpress
 coverage-report
 coverage.xml
 composer.lock
+plugin.php
