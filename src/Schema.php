@@ -211,7 +211,7 @@ class Schema {
 	 * @return \PinkCrab\Table_Builder\Foreign_Key
 	 */
 	public function foreign_key( string $key ): Foreign_Key {
-		$foreign_key = new Foreign_Key($key);
+		$foreign_key = new Foreign_Key( $key );
 
 		$this->foreign_keys[ $key ] = $foreign_key;
 		return $foreign_key;
@@ -225,7 +225,7 @@ class Schema {
 	 * @return \PinkCrab\Table_Builder\Index
 	 */
 	public function index( string $key ): Index {
-		$index = new Index($key);
+		$index = new Index( $key );
 
 		$this->indexes[ $key ] = $index;
 		return $index;
@@ -242,7 +242,7 @@ class Schema {
 	}
 
 	/**
-	 * 
+	 *
 	 * Returns all the defined indexes.
 	 *
 	 * @since 0.3.0

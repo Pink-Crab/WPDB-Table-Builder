@@ -119,19 +119,4 @@ class Test_Schema extends WP_UnitTestCase {
 		);
 		$schema->remove_column( 'a' );
 	}
-
-	public function test_d(Type $var = null)
-	{
-		$schema = new Schema(
-			'table',
-			function( Schema $schema ) {
-				$schema->index( 'a' )->unique();
-				$schema->column( 'b' )
-					->text(25)->default('n/a');
-				$schema->foreign_key('c')
-					->reference_table('bar')->reference_column('id');
-			}
-		);
-		dump($schema);
-	}
 }

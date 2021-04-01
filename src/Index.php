@@ -27,7 +27,7 @@ namespace PinkCrab\Table_Builder;
 
 class Index {
 
-    /**
+	/**
 	 * Index name
 	 *
 	 * @since 0.1.0
@@ -69,7 +69,7 @@ class Index {
 
 	public function __construct( string $column, ?string $keyname = null ) {
 		$this->keyname = $keyname ?? 'ix_' . $column;
-        $this->column = $column;
+		$this->column  = $column;
 	}
 
 	/**

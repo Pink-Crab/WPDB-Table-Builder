@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 /**
  * Foreign_Key definition
- * 
+ *
  * Extracted from Table_Index from 0.2.*
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -31,7 +31,7 @@ use PinkCrab\Table_Builder\Index;
 
 class Foreign_Key {
 
-    /**
+	/**
 	 * Index name
 	 *
 	 * @since 0.1.0
@@ -63,7 +63,7 @@ class Foreign_Key {
 	 */
 	protected $reference_table;
 
-    /**
+	/**
 	 * Action to execute on update.
 	 *
 	 * @since 0.1.0
@@ -81,10 +81,10 @@ class Foreign_Key {
 
 	public function __construct( string $column, ?string $keyname = null ) {
 		$this->keyname = $keyname ?? 'fk_' . $column;
-        $this->column = $column;
+		$this->column  = $column;
 	}
-	
-    /**
+
+	/**
 	 * Set the reference table
 	 *
 	 * @since 0.1.0
@@ -108,7 +108,7 @@ class Foreign_Key {
 		return $this;
 	}
 
-    /**
+	/**
 	 * Sets the on update action.
 	 *
 	 * @since 0.1.0

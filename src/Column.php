@@ -92,13 +92,6 @@ class Column {
 	 */
 	protected $unsigned = null;
 
-	/**
-	 * Is a unique columm
-	 *
-	 * @var bool|null
-	 */
-	protected $unique = null;
-
 	public function __construct( string $name ) {
 		$this->name = $name;
 	}
@@ -148,24 +141,24 @@ class Column {
 	}
 
 	/**
+	 * Sets the default value
+	 *
+	 * @param boolean $auto_increment
+	 * @return self
+	 */
+	public function auto_increment( bool $auto_increment = true ): self {
+		$this->auto_increment = $auto_increment;
+		return $this;
+	}
+
+	/**
 	 * Denotes if the column is unsigned.
 	 *
 	 * @param boolean $unsigned
 	 * @return self
 	 */
-	public function unsigned( bool $unsigned ): self {
+	public function unsigned( bool $unsigned = true ): self {
 		$this->unsigned = $unsigned;
-		return $this;
-	}
-
-	/**
-	 * Set is a unique columm
-	 *
-	 * @param bool $unique  Is a unique columm
-	 * @return self
-	 */
-	public function unique( bool $unique = true ): self {
-		$this->unique = $unique;
 		return $this;
 	}
 
@@ -176,13 +169,13 @@ class Column {
 	 */
 	public function export() {
 		return (object) array(
-			'name'     => $this->name,
-			'type'     => $this->type,
-			'length'   => $this->length,
-			'nullable' => $this->nullable,
-			'default'  => $this->default,
-			'unsigned' => $this->unsigned,
-			'unique'   => $this->unique,
+			'name'           => $this->name,
+			'type'           => $this->type,
+			'length'         => $this->length,
+			'nullable'       => $this->nullable ?? false,
+			'default'        => $this->default,
+			'unsigned'       => $this->unsigned ?? false,
+			'auto_increment' => $this->auto_increment ?? false,
 		);
 	}
 
