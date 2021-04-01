@@ -17,7 +17,7 @@ $index = new Index('id', 'id_key');
 
 // When used as part of a schema definition.
 $schema = new Schema('table', function(Schema $schema): void{
-    $schema->column('id')
+    $schema->column('id')....
     $schema->index('id', 'id_key'); // Pass through to constructor
 });
 ```
@@ -28,7 +28,7 @@ $index = new Index('id', 'id_key');
 
 // When used as part of a schema definition.
 $schema = new Schema('bookings', function(Schema $schema): void{
-    $schema->column('id');
+    $schema->column('id')....
     ...
     $schema->index('user', 'ix_booking')->unique();
     $schema->index('booking_ref', 'ix_booking')->unique();
@@ -39,7 +39,6 @@ $schema = new Schema('bookings', function(Schema $schema): void{
 # MySql
 
 CREATE TABLE bookings(
-    id INT AUTO_INCREMENT
     ....
     UNIQUE INDEX ix_booking (user, booking_ref, confirmation_ref)
 );
@@ -57,17 +56,111 @@ $index = new Index('id', 'id_key')->primary();
 
 // When used as part of a schema definition.
 $schema = new Schema('some_table', function(Schema $schema): void{
-    $schema->column('id')
+    $schema->column('id')...
     ...
     $schema->index('id')->primary();
+});
+```
+
+***
+
+## public function is_primary(): bool
+* @return bool
+
+Returns true if the index is a primary key
+
+```php
+$schema = new Schema('some_table', function(Schema $schema): void{
+    $schema->column('id')...
+    ...
+    $schema->index('id')->primary();
+});
+
+$schema->get_indexes()[0]->is_primary(); // true
+```
+
+***
+
+## public function unique( bool $unique = true ): self
+* @param bool $unique  is unique
+
+Denotes if a column has a unique value.
+
+```php
+$index = new Index('user_ref', 'user')->unique();
+
+// When used as part of a schema definition.
+$schema = new Schema('some_table', function(Schema $schema): void{
+    $schema->column('id')...
+    ...
+    $schema->index('user_ref')->unique();
 });
 ```
 ```sql
 # MySql
 
 CREATE TABLE some_table(
-    id INT AUTO_INCREMENT
     ...
-    PIRMARY KEY ix_id (id)
+    UNIQUE INDEX ix_user (user_ref)
 );
 ```
+
+***
+
+## public function is_unique(): bool
+* @return bool
+
+Returns true if the index is unique
+
+```php
+$schema = new Schema('some_table', function(Schema $schema): void{
+    $schema->column('id')...
+    ...
+    $schema->index('user_ref')->unique();
+});
+
+$schema->get_indexes()[0]->is_unique(); // true
+```
+
+***
+
+## public function full_text( bool $unique = true ): self
+* @param bool $unique  is unique
+
+Denotes if a column has a unique value.
+
+```php
+$index = new Index('user_ref', 'user')->full_text();
+
+// When used as part of a schema definition.
+$schema = new Schema('some_table', function(Schema $schema): void{
+    $schema->column('id')...
+    ...
+    $schema->index('user_ref')->full_text();
+});
+```
+```sql
+# MySql
+
+CREATE TABLE some_table(
+    ...
+    FULLTEXT ix_user_ref (user_ref)
+);
+```
+
+## public function is_full_text(): bool
+* @return bool
+
+Checks if using a full text index.
+
+```php
+$schema = new Schema('some_table', function(Schema $schema): void{
+    $schema->column('id')...
+    ...
+    $schema->index('user_ref')->full_text();
+});
+
+$schema->get_indexes()[0]->is_full_text(); // true
+```
+
+***

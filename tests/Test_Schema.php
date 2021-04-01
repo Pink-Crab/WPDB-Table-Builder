@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 /**
- * Tests the Table_Schema class
+ * Schema tests
  *
- * @since 0.2.0
+ * @since 0.3.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Core

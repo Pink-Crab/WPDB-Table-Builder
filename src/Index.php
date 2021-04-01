@@ -60,14 +60,6 @@ class Index {
 	protected $full_text = false;
 
 	/**
-	 * Using HASH
-	 *
-	 * @since 0.1.0
-	 * @var bool
-	 */
-	protected $hash = false;
-
-	/**
 	 * is primary key
 	 *
 	 * @since 0.3.0
@@ -116,18 +108,6 @@ class Index {
 	}
 
 	/**
-	 * Sets the index as using hash not btree
-	 *
-	 * @since 0.1.0
-	 * @param boolean $hash
-	 * @return self
-	 */
-	public function hash( bool $hash = true ): self {
-		$this->hash = $hash;
-		return $this;
-	}
-
-	/**
 	 * Get index name
 	 *
 	 * @return string
@@ -148,7 +128,6 @@ class Index {
 			'primary'   => $this->primary,
 			'unique'    => $this->unique,
 			'full_text' => $this->full_text,
-			'hash'      => $this->hash,
 		);
 	}
 
@@ -188,15 +167,4 @@ class Index {
 	public function is_full_text(): bool {
 		return $this->full_text;
 	}
-
-	/**
-	 * Checks if using HASH
-	 *
-	 * @return bool
-	 */
-	public function is_hash(): bool {
-		return $this->hash;
-	}
-
-
 }
