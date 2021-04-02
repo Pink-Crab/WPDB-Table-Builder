@@ -31,7 +31,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 Returns the set column, used in constructor.
 
 ```php
-$key = new Foreign_Key('column-a'); // Defined keyname
+$key = new Foreign_Key('column-a'); 
 $key->get_column();                 // 'column-a'
 ```
 
@@ -102,7 +102,7 @@ $schema = new Schema('table', function(Schema $schema): void{
     
     $schema->foreign_key('something_external') 
         ->reference_table('my_other_table')
-        ->reference_column('colum_a'); 
+        ->reference_column('column_a'); 
 });
 ```
 
@@ -118,9 +118,104 @@ This is maninly used intnerally within a Builder
 ```php
 $f_key = new Foreign_Key('id', 'id_key') 
     ->reference_table('my_other_table')
-    ->reference_column('colum_a'); 
+    ->reference_column('column_a'); 
 
-$f_key->reference_column(); // 'my_other_table'
+$f_key->get_reference_column(); // 'column_a'
 ```
 
 ***
+
+## public function on_update( string $action ): Foreign_Key
+* @param string $action The action to be carried out.
+* @return Foreign_Key 
+
+Allow the setting of the ON_UPDATE event whenever working with data as part of the relationship.
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    ....
+    $schema->column('external')....
+    
+    $schema->foreign_key('something_external') 
+        ->reference_table('my_other_table')
+        ->reference_column('column_a')
+        ->on_update('CASCADE'); 
+});
+```
+
+***
+
+## public function get_on_update(): ?string
+* @return string The defined on_update operation, if 
+
+Get the set action to carry on an update of the reference data. Reurns a blank string if not set.
+
+```php
+$f_key = new Foreign_Key('id', 'id_key') 
+    ->reference_table('my_other_table')
+    ->reference_column('column_a')
+    ->on_update('CASCADE');
+
+$f_key->get_on_update(); // 'CASCADE'
+```
+
+***
+
+## public function on_delete( string $action ): Foreign_Key
+* @param string $action The action to be carried out on reference data delete.
+* @return Foreign_Key 
+
+Allow the setting of the ON_DELETE event whenever working with data as part of the relationship.
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    ....
+    $schema->column('external')....
+    
+    $schema->foreign_key('something_external') 
+        ->reference_table('my_other_table')
+        ->reference_column('column_a')
+        ->on_delete('CASCADE'); 
+});
+```
+
+***
+
+## public function get_on_delete(): ?string
+* @return string The defined on_delete operation, if 
+
+Get the set action to carry on an update of the reference data. Reurns a blank string if not set.
+
+```php
+$f_key = new Foreign_Key('id', 'id_key') 
+    ->reference_table('my_other_table')
+    ->reference_column('column_a')
+    ->on_delete('CASCADE');
+
+$f_key->get_on_delete(); // 'CASCADE'
+```
+
+***
+
+## public function export(): object
+* @return object Returns a simple object representation of the internal state.
+  
+```php
+$f_key = new Foreign_Key('id', 'id_key') 
+    ->reference_table('my_other_table')
+    ->reference_column('column_a')
+    ->on_update('CASCADE')
+    ->on_delete('CASCADE');
+
+$f_key->export(); 
+/**
+ {
+    "keyname"          : "id_key",
+    "column"           : "id",
+    "reference_column" : "my_other_table",
+    "reference_table"  : "column_a",
+    "on_update"        : "CASCADE",
+    "on_delete"        : "CASCADE"
+ }
+*/
+```
