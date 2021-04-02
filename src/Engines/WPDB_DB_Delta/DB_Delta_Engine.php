@@ -28,6 +28,7 @@ namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 use PinkCrab\Table_Builder\Index;
 use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Schema;
+use PinkCrab\Table_Builder\Foreign_Key;
 use PinkCrab\Table_Builder\Engines\Engine;
 use PinkCrab\Table_Builder\Engines\Schema_Validator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
@@ -87,7 +88,9 @@ class DB_Delta_Engine implements Engine {
 		if ( ! $this->validator->validate( $schema ) ) {
 			return false;
 		}
-		dump( $this->compile_create_sql_query() );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+		dbDelta( $this->compile_create_sql_query() );
+		dump( $this->compile_create_sql_query(), $this->wpdb );
 
 		return true;
 	}
@@ -208,7 +211,7 @@ SQL;
 
 		// String values.
 		if ( in_array( $type, array( 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
-			return " DEFAULLT '{$defualt}'";
+			return " DEFAULT '{$defualt}'";
 		}
 
 		return " DEFAULT {$defualt}";
@@ -235,6 +238,11 @@ SQL;
 		);
 	}
 
+	/**
+	 * Parses the indexes into a SQL strings.
+	 *
+	 * @return array<string>
+	 */
 	protected function transform_indexes(): array {
 		return array_map(
 			/** @param array<Index> */
@@ -262,8 +270,26 @@ SQL;
 		);
 	}
 
+	/**
+	 * Parses the foreign key index to SQL strings
+	 *
+	 * @return array
+	 */
 	protected function transform_foreign_keys(): array {
-		return [];
+		return array_map(
+			function( Foreign_Key $foreign_key ): string {
+				return \sprintf(
+					'FOREIGN KEY %s(%s) REFERENCES %s(%s)%s%s',
+					$foreign_key->get_keyname(),
+					$foreign_key->get_column(),
+					$foreign_key->get_reference_table(),
+					$foreign_key->get_reference_column(),
+					\strlen( $foreign_key->get_on_update() ) ? " ON UPDATE {$foreign_key->get_on_update()}" : '',
+					\strlen( $foreign_key->get_on_delete() ) ? " ON DELETE {$foreign_key->get_on_delete()}" : '',
+				);
+			},
+			$this->schema->get_foreign_keys()
+		);
 	}
 
 	/**
