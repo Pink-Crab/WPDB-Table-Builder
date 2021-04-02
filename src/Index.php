@@ -167,4 +167,21 @@ class Index {
 	public function is_full_text(): bool {
 		return $this->full_text;
 	}
+
+	/**
+	 * Retuns the index type.
+	 *
+	 * @return string
+	 */
+	public function get_type(): string {
+		if ( $this->is_primary() ) {
+			return 'primary';
+		} elseif ( $this->is_unique() ) {
+			return 'unique';
+		} elseif ( $this->is_full_text() ) {
+			return 'fulltext';
+		} else {
+			return '';
+		}
+	}
 }

@@ -141,7 +141,6 @@ class Test_Schema extends WP_UnitTestCase {
 		$this->assertEquals( 'a', $a_index->column );
 		$this->assertTrue( $a_index->unique );
 		$this->assertFalse( $a_index->full_text );
-		$this->assertFalse( $a_index->hash );
 	}
 
 	/** @testdox It should be possibe to defined a foreign key index for a column */

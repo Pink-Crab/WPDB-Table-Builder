@@ -49,12 +49,12 @@ class Schema {
 	protected $prefix = null;
 
 	/**
-	 * Table colums
+	 * Table columns
 	 *
 	 * @since 0.3.0
 	 * @var array<Column>
 	 */
-	protected $columns;
+	protected $columns = array();
 
 	/**
 	 * All table indexes
@@ -62,7 +62,7 @@ class Schema {
 	 * @since 0.3.0
 	 * @var array<Index>
 	 */
-	protected $indexes;
+	protected $indexes = array();
 
 	/**
 	 * All foreign key relations
@@ -70,7 +70,7 @@ class Schema {
 	 * @since 0.3.0
 	 * @var array<Foreign_Key>
 	 */
-	protected $foreign_keys;
+	protected $foreign_keys = array();
 
 	/**
 	 * Creates an instance of Schema
@@ -214,7 +214,7 @@ class Schema {
 	public function foreign_key( string $column, ?string $keyname = null ): Foreign_Key {
 		$foreign_key = new Foreign_Key( $column, $keyname );
 
-		$this->foreign_keys[ $foreign_key->get_keyname() ] = $foreign_key;
+		$this->foreign_keys[] = $foreign_key;
 		return $foreign_key;
 	}
 
@@ -257,7 +257,7 @@ class Schema {
 	public function index( string $column, ?string $keyname = null ): Index {
 		$index = new Index( $column, $keyname );
 
-		$this->indexes[ $index->get_keyname() ] = $index;
+		$this->indexes[] = $index;
 		return $index;
 	}
 
