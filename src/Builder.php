@@ -26,6 +26,8 @@ declare(strict_types=1);
 namespace PinkCrab\Table_Builder;
 
 use PinkCrab\Table_Builder\Engines\Engine;
+use PinkCrab\Table_Builder\Schema;
+
 
 class Builder {
 
@@ -36,17 +38,14 @@ class Builder {
 	 */
 	protected $engine;
 
-	/**
-	 * The Schema to build
-	 *
-	 * @var Schema
-	 */
-	protected $schema;
-
 	public function __construct( Engine $engine, ?callable $engine_config = null ) {
 		$this->engine = $engine_config
 			? $engine_config( $engine )
 			: $engine;
+	}
+
+	public function create_table( Schema $schema ) {
+		$this->engine->create_table( $schema );
 	}
 
 	/**
@@ -54,8 +53,8 @@ class Builder {
 	 *
 	 * @return bool
 	 */
-	protected function validate_schema(): bool {
+	protected function validate_schema( Schema $schema ): bool {
 		return $this->engine
-			->get_validator()->validate( $this->schema );
+			->get_validator()->validate( $schema );
 	}
 }

@@ -25,6 +25,7 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
+use PinkCrab\Table_Builder\Index;
 use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Engine;
@@ -86,6 +87,7 @@ class DB_Delta_Engine implements Engine {
 		if ( ! $this->validator->validate( $schema ) ) {
 			return false;
 		}
+		dump( $this->compile_create_sql_query() );
 
 		return true;
 	}
@@ -105,16 +107,23 @@ class DB_Delta_Engine implements Engine {
 	 * @return string
 	 */
 	protected function compile_create_sql_query(): string {
+
+		// Compile query partials.
 		$table   = $this->schema->get_table_name();
-		$columns = join( ',' . PHP_EOL, $this->render_columns() );
-		$indexes = '';
-		$collate = '';
+		$body    = join(
+			',' . PHP_EOL,
+			array_merge(
+				$this->transform_columns(),
+				$this->transform_primary(),
+				$this->transform_indexes(),
+				$this->transform_foreign_keys()
+			)
+		);
+		$collate = $this->wpdb->collate;
 
 		return <<<SQL
 CREATE TABLE $table (
-    $columns,
-    $indexes )
-    COLLATE $collate
+$body ) COLLATE $collate
 SQL;
 	}
 
@@ -123,12 +132,159 @@ SQL;
 	 *
 	 * @return array<string>
 	 */
-	protected function render_columns(): array {
+	protected function transform_columns(): array {
 		return array_map(
 			function( Column $column ): string {
+				$column_data = $column->export();
 
+				return sprintf(
+					'%s %s%s%s%s%s',
+					$column_data->name,
+					$this->type_mapper( $column_data->type, $column_data->length ),
+					$column_data->unsigned ? ' UNSIGNED' : '',
+					$column_data->nullable ? ' NULL' : ' NOT NULL',
+					$column_data->auto_increment ? ' AUTO_INCREMENT' : '',
+					$this->parse_default( $column_data->type, $column_data->default )
+				);
 			},
 			$this->schema->get_columns()
+		);
+	}
+	/**
+	 * Maps types with length if set.
+	 *
+	 * @param string $type
+	 * @param [type] $length
+	 * @return string
+	 */
+	protected function type_mapper( string $type, $length ): string {
+		$type = strtoupper( $type );
+		switch ( $type ) {
+			// With length
+			case 'CHAR':
+			case 'VARCHAR':
+			case 'BINARY':
+			case 'VARBINARY':
+			case 'TEXT':
+			case 'BLOB':
+				// Int
+			case 'BIT':
+			case 'TINYINT':
+			case 'SMALLINT':
+			case 'MEDIUMINT':
+			case 'INT':
+			case 'INTEGER':
+			case 'BIGINT':
+				// Floats
+			case 'FLOAT':
+			case 'DOUBLE':
+			case 'DOUBLE PRECISION':
+			case 'DECIMAL':
+			case 'DEC':
+				// Date
+			case 'DATETIME':
+			case 'TIMESTAMP':
+			case 'TIME':
+				return empty( $length ) ? $type : "{$type}({$length})";
+
+			default:
+				return $type;
+		}
+	}
+
+	/**
+	 * Parses the default value based on column type.
+	 *
+	 * @param string $type
+	 * @param string|null $defualt
+	 * @return string
+	 */
+	protected function parse_default( string $type, ?string $defualt ): string {
+		if ( is_null( $defualt ) ) {
+			return '';
+		}
+
+		$type = strtoupper( $type );
+
+		// String values.
+		if ( in_array( $type, array( 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
+			return " DEFAULLT '{$defualt}'";
+		}
+
+		return " DEFAULT {$defualt}";
+	}
+
+	/**
+	 * Parses the primary key from the defined schema.
+	 *
+	 * This should only return an array with a single value if any.
+	 *
+	 * @return array<string>
+	 */
+	protected function transform_primary(): array {
+		return array_map(
+			function( $index ) {
+				return "PRIMARY KEY  ({$index->get_column()})";
+			},
+			array_filter(
+				$this->schema->get_indexes(),
+				function( $index ): bool {
+					return $index->is_primary();
+				}
+			)
+		);
+	}
+
+	protected function transform_indexes(): array {
+		return array_map(
+			/** @param array<Index> */
+			function( array $index_group ): string {
+
+				// Extract all parts from group.
+				$key_name   = $index_group[0]->get_keyname();
+				$index_type = $index_group[0]->get_type();
+				$columns    = array_map(
+					function( $e ) {
+						return $e->get_column();
+					},
+					$index_group
+				);
+
+				return sprintf(
+					'%sINDEX %s (%s)',
+					\strlen( $index_type ) !== 0 ? \strtoupper( $index_type ) . ' ' : '',
+					$key_name,
+					join( ', ', $columns )
+				);
+
+			},
+			$this->group_indexes()
+		);
+	}
+
+	protected function transform_foreign_keys(): array {
+		return [];
+	}
+
+	/**
+	 * Groups the indexes by keyname and type.
+	 *
+	 * @return array
+	 */
+	protected function group_indexes(): array {
+		return array_reduce(
+			$this->schema->get_indexes(),
+			function( array $carry, Index $index ): array {
+				// Remove all primiary keys.
+				if ( $index->is_primary() ) {
+					return $carry;
+				}
+
+				$carry[ $index->get_keyname() . '_' . $index->get_type() ][] = $index;
+
+				return $carry;
+			},
+			array()
 		);
 	}
 }
