@@ -126,7 +126,7 @@ class DB_Delta_Engine implements Engine {
 
 		return <<<SQL
 CREATE TABLE $table (
-$body ) COLLATE $collate
+$body ) COLLATE $collate 
 SQL;
 	}
 
@@ -142,12 +142,12 @@ SQL;
 
 				return sprintf(
 					'%s %s%s%s%s%s',
-					$column_data->name,
-					$this->type_mapper( $column_data->type, $column_data->length ),
-					$column_data->unsigned ? ' UNSIGNED' : '',
-					$column_data->nullable ? ' NULL' : ' NOT NULL',
-					$column_data->auto_increment ? ' AUTO_INCREMENT' : '',
-					$this->parse_default( $column_data->type, $column_data->default )
+					$column->get_name(),
+					$this->type_mapper( $column->get_type() ?? '', $column->get_length() ),
+					$column->get_unsigned() ? ' UNSIGNED' : '',
+					$column->is_nullable() ? ' NULL' : ' NOT NULL',
+					$column->is_auto_increment() ? ' AUTO_INCREMENT' : '',
+					$this->parse_default( $column->get_type() ?? '', $column->get_default() )
 				);
 			},
 			$this->schema->get_columns()
@@ -157,10 +157,10 @@ SQL;
 	 * Maps types with length if set.
 	 *
 	 * @param string $type
-	 * @param [type] $length
+	 * @param int|null $length
 	 * @return string
 	 */
-	protected function type_mapper( string $type, $length ): string {
+	protected function type_mapper( string $type, ?int $length ): string {
 		$type = strtoupper( $type );
 		switch ( $type ) {
 			// With length
@@ -188,7 +188,7 @@ SQL;
 			case 'DATETIME':
 			case 'TIMESTAMP':
 			case 'TIME':
-				return empty( $length ) ? $type : "{$type}({$length})";
+				return is_null( $length ) ? $type : "{$type}({$length})";
 
 			default:
 				return $type;
@@ -245,7 +245,7 @@ SQL;
 	 */
 	protected function transform_indexes(): array {
 		return array_map(
-			/** @param array<Index> */
+			/** @param array<Index> $index_group  */
 			function( array $index_group ): string {
 
 				// Extract all parts from group.
@@ -273,7 +273,7 @@ SQL;
 	/**
 	 * Parses the foreign key index to SQL strings
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	protected function transform_foreign_keys(): array {
 		return array_map(
@@ -295,7 +295,7 @@ SQL;
 	/**
 	 * Groups the indexes by keyname and type.
 	 *
-	 * @return array
+	 * @return array<string>
 	 */
 	protected function group_indexes(): array {
 		return array_reduce(

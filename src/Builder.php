@@ -44,8 +44,14 @@ class Builder {
 			: $engine;
 	}
 
-	public function create_table( Schema $schema ) {
-		$this->engine->create_table( $schema );
+	/**
+	 * Creats the table
+	 *
+	 * @param Schema $schema
+	 * @return bool
+	 */
+	public function create_table( Schema $schema ): bool {
+		return $this->engine->create_table( $schema );
 	}
 
 	/**
