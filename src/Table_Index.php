@@ -232,4 +232,5 @@ final class Table_Index {
 		$this->on_delete = 'ON DELETE ' . strtoupper( $action );
 		return $this;
 	}
+
 }

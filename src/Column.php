@@ -241,7 +241,7 @@ class Column {
 	 *
 	 * @return bool
 	 */
-	public function get_unsigned(): bool {
+	public function is_unsigned(): bool {
 		return $this->unsigned ?? false;
 	}
 }

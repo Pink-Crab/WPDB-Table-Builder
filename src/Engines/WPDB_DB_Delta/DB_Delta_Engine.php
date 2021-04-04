@@ -144,7 +144,7 @@ SQL;
 					'%s %s%s%s%s%s',
 					$column->get_name(),
 					$this->type_mapper( $column->get_type() ?? '', $column->get_length() ),
-					$column->get_unsigned() ? ' UNSIGNED' : '',
+					$column->is_unsigned() ? ' UNSIGNED' : '',
 					$column->is_nullable() ? ' NULL' : ' NOT NULL',
 					$column->is_auto_increment() ? ' AUTO_INCREMENT' : '',
 					$this->parse_default( $column->get_type() ?? '', $column->get_default() )

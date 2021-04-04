@@ -60,6 +60,30 @@ class Test_Index extends WP_UnitTestCase {
 		$this->assertTrue( $index->is_full_text() );
 	}
 
+	/** @testdox It should be possible to get the index type from an Index definition. */
+	public function test_get_type(): void
+	{
+		$this->assertEquals(
+			'unique', 
+			( new Index('a') )->unique()->get_type()
+		);
+
+		$this->assertEquals(
+			'primary', 
+			( new Index('a') )->primary()->get_type()
+		);
+
+		$this->assertEquals(
+			'fulltext', 
+			( new Index('a') )->full_text()->get_type()
+		);
+
+		$this->assertEquals(
+			'', 
+			( new Index('a') )->get_type()
+		);
+	}
+
 	/** @testdox It should be possible to export the current indexes details as a stdClass */
 	public function test_can_export_index_as_stdClass(): void {
 		$index = new Index( 'column', 'keyname' );

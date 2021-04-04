@@ -22,11 +22,11 @@ class Test_Column extends WP_UnitTestCase {
 	public function test_can_manually_set_type(): void {
 		$column_int = new Column( 'int' );
 		$column_int->type( 'int' );
-		$this->assertEquals( 'int', $column_int->export()->type );
+		$this->assertEquals( 'int', $column_int->get_type() );
 
 		$column_text = new Column( 'text' );
 		$column_text->type( 'text' );
-		$this->assertEquals( 'text', $column_text->export()->type );
+		$this->assertEquals( 'text', $column_text->get_type() );
 	}
 
 	/** @testdox It should be possible to set the length of a columns value. */
@@ -34,7 +34,7 @@ class Test_Column extends WP_UnitTestCase {
 		$column = new Column( 'int' );
 		$column->type( 'int' );
 		$column->length( 11 );
-		$this->assertEquals( 11, $column->export()->length );
+		$this->assertEquals( 11, $column->get_length() );
 
 	}
 
@@ -43,15 +43,15 @@ class Test_Column extends WP_UnitTestCase {
 		$column_1 = new Column( 'foo' );
 		$column_1->nullable();
 
-		$this->assertTrue( $column_1->export()->nullable );
+		$this->assertTrue( $column_1->is_nullable() );
 
 		$column_2 = new Column( 'foo' );
 		$column_2->nullable( true );
-		$this->assertTrue( $column_2->export()->nullable );
+		$this->assertTrue( $column_2->is_nullable() );
 
 		$column_3 = new Column( 'foo' );
 		$column_3->nullable( false );
-		$this->assertFalse( $column_3->export()->nullable );
+		$this->assertFalse( $column_3->is_nullable() );
 	}
 
 	/** @testdox It should be possible to set the default value for a column. */
@@ -59,7 +59,7 @@ class Test_Column extends WP_UnitTestCase {
 		$column = new Column( 'foo' );
 		$column->default( 'bar' );
 
-		$this->assertEquals( 'bar', $column->export()->default );
+		$this->assertEquals( 'bar', $column->get_default() );
 	}
 
 	/** @testdox It should be possible to set a column as either auto_increment or not.*/
@@ -67,15 +67,15 @@ class Test_Column extends WP_UnitTestCase {
 		$column_1 = new Column( 'foo' );
 		$column_1->auto_increment();
 
-		$this->assertTrue( $column_1->export()->auto_increment );
+		$this->assertTrue( $column_1->is_auto_increment());
 
 		$column_2 = new Column( 'foo' );
 		$column_2->auto_increment( true );
-		$this->assertTrue( $column_2->export()->auto_increment );
+		$this->assertTrue( $column_2->is_auto_increment());
 
 		$column_3 = new Column( 'foo' );
 		$column_3->auto_increment( false );
-		$this->assertFalse( $column_3->export()->auto_increment );
+		$this->assertFalse( $column_3->is_auto_increment());
 	}
 
 	/** @testdox It should be possible to set a column as either unsigned or not.*/
@@ -83,15 +83,15 @@ class Test_Column extends WP_UnitTestCase {
 		$column_1 = new Column( 'foo' );
 		$column_1->unsigned();
 
-		$this->assertTrue( $column_1->export()->unsigned );
+		$this->assertTrue( $column_1->is_unsigned() );
 
 		$column_2 = new Column( 'foo' );
 		$column_2->unsigned( true );
-		$this->assertTrue( $column_2->export()->unsigned );
+		$this->assertTrue( $column_2->is_unsigned() );
 
 		$column_3 = new Column( 'foo' );
 		$column_3->unsigned( false );
-		$this->assertFalse( $column_3->export()->unsigned );
+		$this->assertFalse( $column_3->is_unsigned() );
 	}
 
     /** @testdox It should be possible to export a columns data as a simple object */
