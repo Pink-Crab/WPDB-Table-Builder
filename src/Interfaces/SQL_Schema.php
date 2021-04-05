@@ -5,7 +5,7 @@ declare(strict_types=1);
  * Interface to define a schema for SQL database tables.
  *
  * @author Glynn Quelch <glynn.quelch@gmail.com>
- * @package PinkCrab\Core
+ * @package PinkCrab\WPDB_Table_Builder
  */
 
 namespace PinkCrab\Table_Builder\Interfaces;

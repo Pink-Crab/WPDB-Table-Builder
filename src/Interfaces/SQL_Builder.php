@@ -5,7 +5,7 @@ declare(strict_types=1);
  * SQL Builder interface. Used to build SQL_Schema compliant objects.
  *
  * @author Glynn Quelch <glynn.quelch@gmail.com>
- * @package PinkCrab\Core
+ * @package PinkCrab\WPDB_Table_Builder
  */
 
 namespace PinkCrab\Table_Builder\Interfaces;

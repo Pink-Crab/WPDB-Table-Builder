@@ -25,13 +25,12 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
-use PinkCrab\Table_Builder\Index;
-use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Schema;
-use PinkCrab\Table_Builder\Foreign_Key;
 use PinkCrab\Table_Builder\Engines\Engine;
 use PinkCrab\Table_Builder\Engines\Schema_Validator;
+use PinkCrab\Table_Builder\Engines\Schema_Translator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
+use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Translator;
 
 class DB_Delta_Engine implements Engine {
 
@@ -41,6 +40,13 @@ class DB_Delta_Engine implements Engine {
 	 * @var Schema_Validator
 	 */
 	protected $validator;
+
+	/**
+	 * The WPDB Translator for SQL
+	 *
+	 * @var Schema_Translator
+	 */
+	protected $translator;
 
 	/**
 	 * Access to wpdb
@@ -64,8 +70,16 @@ class DB_Delta_Engine implements Engine {
 			$configure( $this );
 		}
 
-		// Set vaidator.
-		$this->validator = new DB_Delta_Validator();
+		// Set fallback validator.
+		if ( ! is_a( $this->validator, Schema_Validator::class ) ) {
+			$this->validator = new DB_Delta_Validator();
+		}
+
+		// Set fallback translator.
+		if ( ! is_a( $this->translator, Schema_Translator::class ) ) {
+			$this->translator = new DB_Delta_Translator();
+		}
+
 	}
 
 	/**
@@ -116,10 +130,8 @@ class DB_Delta_Engine implements Engine {
 		$body    = join(
 			',' . PHP_EOL,
 			array_merge(
-				$this->transform_columns(),
-				$this->transform_primary(),
-				$this->transform_indexes(),
-				$this->transform_foreign_keys()
+				$this->translator->translate_columns( $this->schema ),
+				$this->translator->translate_indexes( $this->schema )
 			)
 		);
 		$collate = $this->wpdb->collate;
@@ -130,187 +142,5 @@ $body ) COLLATE $collate
 SQL;
 	}
 
-	/**
-	 * Renders the array of columns into an array of string represenetations.
-	 *
-	 * @return array<string>
-	 */
-	protected function transform_columns(): array {
-		return array_map(
-			function( Column $column ): string {
-				$column_data = $column->export();
 
-				return sprintf(
-					'%s %s%s%s%s%s',
-					$column->get_name(),
-					$this->type_mapper( $column->get_type() ?? '', $column->get_length() ),
-					$column->is_unsigned() ? ' UNSIGNED' : '',
-					$column->is_nullable() ? ' NULL' : ' NOT NULL',
-					$column->is_auto_increment() ? ' AUTO_INCREMENT' : '',
-					$this->parse_default( $column->get_type() ?? '', $column->get_default() )
-				);
-			},
-			$this->schema->get_columns()
-		);
-	}
-	/**
-	 * Maps types with length if set.
-	 *
-	 * @param string $type
-	 * @param int|null $length
-	 * @return string
-	 */
-	protected function type_mapper( string $type, ?int $length ): string {
-		$type = strtoupper( $type );
-		switch ( $type ) {
-			// With length
-			case 'CHAR':
-			case 'VARCHAR':
-			case 'BINARY':
-			case 'VARBINARY':
-			case 'TEXT':
-			case 'BLOB':
-				// Int
-			case 'BIT':
-			case 'TINYINT':
-			case 'SMALLINT':
-			case 'MEDIUMINT':
-			case 'INT':
-			case 'INTEGER':
-			case 'BIGINT':
-				// Floats
-			case 'FLOAT':
-			case 'DOUBLE':
-			case 'DOUBLE PRECISION':
-			case 'DECIMAL':
-			case 'DEC':
-				// Date
-			case 'DATETIME':
-			case 'TIMESTAMP':
-			case 'TIME':
-				return is_null( $length ) ? $type : "{$type}({$length})";
-
-			default:
-				return $type;
-		}
-	}
-
-	/**
-	 * Parses the default value based on column type.
-	 *
-	 * @param string $type
-	 * @param string|null $defualt
-	 * @return string
-	 */
-	protected function parse_default( string $type, ?string $defualt ): string {
-		if ( is_null( $defualt ) ) {
-			return '';
-		}
-
-		$type = strtoupper( $type );
-
-		// String values.
-		if ( in_array( $type, array( 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
-			return " DEFAULT '{$defualt}'";
-		}
-
-		return " DEFAULT {$defualt}";
-	}
-
-	/**
-	 * Parses the primary key from the defined schema.
-	 *
-	 * This should only return an array with a single value if any.
-	 *
-	 * @return array<string>
-	 */
-	protected function transform_primary(): array {
-		return array_map(
-			function( $index ) {
-				return "PRIMARY KEY  ({$index->get_column()})";
-			},
-			array_filter(
-				$this->schema->get_indexes(),
-				function( $index ): bool {
-					return $index->is_primary();
-				}
-			)
-		);
-	}
-
-	/**
-	 * Parses the indexes into a SQL strings.
-	 *
-	 * @return array<string>
-	 */
-	protected function transform_indexes(): array {
-		return array_map(
-			/** @param array<Index> $index_group  */
-			function( array $index_group ): string {
-
-				// Extract all parts from group.
-				$key_name   = $index_group[0]->get_keyname();
-				$index_type = $index_group[0]->get_type();
-				$columns    = array_map(
-					function( $e ) {
-						return $e->get_column();
-					},
-					$index_group
-				);
-
-				return sprintf(
-					'%sINDEX %s (%s)',
-					\strlen( $index_type ) !== 0 ? \strtoupper( $index_type ) . ' ' : '',
-					$key_name,
-					join( ', ', $columns )
-				);
-
-			},
-			$this->group_indexes()
-		);
-	}
-
-	/**
-	 * Parses the foreign key index to SQL strings
-	 *
-	 * @return array<string>
-	 */
-	protected function transform_foreign_keys(): array {
-		return array_map(
-			function( Foreign_Key $foreign_key ): string {
-				return \sprintf(
-					'FOREIGN KEY %s(%s) REFERENCES %s(%s)%s%s',
-					$foreign_key->get_keyname(),
-					$foreign_key->get_column(),
-					$foreign_key->get_reference_table(),
-					$foreign_key->get_reference_column(),
-					\strlen( $foreign_key->get_on_update() ) ? " ON UPDATE {$foreign_key->get_on_update()}" : '',
-					\strlen( $foreign_key->get_on_delete() ) ? " ON DELETE {$foreign_key->get_on_delete()}" : '',
-				);
-			},
-			$this->schema->get_foreign_keys()
-		);
-	}
-
-	/**
-	 * Groups the indexes by keyname and type.
-	 *
-	 * @return array<string>
-	 */
-	protected function group_indexes(): array {
-		return array_reduce(
-			$this->schema->get_indexes(),
-			function( array $carry, Index $index ): array {
-				// Remove all primiary keys.
-				if ( $index->is_primary() ) {
-					return $carry;
-				}
-
-				$carry[ $index->get_keyname() . '_' . $index->get_type() ][] = $index;
-
-				return $carry;
-			},
-			array()
-		);
-	}
 }

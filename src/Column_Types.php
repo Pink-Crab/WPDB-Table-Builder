@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder;
 
+use PinkCrab\Table_Builder\Column;
+
 trait Column_Types {
 
 	/**
@@ -32,9 +34,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function varchar( ?int $length = null ): self {
+	public function varchar( ?int $length = null ): Column {
 		$this->type( 'varchar' );
 		if ( $length ) {
 			$this->length( $length );
@@ -47,9 +49,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function text( ?int $length = null ): self {
+	public function text( ?int $length = null ): Column {
 		$this->type( 'text' );
 		if ( $length ) {
 			$this->length( $length );
@@ -62,9 +64,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function int( ?int $length = null ): self {
+	public function int( ?int $length = null ): Column {
 		$this->type( 'int' );
 		if ( $length ) {
 			$this->length( $length );
@@ -77,9 +79,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function float( ?int $length = null ): self {
+	public function float( ?int $length = null ): Column {
 		$this->type( 'float' );
 		if ( $length ) {
 			$this->length( $length );
@@ -92,9 +94,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function double( ?int $length = null ): self {
+	public function double( ?int $length = null ): Column {
 		$this->type( 'double' );
 		if ( $length ) {
 			$this->length( $length );
@@ -107,9 +109,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param string|null $default
-	 * @return self
+	 * @return Column
 	 */
-	public function datetime( ?string $default = null ): self {
+	public function datetime( ?string $default = null ): Column {
 		$this->type( 'datetime' );
 		if ( $default ) {
 			$this->default( $default );
@@ -122,9 +124,9 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param string|null $default
-	 * @return self
+	 * @return Column
 	 */
-	public function timestamp( ?string $default = null ): self {
+	public function timestamp( ?string $default = null ): Column {
 		$this->type( 'timestamp' );
 		if ( $default ) {
 			$this->default( $default );
@@ -137,9 +139,9 @@ trait Column_Types {
 	 *
 	 * @since 0.3.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function unsigned_int( ?int $length = null ): self {
+	public function unsigned_int( ?int $length = null ): Column {
 		$this->type( 'int' );
 		$this->unsigned();
 		if ( $length ) {
@@ -153,9 +155,9 @@ trait Column_Types {
 	 *
 	 * @since 0.3.0
 	 * @param int|null $length
-	 * @return self
+	 * @return Column
 	 */
-	public function unsigned_medium( ?int $length = null ): self {
+	public function unsigned_medium( ?int $length = null ): Column {
 		$this->type( 'mediumint' );
 		$this->unsigned();
 		if ( $length ) {
