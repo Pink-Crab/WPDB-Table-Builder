@@ -127,13 +127,13 @@ class DB_Delta_Validator implements Schema_Validator {
 					}
 
 					// Mark the index as primary key.
-					$result['primary_key_set'][] = $index;
+					$result['primary_key'][] = $index;
 				}
 			},
 			array(
 
 				'missing_columns'  => array(),
-				'primary_keys_set' => array(),
+				'primary_keys' => array(),
 			)
 		);
 
