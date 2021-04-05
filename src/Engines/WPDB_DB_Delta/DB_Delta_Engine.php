@@ -93,7 +93,6 @@ class DB_Delta_Engine implements Engine {
 		// Include WP dbDelta.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $this->compile_create_sql_query() );
-		//dump( $this->compile_create_sql_query(), $this->wpdb );
 
 		return true;
 	}
