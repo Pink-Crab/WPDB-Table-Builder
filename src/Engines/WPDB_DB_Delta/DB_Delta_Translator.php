@@ -29,9 +29,8 @@ use PinkCrab\Table_Builder\Index;
 use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Foreign_Key;
-use PinkCrab\Table_Builder\Engines\Schema_Translator;
 
-class DB_Delta_Translator implements Schema_Translator {
+class DB_Delta_Translator {
 
 	/**
 	 * Returns the parsed strings for all columns based on the schema passed.

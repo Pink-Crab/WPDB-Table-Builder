@@ -85,6 +85,19 @@ class Foreign_Key {
 	}
 
 	/**
+	 * Shortcut for definig the reference table and column.
+	 *
+	 * @param string $reference_table
+	 * @param string $reference_column
+	 * @return self
+	 */
+	public function reference( string $reference_table, string $reference_column ): self {
+		$this->reference_column = $reference_column;
+		$this->reference_table  = $reference_table;
+		return $this;
+	}
+
+	/**
 	 * Set the reference table
 	 *
 	 * @since 0.1.0

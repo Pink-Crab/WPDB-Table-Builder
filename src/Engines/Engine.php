@@ -25,37 +25,9 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines;
 
-use PinkCrab\Table_Builder\Exceptions\Engine_Exception;
-use PinkCrab\Table_Builder\{Schema, Index,Column,Foreign_Key};
-use PinkCrab\Table_Builder\Engines\{Schema_Validator,Schema_Translator};
+use PinkCrab\Table_Builder\Schema;
 
 interface Engine {
-
-	/**
-	 * Sets a validator to the builder
-	 *
-	 * @param \PinkCrab\Table_Builder\Engines\Schema_Validator $validator
-	 * @return self
-	 * @throws Engine_Exception Code 1 If a validator is already set.
-	 */
-	public function set_validator( Schema_Validator $validator ): self;
-
-	/**
-	 * Sets a translator to the builder
-	 *
-	 * @param \PinkCrab\Table_Builder\Engines\Schema_Translator $translator
-	 * @return self
-	 * @throws Engine_Exception Code 2 If a translator is already set.
-	 */
-	public function set_translator( Schema_Translator $translator ): self;
-
-
-	/**
-	 * Returns the current engines validator.
-	 *
-	 * @return \PinkCrab\Table_Builder\Engines\Schema_Validator
-	 */
-	public function get_validator(): Schema_Validator;
 
 	/**
 	 * Creates a table based on the schema passed.

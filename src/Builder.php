@@ -53,14 +53,4 @@ class Builder {
 	public function create_table( Schema $schema ): bool {
 		return $this->engine->create_table( $schema );
 	}
-
-	/**
-	 * Validates the schema passed is compatible with the builder.
-	 *
-	 * @return bool
-	 */
-	protected function validate_schema( Schema $schema ): bool {
-		return $this->engine
-			->get_validator()->validate( $schema );
-	}
 }

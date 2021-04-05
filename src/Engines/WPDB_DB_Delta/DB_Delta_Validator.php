@@ -28,9 +28,9 @@ namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 use PinkCrab\Table_Builder\Index;
 use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Schema;
-use PinkCrab\Table_Builder\Engines\Schema_Validator;
+use PinkCrab\Table_Builder\Foreign_Key;
 
-class DB_Delta_Validator implements Schema_Validator {
+class DB_Delta_Validator {
 
 	/**
 	 * All errors found while validating
@@ -49,12 +49,11 @@ class DB_Delta_Validator implements Schema_Validator {
 		// Reset errors.
 		$this->errors = array();
 
-		// Validate the columns.
 		$this->validate_columns( $schema );
 		$this->validate_primary_key( $schema );
+		$this->validate_index_columns( $schema );
+		$this->validate_foreign_keys( $schema );
 
-		// Validate only a single primary key.
-		dump( $this );
 		return $this->has_errors();
 	}
 
@@ -81,7 +80,7 @@ class DB_Delta_Validator implements Schema_Validator {
 	 *
 	 * @return void
 	 */
-	public function validate_columns( Schema $schema ): void {
+	protected function validate_columns( Schema $schema ): void {
 		$result = array_reduce(
 			$schema->get_columns(),
 			function( array $result, Column $column ): array {
@@ -93,7 +92,6 @@ class DB_Delta_Validator implements Schema_Validator {
 			array()
 		);
 
-		// If we have errors, add to error log.
 		if ( count( $result ) !== 0 ) {
 			$this->errors = array_merge(
 				$this->errors,
@@ -107,36 +105,91 @@ class DB_Delta_Validator implements Schema_Validator {
 		}
 	}
 
-	/** @testdox When defining a primary key, the column used must exist and only a single primary key can be set. */
-	public function validate_primary_key( Schema $schema ): void {
-		// Pass all current column names for checking against.
-		$column_names = array_map(
-			function( Column $column ):string {
-				return $column->get_name();
-			},
-			$schema->get_columns()
-		);
+	/**
+	 * Ensure that only a single primary key has been defined.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return void
+	 */
+	protected function validate_primary_key( Schema $schema ): void {
 
-		$result = array_reduce(
+		$primary_keys = array_filter(
 			$schema->get_indexes(),
-			function( array $result, Index $index ) use ( $column_names ): array {
-				if ( $index->is_primary() ) {
-					// Check column exists.
-					if ( ! in_array( $index->get_column(), $column_names, true ) ) {
-						$result['missing_columns'] = $index->get_column();
-					}
-
-					// Mark the index as primary key.
-					$result['primary_key'][] = $index;
-				}
-			},
-			array(
-
-				'missing_columns'  => array(),
-				'primary_keys' => array(),
-			)
+			function( Index $index ): bool {
+				return $index->is_primary();
+			}
 		);
 
-		dump( $result );
+		if ( count( $primary_keys ) > 1 ) {
+			$this->errors[] = \sprintf( '%d Primary keys are defined in schema, only a single primary key can be set.', count( $primary_keys ) );
+		}
+	}
+
+	/**
+	 * Validate all indexes columnd are defined.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return void
+	 */
+	protected function validate_index_columns( Schema $schema ): void {
+		// All defined colum names.
+		$column_names = array_keys( $schema->get_columns() );
+
+		/** @var array<Index> */
+		$missing_columns = array_filter(
+			$schema->get_indexes(),
+			function( Index $index ) use ( $column_names ): bool {
+				return ! in_array( $index->get_column(), $column_names, true );
+			}
+		);
+
+		if ( count( $missing_columns ) > 0 ) {
+			foreach ( $missing_columns as $missing_column ) {
+				$this->errors[] = \sprintf( 'Index column %s not defined as a column in schema', $missing_column->get_column() );
+			}
+		}
+	}
+
+	/**
+	 * Ensure all foreign keys are set again valid columns and have both refence table and column defined.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return void
+	 */
+	public function validate_foreign_keys( Schema $schema ): void {
+		// All defined colum names.
+		$column_names = array_keys( $schema->get_columns() );
+
+		// Missing columns in local table
+
+		/** @var array<Foreign_Key> */
+		$missing_columns = array_filter(
+			$schema->get_foreign_keys(),
+			function( Foreign_Key $foreign_key ) use ( $column_names ): bool {
+				return ! in_array( $foreign_key->get_column(), $column_names, true );
+			}
+		);
+
+		if ( count( $missing_columns ) > 0 ) {
+			foreach ( $missing_columns as $missing_column ) {
+				$this->errors[] = \sprintf( 'Foreign Keys column %s not defined as a column in schema', $missing_column->get_column() );
+			}
+		}
+
+		// Missing reference details.
+
+		/** @var array<Foreign_Key> */
+		$missing_references = array_filter(
+			$schema->get_foreign_keys(),
+			function( Foreign_Key $foreign_key ) : bool {
+				return $foreign_key->get_reference_table() === null || $foreign_key->get_reference_column() === null;
+			}
+		);
+
+		if ( count( $missing_references ) > 0 ) {
+			foreach ( $missing_references as $missing_reference ) {
+				$this->errors[] = \sprintf( 'Foreign Keys column %s has missing reference table or column details', $missing_reference->get_keyname() );
+			}
+		}
 	}
 }

@@ -27,9 +27,6 @@ namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Engine;
-use PinkCrab\Table_Builder\Engines\Schema_Validator;
-use PinkCrab\Table_Builder\Engines\Schema_Translator;
-use PinkCrab\Table_Builder\Exceptions\Engine_Exception;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Translator;
 
@@ -38,14 +35,14 @@ class DB_Delta_Engine implements Engine {
 	/**
 	 * The engines validator class name.
 	 *
-	 * @var Schema_Validator
+	 * @var DB_Delta_Validator
 	 */
 	protected $validator;
 
 	/**
 	 * The WPDB Translator for SQL
 	 *
-	 * @var Schema_Translator
+	 * @var DB_Delta_Translator
 	 */
 	protected $translator;
 
@@ -64,64 +61,12 @@ class DB_Delta_Engine implements Engine {
 	 */
 	protected $schema;
 
-	public function __construct( \wpdb $wpdb, ?callable $configure = null ) {
+	public function __construct( \wpdb $wpdb ) {
 		$this->wpdb = $wpdb;
 
-		if ( $configure ) {
-			$configure( $this );
-		}
-
-		// Set fallback validator.
-		if ( ! is_a( $this->validator, Schema_Validator::class ) ) {
-			$this->validator = new DB_Delta_Validator();
-		}
-
-		// Set fallback translator.
-		if ( ! is_a( $this->translator, Schema_Translator::class ) ) {
-			$this->translator = new DB_Delta_Translator();
-		}
-
-	}
-
-	/**
-	 * Sets a validator to the builder
-	 *
-	 * @param \PinkCrab\Table_Builder\Engines\Schema_Validator $validator
-	 * @return self
-	 * @throws Engine_Exception Code 1 If a validator is already set.
-	 */
-	public function set_validator( Schema_Validator $validator ): self {
-		if ( is_a( $this->validator, Schema_Validator::class ) ) {
-			throw Engine_Exception::valdidator_already_defined();
-		}
-
-		$this->validator = $validator;
-		return $this;
-	}
-
-	/**
-	 * Sets a translator to the builder
-	 *
-	 * @param \PinkCrab\Table_Builder\Engines\Schema_Translator $translator
-	 * @return self
-	 * @throws Engine_Exception Code 2 If a translator is already set.
-	 */
-	public function set_translator( Schema_Translator $translator ): self {
-		if ( is_a( $this->translator, Schema_Translator::class ) ) {
-			throw Engine_Exception::translator_already_defined();
-		}
-
-		$this->translator = $translator;
-		return $this;
-	}
-
-	/**
-	 * Returns an intance of the valditor.
-	 *
-	 * @return \PinkCrab\Table_Builder\Engines\Schema_Validator
-	 */
-	public function get_validator(): Schema_Validator {
-		return $this->validator;
+		// Set the translator and valiator
+		$this->translator = new DB_Delta_Translator();
+		$this->validator  = new DB_Delta_Validator();
 	}
 
 	/**
@@ -129,15 +74,26 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
+	 * @throws \Exception If fails validation.
 	 */
 	public function create_table( Schema $schema ): bool {
 		$this->schema = $schema;
+
 		if ( ! $this->validator->validate( $schema ) ) {
-			return false;
+			throw new \Exception(
+				sprintf(
+					'Failed to create table %s as failed valiadtion: %s',
+					$schema->get_table_name(),
+					join( ', ' . PHP_EOL, $this->validator->get_errors() )
+				),
+				1
+			);
 		}
+
+		// Include WP dbDelta.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $this->compile_create_sql_query() );
-		dump( $this->compile_create_sql_query(), $this->wpdb );
+		//dump( $this->compile_create_sql_query(), $this->wpdb );
 
 		return true;
 	}
