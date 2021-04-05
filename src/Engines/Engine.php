@@ -25,34 +25,30 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines;
 
-use PinkCrab\Table_Builder\Engines\Schema_Validator;
+use PinkCrab\Table_Builder\Exceptions\Engine_Exception;
 use PinkCrab\Table_Builder\{Schema, Index,Column,Foreign_Key};
+use PinkCrab\Table_Builder\Engines\{Schema_Validator,Schema_Translator};
 
 interface Engine {
 
-	// /**
-	//  * Takes an array of Column::class objects and returns them as an array of string.
-	//  *
-	//  * @param array<Column> $columns
-	//  * @return array<string>
-	//  */
-	// public function render_columns( array $columns ): array;
+	/**
+	 * Sets a validator to the builder
+	 *
+	 * @param \PinkCrab\Table_Builder\Engines\Schema_Validator $validator
+	 * @return self
+	 * @throws Engine_Exception Code 1 If a validator is already set.
+	 */
+	public function set_validator( Schema_Validator $validator ): self;
 
-	// /**
-	//  * Takes an array of Index::class objects and returns them as an array of string.
-	//  *
-	//  * @param array<Index> $indexes
-	//  * @return array<string>
-	//  */
-	// public function render_indexes( array $indexes ): array;
+	/**
+	 * Sets a translator to the builder
+	 *
+	 * @param \PinkCrab\Table_Builder\Engines\Schema_Translator $translator
+	 * @return self
+	 * @throws Engine_Exception Code 2 If a translator is already set.
+	 */
+	public function set_translator( Schema_Translator $translator ): self;
 
-	// /**
-	//  * Takes an array of Foreign_Key::class objects and returns them as an array of string.
-	//  *
-	//  * @param array<Foreign_Key> $foreign_keys
-	//  * @return array<string>
-	//  */
-	// public function render_foreign_key( array $foreign_keys): array;
 
 	/**
 	 * Returns the current engines validator.

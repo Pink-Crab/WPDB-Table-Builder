@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Tests for the WPDB Builder
+ * Tests for the DB_Delta Translator.
  *
  * @since 0.3.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
@@ -87,6 +87,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 
 		$this->assertCount( 1, $indexes );
 		$this->assertEquals( 'PRIMARY KEY  (id)', $indexes[0] );
+		// Enforces the double space in primary key.
 	}
 
 	/** @testdox It should be possible to define multiple indexes in a schema and have the translator return each index as a valid SQL expression (for DbDeleta) */
@@ -132,17 +133,17 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$schema->foreign_key( 'col1' )->reference_column( 'cola' )->reference_table( 'table' )->on_delete( 'CASCADE' );
 		$schema->foreign_key( 'col2' )->reference_column( 'colb' )->reference_table( 'table' )->on_update( 'CASCADE' );
 
-        $translator = new DB_Delta_Translator();
+		$translator = new DB_Delta_Translator();
 		$indexes    = $translator->translate_indexes( $schema );
 
 		$this->assertCount( 2, $indexes );
 
-        // Col1
+		// Col1
 		$this->assertStringContainsString( 'FOREIGN KEY fk_col1(col1)', $indexes[0] );
 		$this->assertStringContainsString( 'REFERENCES table(cola)', $indexes[0] );
 		$this->assertStringContainsString( 'ON DELETE CASCADE', $indexes[0] );
 
-         // Col2
+		 // Col2
 		$this->assertStringContainsString( 'FOREIGN KEY fk_col2(col2)', $indexes[1] );
 		$this->assertStringContainsString( 'REFERENCES table(colb)', $indexes[1] );
 		$this->assertStringContainsString( 'ON UPDATE CASCADE', $indexes[1] );

@@ -29,6 +29,7 @@ use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Engine;
 use PinkCrab\Table_Builder\Engines\Schema_Validator;
 use PinkCrab\Table_Builder\Engines\Schema_Translator;
+use PinkCrab\Table_Builder\Exceptions\Engine_Exception;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Translator;
 
@@ -80,6 +81,38 @@ class DB_Delta_Engine implements Engine {
 			$this->translator = new DB_Delta_Translator();
 		}
 
+	}
+
+	/**
+	 * Sets a validator to the builder
+	 *
+	 * @param \PinkCrab\Table_Builder\Engines\Schema_Validator $validator
+	 * @return self
+	 * @throws Engine_Exception Code 1 If a validator is already set.
+	 */
+	public function set_validator( Schema_Validator $validator ): self {
+		if ( is_a( $this->validator, Schema_Validator::class ) ) {
+			throw Engine_Exception::valdidator_already_defined();
+		}
+
+		$this->validator = $validator;
+		return $this;
+	}
+
+	/**
+	 * Sets a translator to the builder
+	 *
+	 * @param \PinkCrab\Table_Builder\Engines\Schema_Translator $translator
+	 * @return self
+	 * @throws Engine_Exception Code 2 If a translator is already set.
+	 */
+	public function set_translator( Schema_Translator $translator ): self {
+		if ( is_a( $this->translator, Schema_Translator::class ) ) {
+			throw Engine_Exception::translator_already_defined();
+		}
+
+		$this->translator = $translator;
+		return $this;
 	}
 
 	/**
