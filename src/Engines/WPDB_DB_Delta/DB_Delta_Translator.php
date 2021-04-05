@@ -206,7 +206,7 @@ class DB_Delta_Translator {
 					$foreign_key->get_reference_table(),
 					$foreign_key->get_reference_column(),
 					\strlen( $foreign_key->get_on_update() ) ? " ON UPDATE {$foreign_key->get_on_update()}" : '',
-					\strlen( $foreign_key->get_on_delete() ) ? " ON DELETE {$foreign_key->get_on_delete()}" : '',
+					\strlen( $foreign_key->get_on_delete() ) ? " ON DELETE {$foreign_key->get_on_delete()}" : ''
 				);
 			},
 			$schema->get_foreign_keys()
