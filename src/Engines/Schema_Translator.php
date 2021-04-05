@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * The primary class for creating and dropping tables.
+ * Interface for the translators.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,44 +23,26 @@ declare(strict_types=1);
  * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Table_Builder;
+namespace PinkCrab\Table_Builder\Engines;
 
-use PinkCrab\Table_Builder\Engines\Engine;
 use PinkCrab\Table_Builder\Schema;
 
-
-class Builder {
-
-	/**
-	 * The engine used to create the tables
-	 *
-	 * @var Engine
-	 */
-	protected $engine;
-
-	public function __construct( Engine $engine, ?callable $engine_config = null ) {
-		$this->engine = $engine_config
-			? $engine_config( $engine )
-			: $engine;
-	}
+interface Schema_Translator {
 
 	/**
-	 * Creats the table
+	 * Returns the parsed strings for all columns based on the schema passed.
 	 *
-	 * @param Schema $schema
-	 * @return bool
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return array<string>
 	 */
-	public function create_table( Schema $schema ): bool {
-		return $this->engine->create_table( $schema );
-	}
+	public function translate_columns( Schema $schema): array;
 
 	/**
-	 * Validates the schema passed is compatible with the builder.
+	 * Returns the parsed strings for all indexes based on the schema passed.
+	 * Should translate all Primary, Indexes and Foreign Keys
 	 *
-	 * @return bool
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return array<string>
 	 */
-	protected function validate_schema( Schema $schema ): bool {
-		return $this->engine
-			->get_validator()->validate( $schema );
-	}
+	public function translate_indexes( Schema $schema): array;
 }

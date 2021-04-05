@@ -165,7 +165,7 @@ class Column {
 	/**
 	 * Returns the column details as a stdClass
 	 *
-	 * @return object
+	 * @return object{name:string,type:string}
 	 */
 	public function export() {
 		return (object) array(
@@ -186,5 +186,62 @@ class Column {
 	 */
 	public function get_name(): string {
 		return $this->name;
+	}
+
+	/**
+	 * Get the column type
+	 *
+	 * @return string|null
+	 */
+	public function get_type(): ?string {
+		return $this->type;
+	}
+
+	/**
+	 * Get the column length
+	 *
+	 * @return int|null
+	 */
+	public function get_length(): ?int {
+		return $this->length;
+	}
+
+	/**
+	 * Get denotes if the column is nullable
+	 * Returns false if column not set.
+	 *
+	 * @return bool
+	 */
+	public function is_nullable(): bool {
+		return $this->nullable ?? false;
+	}
+
+	/**
+	 * Get the columns default value
+	 *
+	 * @return string|null
+	 */
+	public function get_default(): ?string {
+		return $this->default;
+	}
+
+	/**
+	 * Get if the column has the auto incrememnt flag.
+	 * False if not set.
+	 *
+	 * @return bool
+	 */
+	public function is_auto_increment(): bool {
+		return $this->auto_increment ?? false;
+	}
+
+	/**
+	 * Get is the columns value unsigned
+	 * False if not set.
+	 *
+	 * @return bool
+	 */
+	public function is_unsigned(): bool {
+		return $this->unsigned ?? false;
 	}
 }

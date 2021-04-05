@@ -8,7 +8,7 @@ declare(strict_types=1);
  * @since 0.3.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @package PinkCrab\Core
+ * @package PinkCrab\WPDB_Table_Builder
  */
 
 namespace PinkCrab\Table_Builder\Tests;
@@ -58,6 +58,30 @@ class Test_Index extends WP_UnitTestCase {
 		$index->full_text();
 
 		$this->assertTrue( $index->is_full_text() );
+	}
+
+	/** @testdox It should be possible to get the index type from an Index definition. */
+	public function test_get_type(): void
+	{
+		$this->assertEquals(
+			'unique', 
+			( new Index('a') )->unique()->get_type()
+		);
+
+		$this->assertEquals(
+			'primary', 
+			( new Index('a') )->primary()->get_type()
+		);
+
+		$this->assertEquals(
+			'fulltext', 
+			( new Index('a') )->full_text()->get_type()
+		);
+
+		$this->assertEquals(
+			'', 
+			( new Index('a') )->get_type()
+		);
 	}
 
 	/** @testdox It should be possible to export the current indexes details as a stdClass */

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * The primary class for creating and dropping tables.
+ * Engine exceptions.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -23,44 +23,29 @@ declare(strict_types=1);
  * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Table_Builder;
+namespace PinkCrab\Table_Builder\Exceptions;
 
-use PinkCrab\Table_Builder\Engines\Engine;
-use PinkCrab\Table_Builder\Schema;
+use Exception;
 
-
-class Builder {
+class Engine_Exception extends Exception {
 
 	/**
-	 * The engine used to create the tables
-	 *
-	 * @var Engine
+	 * Returns an exception for attmepting to set a validator to engine when already set.
+	 * @code 1
+	 * @return Engine_Exception
 	 */
-	protected $engine;
-
-	public function __construct( Engine $engine, ?callable $engine_config = null ) {
-		$this->engine = $engine_config
-			? $engine_config( $engine )
-			: $engine;
+	public static function valdidator_already_defined(): Engine_Exception {
+		$message = 'An Engines Schema Validator has already been defined for this builder';
+		return new Engine_Exception( $message, 1 );
 	}
 
 	/**
-	 * Creats the table
-	 *
-	 * @param Schema $schema
-	 * @return bool
+	 * Returns an exception for attempting to set a translator to engine when already set.
+	 * @code 2
+	 * @return Engine_Exception
 	 */
-	public function create_table( Schema $schema ): bool {
-		return $this->engine->create_table( $schema );
-	}
-
-	/**
-	 * Validates the schema passed is compatible with the builder.
-	 *
-	 * @return bool
-	 */
-	protected function validate_schema( Schema $schema ): bool {
-		return $this->engine
-			->get_validator()->validate( $schema );
+	public static function translator_already_defined(): Engine_Exception {
+		$message = 'An Engines Schema Translator has already been defined for this builder';
+		return new Engine_Exception( $message, 2 );
 	}
 }
