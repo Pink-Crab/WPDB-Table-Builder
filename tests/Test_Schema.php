@@ -132,7 +132,6 @@ class Test_Schema extends WP_UnitTestCase {
 
 		$indexes = $schema->get_indexes();
 		$this->assertCount( 1, $indexes );
-		// $this->assertArrayHasKey( 'ix_a', $indexes );
 
 		$indexes = array_values( $indexes );
 		$a_index = $indexes[0]->export();
@@ -159,7 +158,6 @@ class Test_Schema extends WP_UnitTestCase {
 
 		$f_keys = $schema->get_foreign_keys();
 		$this->assertCount( 1, $f_keys );
-		// $this->assertArrayHasKey( 'named_fk', $f_keys );
 
 		$f_keys   = array_values( $f_keys );
 		$named_fk = $f_keys[0]->export();
@@ -170,5 +168,51 @@ class Test_Schema extends WP_UnitTestCase {
 		$this->assertEquals( 'bar', $named_fk->reference_column );
 		$this->assertEquals( 'update_go', $named_fk->on_update );
 		$this->assertEquals( 'delete_go', $named_fk->on_delete );
+	}
+
+	/** @testdox It should be possible to check if a schema has any indexes or not. */
+	public function test_has_indexes(): void {
+		$schema_with = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+				$schema->index( 'a' )->unique();
+			}
+		);
+
+		$schema_without = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+			}
+		);
+
+		$this->assertFalse( $schema_without->has_indexes() );
+		$this->assertTrue( $schema_with->has_indexes() );
+	}
+
+		/** @testdox It should be possible to check if a schema has any forien_keys or not. */
+	public function test_has_forien_keys(): void {
+		$schema_with = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+				$schema->foreign_key( 'a', 'named_fk' )
+					->reference_table( 'foo' )
+					->reference_column( 'bar' )
+					->on_update( 'update_go' )
+					->on_delete( 'delete_go' );
+			}
+		);
+
+		$schema_without = new Schema(
+			'table',
+			function( $schema ) {
+				$schema->column( 'a' );
+			}
+		);
+
+		$this->assertFalse( $schema_without->has_foreign_keys() );
+		$this->assertTrue( $schema_with->has_foreign_keys() );
 	}
 }
