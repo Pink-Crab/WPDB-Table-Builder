@@ -50,6 +50,15 @@ class Test_Foreign_Key extends WP_UnitTestCase {
 		$this->assertEquals( 'some_column', $f_key->get_reference_column() );
 	}
 
+	/** @testdox It should be possible to set both the reference table and column in a sinle method */
+	public function test_reference(): void
+	{
+		$f_key = new Foreign_Key( 'column' );
+		$f_key->reference( 'some_table', 'some_column' );
+		$this->assertEquals( 'some_table', $f_key->get_reference_table() );
+		$this->assertEquals( 'some_column', $f_key->get_reference_column() );
+	}
+
 	/** @testdox If ether reference colum or table are defined, null should be reutrned as the value to denote not set. */
 	public function test_reference_table_column_return_null_if_not_set(): void {
 		$f_key = new Foreign_Key( 'column' );
