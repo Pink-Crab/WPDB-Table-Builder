@@ -215,6 +215,4 @@ class Foreign_Key {
 			'on_delete'        => $this->on_delete,
 		);
 	}
-
-
 }
