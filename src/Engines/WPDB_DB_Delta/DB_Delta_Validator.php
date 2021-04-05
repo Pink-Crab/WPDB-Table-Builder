@@ -25,6 +25,8 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
+use PinkCrab\Table_Builder\Index;
+use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Schema_Validator;
 
@@ -47,7 +49,13 @@ class DB_Delta_Validator implements Schema_Validator {
 		// Reset errors.
 		$this->errors = array();
 
-		return true;
+		// Validate the columns.
+		$this->validate_columns( $schema );
+		$this->validate_primary_key( $schema );
+
+		// Validate only a single primary key.
+		dump( $this );
+		return $this->has_errors();
 	}
 
 	/**
@@ -59,5 +67,76 @@ class DB_Delta_Validator implements Schema_Validator {
 		return $this->errors;
 	}
 
+	/**
+	 * Checks if any error generated, validating.
+	 *
+	 * @return bool
+	 */
+	public function has_errors(): bool {
+		return count( $this->errors ) !== 0;
+	}
 
+	/**
+	 * Ensure all defined columns have unique names and have types defined.
+	 *
+	 * @return void
+	 */
+	public function validate_columns( Schema $schema ): void {
+		$result = array_reduce(
+			$schema->get_columns(),
+			function( array $result, Column $column ): array {
+				if ( is_null( $column->get_type() ) ) {
+					$result[] = $column;
+				}
+				return $result;
+			},
+			array()
+		);
+
+		// If we have errors, add to error log.
+		if ( count( $result ) !== 0 ) {
+			$this->errors = array_merge(
+				$this->errors,
+				array_map(
+					function( Column $column ): string {
+						return \sprintf( 'Column "%s" has no type defined', $column->get_name() );
+					},
+					$result
+				)
+			);
+		}
+	}
+
+	/** @testdox When defining a primary key, the column used must exist and only a single primary key can be set. */
+	public function validate_primary_key( Schema $schema ): void {
+		// Pass all current column names for checking against.
+		$column_names = array_map(
+			function( Column $column ):string {
+				return $column->get_name();
+			},
+			$schema->get_columns()
+		);
+
+		$result = array_reduce(
+			$schema->get_indexes(),
+			function( array $result, Index $index ) use ( $column_names ): array {
+				if ( $index->is_primary() ) {
+					// Check column exists.
+					if ( ! in_array( $index->get_column(), $column_names, true ) ) {
+						$result['missing_columns'] = $index->get_column();
+					}
+
+					// Mark the index as primary key.
+					$result['primary_key_set'][] = $index;
+				}
+			},
+			array(
+
+				'missing_columns'  => array(),
+				'primary_keys_set' => array(),
+			)
+		);
+
+		dump( $result );
+	}
 }

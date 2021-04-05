@@ -43,4 +43,11 @@ interface Schema_Validator {
 	 * @return array<string>
 	 */
 	public function get_errors(): array;
+
+	/**
+	 * Checks if the schema has any errors.
+	 *
+	 * @return bool
+	 */
+	public function has_errors(): bool;
 }
