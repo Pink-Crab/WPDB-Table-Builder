@@ -121,7 +121,7 @@ class Index {
 	 *
 	 * @return object
 	 */
-	public function export(): object {
+	public function export() {
 		return (object) array(
 			'keyname'   => $this->keyname,
 			'column'    => $this->column,
