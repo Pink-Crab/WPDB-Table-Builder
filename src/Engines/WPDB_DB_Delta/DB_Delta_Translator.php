@@ -67,7 +67,7 @@ class DB_Delta_Translator {
 		return array_merge(
 			$this->transform_primary( $schema ),
 			$this->transform_indexes( $schema ),
-			$this->transform_foreign_keys( $schema ),
+			$this->transform_foreign_keys( $schema )
 		);
 	}
 
