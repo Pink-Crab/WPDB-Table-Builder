@@ -8,15 +8,15 @@ declare(strict_types=1);
  * @since 0.1.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
- * @package PinkCrab\Core
+ * @package PinkCrab\WPDB_Table_Builder
  */
 
 namespace PinkCrab\Table_Builder\Tests;
 
 use WP_UnitTestCase;
-use PinkCrab\Table_Builder\Table_Schema;
-use PinkCrab\Table_Builder\Builders\DB_Delta;
-use PinkCrab\Table_Builder\Interfaces\SQL_Schema;
+use PinkCrab\Table_Builder\Schema;
+use PinkCrab\Table_Builder\Builder;
+use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Engine;
 
 class Test_Simple_Table extends WP_UnitTestCase {
 
@@ -43,33 +43,28 @@ class Test_Simple_Table extends WP_UnitTestCase {
 		global $wpdb;
 		$this->wpdb = $wpdb;
 
-		$this->schema = Table_Schema::create( 'simple_table' )
-			->column( 'id' )
-				->int( 11 )
-				->auto_increment()
-				->unsigned()
-			->column( 'name' )
-				->type( 'varchar' )
-				->length(255)
-				->nullable()
-				->default( 'no_name' )
-			->column( 'date' )
-				->datetime( 'CURRENT_TIMESTAMP' )
-			->primary( 'id' );
+		$this->schema = new Schema(
+			'simple_table',
+			function( Schema $schema ) {
+
+				$schema->column( 'id' )
+					->unsigned_int( 11 )
+					->auto_increment();
+
+				$schema->column( 'name' )
+					->varchar( 255 )
+					->nullable()
+					->default( 'no_name' );
+
+				$schema->column( 'date' )
+					->datetime( 'CURRENT_TIMESTAMP' );
+
+				$schema->index( 'id' )->primary();
+			}
+		);
+
 	}
 
-	/**
-	 * Tests the class is created and name, primary are set and indexes not.
-	 *
-	 * @return void
-	 */
-	public function test_created_with_basics(): void {
-		$this->assertInstanceOf( Table_Schema::class, $this->schema );
-		$this->assertEquals( 'simple_table', $this->schema->get_table_name() );
-		$this->assertEquals( 'id', $this->schema->get_primary_key() );
-		$this->assertEmpty( $this->schema->get_indexes() );
-		$this->assertCount( 3, $this->schema->get_columns() );
-	}
 
 	/**
 	 * Test that the table is created.
@@ -79,8 +74,8 @@ class Test_Simple_Table extends WP_UnitTestCase {
 	public function test_can_create_table_with_wpdb_delta(): void {
 
 		// Create table
-		$builder = new DB_Delta( $this->wpdb );
-		$this->schema->create_table( $builder );
+		$builder = new Builder( new DB_Delta_Engine( $this->wpdb ) );
+		$builder->create_table( $this->schema );
 
 		// Grab the table column info. If not created, will fail.
 		$table_details = $this->wpdb->get_results( 'SHOW COLUMNS FROM simple_table;' );
@@ -89,22 +84,22 @@ class Test_Simple_Table extends WP_UnitTestCase {
 		// Expected results.
 		$expected = array(
 			'id'   => array(
-				'Type'    => 'int(11) unsigned',
-				'Null'    => 'NO',
-				'Key'     => 'PRI',
-				'Extra'   => 'auto_increment',
+				'Type'  => 'int(11) unsigned',
+				'Null'  => 'NO',
+				'Key'   => 'PRI',
+				'Extra' => 'auto_increment',
 			),
 			'name' => array(
-				'Type'    => 'varchar(255)',
-				'Null'    => 'YES',
-				'Key'     => '',
-				'Extra'   => '',
+				'Type'  => 'varchar(255)',
+				'Null'  => 'YES',
+				'Key'   => '',
+				'Extra' => '',
 			),
 			'date' => array(
-				'Type'    => 'datetime',
-				'Null'    => 'NO',
-				'Key'     => '',
-				'Extra'   => '',
+				'Type'  => 'datetime',
+				'Null'  => 'NO',
+				'Key'   => '',
+				'Extra' => '',
 			),
 		);
 
