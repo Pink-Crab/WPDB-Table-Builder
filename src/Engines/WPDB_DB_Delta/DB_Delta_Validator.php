@@ -54,7 +54,7 @@ class DB_Delta_Validator {
 		$this->validate_index_columns( $schema );
 		$this->validate_foreign_keys( $schema );
 
-		return $this->has_errors();
+		return ! $this->has_errors();
 	}
 
 	/**

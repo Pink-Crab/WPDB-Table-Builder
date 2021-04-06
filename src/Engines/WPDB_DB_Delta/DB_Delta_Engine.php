@@ -94,9 +94,16 @@ class DB_Delta_Engine implements Engine {
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $this->compile_create_sql_query() );
 
-		return true;
+		return $this->wpdb->last_error === '';
 	}
 
+	/**
+	 * Drops a table
+	 *
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return bool
+	 */
 	public function drop_table( Schema $schema ): bool {
 		$this->schema = $schema;
 		if ( ! $this->validator->validate( $schema ) ) {
