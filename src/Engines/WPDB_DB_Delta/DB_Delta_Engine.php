@@ -98,7 +98,7 @@ class DB_Delta_Engine implements Engine {
 	}
 
 	/**
-	 * Drops a table
+	 * Drops the table
 	 *
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
@@ -106,11 +106,13 @@ class DB_Delta_Engine implements Engine {
 	 */
 	public function drop_table( Schema $schema ): bool {
 		$this->schema = $schema;
-		if ( ! $this->validator->validate( $schema ) ) {
+		if ( ! $this->validator->validate( $this->schema ) ) {
 			return false;
 		}
 
-		return true;
+		$this->wpdb->get_results( "DROP TABLE IF EXISTS {$this->schema->get_table_name()};" ); // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		return $this->wpdb->last_error === '';
 	}
 
 	/**
