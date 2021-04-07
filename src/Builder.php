@@ -45,12 +45,22 @@ class Builder {
 	}
 
 	/**
-	 * Creats the table
+	 * Creates the table
 	 *
 	 * @param Schema $schema
 	 * @return bool
 	 */
 	public function create_table( Schema $schema ): bool {
 		return $this->engine->create_table( $schema );
+	}
+
+	/**
+	 * Drop a table
+	 *
+	 * @param Schema $schema
+	 * @return bool
+	 */
+	public function drop_table( Schema $schema ): bool {
+		return $this->engine->drop_table( $schema );
 	}
 }

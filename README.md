@@ -149,9 +149,50 @@ CREATE TABLE my_table(
 ```
 
 
-## Methods
+## Creating & Droppings Tables
 
-> Schema::class
+You can populate the builder with any engine, included in this package is the WPDB/dbDelta engine which can be used to create and drop table
+
+### Create
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    ... create schema ...
+});
+
+// Create instance of builder with DB Delta engine.
+$engine  = new DB_Delta_Engine($wpdb);
+$builder = new Builder($engine);
+
+// Create table.
+try{
+    // Returns true for success, false for WPDB errors being present.
+    $response = $builder->create_table($schema);
+} catch (\Exception $e) {
+    // Do something to catch validation errors.
+}
+
+```
+### Drop
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    ... create schema ...
+});
+
+// Create instance of builder with DB Delta engine.
+$engine  = new DB_Delta_Engine($wpdb);
+$builder = new Builder($engine);
+
+// Create table.
+try{
+    // Returns true for success, false for WPDB errors being present.
+    $response = $builder->drop_table($schema);
+} catch (\Exception $e) {
+    // Do something to catch validation errors.
+}
+
+```
+
+
 
 
 

@@ -77,6 +77,7 @@ class DB_Delta_Engine implements Engine {
 	 * @throws \Exception If fails validation.
 	 */
 	public function create_table( Schema $schema ): bool {
+
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
@@ -100,14 +101,23 @@ class DB_Delta_Engine implements Engine {
 	/**
 	 * Drops the table
 	 *
-	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
+	 * @throws \Exception If fails validation.
 	 */
 	public function drop_table( Schema $schema ): bool {
+
 		$this->schema = $schema;
-		if ( ! $this->validator->validate( $this->schema ) ) {
-			return false;
+
+		if ( ! $this->validator->validate( $schema ) ) {
+			throw new \Exception(
+				sprintf(
+					'Failed to drop table %s as failed valiadtion: %s',
+					$schema->get_table_name(),
+					join( ', ' . PHP_EOL, $this->validator->get_errors() )
+				),
+				2
+			);
 		}
 
 		$this->wpdb->get_results( "DROP TABLE IF EXISTS {$this->schema->get_table_name()};" ); // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared

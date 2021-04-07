@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Loader tests.
+ * Tests creating a simple table with only a primary column
  *
  * @since 0.1.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
