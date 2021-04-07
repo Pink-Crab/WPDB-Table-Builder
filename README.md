@@ -2,7 +2,7 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version(beta)-0.3.0-yellow.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-0.3.0-yellow.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 ![](https://github.com/Pink-Crab/Module__Table_Builder/workflows/GitHub_CI/badge.svg " ")
 [![codecov](https://codecov.io/gh/Pink-Crab/Module__Table_Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/Module__Table_Builder)
@@ -13,7 +13,7 @@ https://app.gitbook.com/@glynn-quelch/s/pinkcrab/
 
 
 ## Version ##
-**Release 0.3.0-BETA**
+**Release 0.3.0**
 
 **PLEASE NOTE 0.3.0 IS NOT FULLY COMPATIBLE WITH 0.2.0**
 
@@ -149,9 +149,50 @@ CREATE TABLE my_table(
 ```
 
 
-## Methods
+## Creating & Droppings Tables
 
-> Schema::class
+You can populate the builder with any engine, included in this package is the WPDB/dbDelta engine which can be used to create and drop table
+
+### Create
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    ... create schema ...
+});
+
+// Create instance of builder with DB Delta engine.
+$engine  = new DB_Delta_Engine($wpdb);
+$builder = new Builder($engine);
+
+// Create table.
+try{
+    // Returns true for success, false for WPDB errors being present.
+    $response = $builder->create_table($schema);
+} catch (\Exception $e) {
+    // Do something to catch validation errors.
+}
+
+```
+### Drop
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    ... create schema ...
+});
+
+// Create instance of builder with DB Delta engine.
+$engine  = new DB_Delta_Engine($wpdb);
+$builder = new Builder($engine);
+
+// Create table.
+try{
+    // Returns true for success, false for WPDB errors being present.
+    $response = $builder->drop_table($schema);
+} catch (\Exception $e) {
+    // Do something to catch validation errors.
+}
+
+```
+
+
 
 
 
