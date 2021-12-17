@@ -38,10 +38,26 @@ interface Engine {
 	public function create_table( Schema $schema ): bool;
 
 	/**
+	 * Returns the query generated to create a table.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return string
+	 */
+	public function create_table_query( Schema $schema ): string;
+
+	/**
 	 * Drops a table based on the schema passed.
 	 *
 	 * @param Schema $schema
 	 * @return bool
 	 */
 	public function drop_table( Schema $schema): bool;
+
+	/**
+	 * Returns the query generated to drop a table.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return string
+	 */
+	public function drop_table_query( Schema $schema ): string;
 }

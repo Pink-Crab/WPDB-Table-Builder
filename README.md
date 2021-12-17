@@ -2,25 +2,23 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version-0.3.0-yellow.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-1.0.0-green.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 ![](https://github.com/Pink-Crab/Module__Table_Builder/workflows/GitHub_CI/badge.svg " ")
-[![codecov](https://codecov.io/gh/Pink-Crab/Module__Table_Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/Module__Table_Builder)
+[![codecov](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/?branch=master)
 
 
-For more details please visit our docs.
-https://app.gitbook.com/@glynn-quelch/s/pinkcrab/
+[For more details please visit our docs.](https://perique.info/lib/Table%20Builder/)
 
 
 ## Version ##
-**Release 0.3.0**
-
-**PLEASE NOTE 0.3.0 IS NOT FULLY COMPATIBLE WITH 0.2.0**
+**Release 1.0.0**
 
 ## Why? ##
 For those of you who have used DB_Delta to create tables in WordPress, to say its a bit fussy, is an understatement. 
 
-The PinkCrab Table_Builder module, makes creating you tables much easier as you have more expressive chainable API to define the schema, which can be passed to builder to create the table. 
+The PinkCrab Table_Builder module, makes creating you tables much easier as you have more expressive fluent API to define the schema, which can be passed to builder to create the table. 
 
 Out of the box, this package comes with the DB_Delta builder only, but thanks to the SQL_Builder interface, other table formats can be created easily.
 
@@ -193,15 +191,13 @@ try{
 ```
 
 
-
-
-
 ## License ##
 
 ### MIT License ###
 http://www.opensource.org/licenses/mit-license.html  
 
 ## Change Log ##
+* 1.0.0 - Added 2 new methods to the engine interface and wpdb implementation to return the queries used to create table and drop table. 
 * 0.3.0 - Change to how much of the API works, some of the externals have changed (no loner accepts fully fluent creation and index/foreign keys have been seperated.)
 * 0.2.2 - No change, branches a mess
 * 0.2.1 - Added in more tests, now has 100% test coverage. Added in more valdation around columns, tablename and indexes. Previously threw php errors for missing or malformed data. Now throw exceptions if Table has no name, a column is lacking key, null, type or length and all indexes which are foreign keys, must have a valid refierence table and column. No changes public methods.
