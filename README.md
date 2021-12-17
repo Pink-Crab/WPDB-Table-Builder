@@ -8,14 +8,11 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 [![codecov](https://codecov.io/gh/Pink-Crab/Module__Table_Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/Module__Table_Builder)
 
 
-For more details please visit our docs.
-https://app.gitbook.com/@glynn-quelch/s/pinkcrab/
+[For more details please visit our docs.](https://perique.info/lib/Table%20Builder/)
 
 
 ## Version ##
-**Release 0.3.0**
-
-**PLEASE NOTE 0.3.0 IS NOT FULLY COMPATIBLE WITH 0.2.0**
+**Release 1.0.0**
 
 ## Why? ##
 For those of you who have used DB_Delta to create tables in WordPress, to say its a bit fussy, is an understatement. 
@@ -193,15 +190,13 @@ try{
 ```
 
 
-
-
-
 ## License ##
 
 ### MIT License ###
 http://www.opensource.org/licenses/mit-license.html  
 
 ## Change Log ##
+* 1.0.0 - Added 2 new methods to the engine interface and wpdb implementation to return the queries used to create table and drop table. 
 * 0.3.0 - Change to how much of the API works, some of the externals have changed (no loner accepts fully fluent creation and index/foreign keys have been seperated.)
 * 0.2.2 - No change, branches a mess
 * 0.2.1 - Added in more tests, now has 100% test coverage. Added in more valdation around columns, tablename and indexes. Previously threw php errors for missing or malformed data. Now throw exceptions if Table has no name, a column is lacking key, null, type or length and all indexes which are foreign keys, must have a valid refierence table and column. No changes public methods.
