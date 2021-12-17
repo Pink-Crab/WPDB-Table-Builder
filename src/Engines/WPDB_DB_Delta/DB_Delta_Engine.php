@@ -70,20 +70,19 @@ class DB_Delta_Engine implements Engine {
 	}
 
 	/**
-	 * Create the table based on the schema passed.
+	 * Validate and set the schema
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
-	 * @return bool
-	 * @throws \Exception If fails validation.
+	 * @return void
+	 * @throws \Exception If fails validation. (code 1)
 	 */
-	public function create_table( Schema $schema ): bool {
-
+	private function set_query_for_create( Schema $schema ): void {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
 			throw new \Exception(
 				sprintf(
-					'Failed to create table %s as failed valiadtion: %s',
+					'Failed to create table %s as failed validation: %s',
 					$schema->get_table_name(),
 					join( ', ' . PHP_EOL, $this->validator->get_errors() )
 				),
@@ -91,11 +90,59 @@ class DB_Delta_Engine implements Engine {
 			);
 		}
 
+	}
+
+	/**
+	 * Create the table based on the schema passed.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return bool
+	 * @throws \Exception If fails validation. (code 1)
+	 */
+	public function create_table( Schema $schema ): bool {
+
+		// Generate the query from the passed schema.
+		$query = $this->create_table_query( $schema );
+
 		// Include WP dbDelta.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $this->compile_create_sql_query() );
+		dbDelta( $query );
 
 		return $this->wpdb->last_error === '';
+	}
+
+	/**
+	 * Returns the table query generated for creating a table
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return string
+	 * @throws \Exception If fails validation. (code 1)
+	 */
+	public function create_table_query( Schema $schema ): string {
+		$this->set_query_for_create( $schema );
+		return $this->compile_create_sql_query();
+	}
+
+	/**
+	 * Validate and set the schema
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return void
+	 * @throws \Exception If fails validation. (code 2)
+	 */
+	private function set_query_for_drop( Schema $schema ): void {
+		$this->schema = $schema;
+
+		if ( ! $this->validator->validate( $schema ) ) {
+			throw new \Exception(
+				sprintf(
+					'Failed to drop table %s as failed validation: %s',
+					$schema->get_table_name(),
+					join( ', ' . PHP_EOL, $this->validator->get_errors() )
+				),
+				2
+			);
+		}
 	}
 
 	/**
@@ -103,26 +150,26 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
-	 * @throws \Exception If fails validation.
+	 * @throws \Exception If fails validation. (code 2)
 	 */
 	public function drop_table( Schema $schema ): bool {
 
-		$this->schema = $schema;
+		$query = $this->drop_table_query( $schema );
 
-		if ( ! $this->validator->validate( $schema ) ) {
-			throw new \Exception(
-				sprintf(
-					'Failed to drop table %s as failed valiadtion: %s',
-					$schema->get_table_name(),
-					join( ', ' . PHP_EOL, $this->validator->get_errors() )
-				),
-				2
-			);
-		}
-
-		$this->wpdb->get_results( "DROP TABLE IF EXISTS {$this->schema->get_table_name()};" ); // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
+		$this->wpdb->get_results( $query ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		return $this->wpdb->last_error === '';
+	}
+
+	/**
+	 * Returns the query for dropping the curren table.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @return string
+	 * @throws \Exception If fails validation. (code 2)
+	 */
+	public function drop_table_query( Schema $schema ): string {
+		$this->set_query_for_drop( $schema );
+		return "DROP TABLE IF EXISTS {$this->schema->get_table_name()};";
 	}
 
 	/**

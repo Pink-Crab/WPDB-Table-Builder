@@ -165,7 +165,7 @@ class DB_Delta_Translator {
 	 */
 	protected function transform_indexes( Schema $schema ): array {
 		return array_map(
-			/** @param array<Index> $index_group  */
+			/** @param Index[] $index_group */
 			function( array $index_group ): string {
 
 				// Extract all parts from group.
@@ -217,7 +217,7 @@ class DB_Delta_Translator {
 	 * Groups the indexes by keyname and type.
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
-	 * @return array<string>
+	 * @return array<string, Index[]>
 	 */
 	protected function group_indexes( Schema $schema ): array {
 		return array_reduce(
