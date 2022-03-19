@@ -74,7 +74,7 @@ class Test_Table_With_JSON extends WP_UnitTestCase {
 		$where_not = "WHERE NOT JSON_UNQUOTE(JSON_EXTRACT(json_man, \"$.key\")) = 'json_man_NOT'";
 		$where = "WHERE JSON_UNQUOTE(JSON_EXTRACT(json_helper_no_def, \"$.key\")) = 'json_helper_no_def'";
 
-var_dump($this->wpdb->get_results( 'SHOW COLUMNS FROM table_with_indexes;' ));
+var_dump($this->wpdb->get_results( 'SHOW COLUMNS FROM table_with_json;' ));
 		$this->assertNotEmpty($this->wpdb->get_results("SELECT * FROM  table_with_json {$where}" ));
 		$this->assertNotEmpty($this->wpdb->get_results("SELECT * FROM  table_with_json {$where_not}" ));
 	}
