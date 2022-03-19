@@ -29,4 +29,11 @@ class Test_Builder extends WP_UnitTestCase {
 			}
 		);
 	}
+
+	/** @testdox It should be possible to access the builders engine instance. */
+	public function test_can_get_engine() : void {
+		$mock_engine = $this->createMock( Engine::class );
+		$builder     = new Builder( $mock_engine );
+		$this->assertSame( $mock_engine, $builder->get_engine() );
+	}
 }

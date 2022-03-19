@@ -63,4 +63,13 @@ class Builder {
 	public function drop_table( Schema $schema ): bool {
 		return $this->engine->drop_table( $schema );
 	}
+
+	/**
+	 * Access to the builders engine.
+	 *
+	 * @return Engine
+	 */
+	public function get_engine(): Engine {
+		return $this->engine;
+	}
 }
