@@ -51,7 +51,7 @@ class Engine_Exception extends Exception {
 	/**
 	 * Get the table schema.
 	 *
-	 * @returnSchema|null
+	 * @return Schema|null
 	 */
 	public function get_schema(): ?Schema {
 		return $this->schema;
@@ -62,10 +62,11 @@ class Engine_Exception extends Exception {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @param string $error
-	 * @return self
+	 * @return Engine_Exception
+	 * @code 101
 	 */
-	public static function create_table( Schema $schema, string $error ): self {
-		return new self( $schema, $error );
+	public static function create_table( Schema $schema, string $error ): Engine_Exception {
+		return new self( $schema, $error, 101 );
 	}
 
 	/**
@@ -73,9 +74,10 @@ class Engine_Exception extends Exception {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @param string $error
-	 * @return self
+	 * @return Engine_Exception
+	 * @code 102
 	 */
-	public static function drop_table( Schema $schema, string $error ): self {
-		return new self( $schema, $error );
+	public static function drop_table( Schema $schema, string $error ): Engine_Exception {
+		return new self( $schema, $error, 102 );
 	}
 }

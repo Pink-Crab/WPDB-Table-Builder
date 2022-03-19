@@ -25,8 +25,10 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
+use Exception;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Engine;
+use PinkCrab\Table_Builder\Exception\Engine_Exception;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Translator;
 
@@ -106,9 +108,22 @@ class DB_Delta_Engine implements Engine {
 
 		// Include WP dbDelta.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $query );
 
-		return $this->wpdb->last_error === '';
+		\ob_start();
+		dbDelta( $query );
+		$output = \ob_get_clean();
+
+		// If output captured, throw.
+		if ( '' !== $output ) {
+			throw Engine_Exception::create_table( $schema, $output ?: '' );
+		}
+
+		// Throw if WPDB has errors.
+		if ( '' !== $this->wpdb->last_error ) {
+			throw Engine_Exception::create_table( $schema, $this->wpdb->last_error );
+		}
+
+		return true;
 	}
 
 	/**
@@ -151,13 +166,27 @@ class DB_Delta_Engine implements Engine {
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
 	 * @throws \Exception If fails validation. (code 2)
+	 * @throws Engine_Exception If error thrown dropping table. (code 102)
 	 */
 	public function drop_table( Schema $schema ): bool {
 
 		$query = $this->drop_table_query( $schema );
 
+		\ob_start();
 		$this->wpdb->get_results( $query ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		return $this->wpdb->last_error === '';
+		$output = \ob_get_clean();
+
+		// If output captured, throw.
+		if ( '' !== $output ) {
+			throw Engine_Exception::drop_table( $schema, $output ?: '' );
+		}
+
+		// Throw if WPDB has errors.
+		if ( '' !== $this->wpdb->last_error ) {
+			throw Engine_Exception::drop_table( $schema, $this->wpdb->last_error );
+		}
+
+		return true;
 	}
 
 	/**
@@ -195,6 +224,4 @@ CREATE TABLE $table (
 $body ) COLLATE $collate 
 SQL;
 	}
-
-
 }
