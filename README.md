@@ -12,21 +12,21 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 [For more details please visit our docs.](https://perique.info/lib/Table%20Builder/)
 
 
-## Version ##
+## Version
 **Release 1.0.0**
 
-## Why? ##
-For those of you who have used DB_Delta to create tables in WordPress, to say its a bit fussy, is an understatement. 
+## Why?
+For those of you who have used `dbDelta` to create tables in WordPress, to say it's a bit fussy is an understatement. 
 
-The PinkCrab Table_Builder module, makes creating you tables much easier as you have more expressive fluent API to define the schema, which can be passed to builder to create the table. 
+The `PinkCrab\Table_Builder` module makes creating tables much easier by providing a more expressive fluent API to define the schema, which can be passed to the Builder to create the table. 
 
-Out of the box, this package comes with the DB_Delta builder only, but thanks to the SQL_Builder interface, other table formats can be created easily.
+Out of the box, this package comes with the `DB_Delta` builder engine only, but thanks to the `SQL_Builder` interface, engines for other table formats can be created easily.
 
 
 
-## Defining a Tables Schema
+## Defining a Table's Schema
 
-You can define a tables schema in a few different ways.
+You can define a table's schema in a few different ways.
 
 ```php
 <?php
@@ -50,15 +50,15 @@ $schema_b->column('user')->int(11);
 $schema_b->index('id')->primary();
 $schema_b->index('user')->unique();
 ```
-> Please note unless like previous versions, the column and index data can not be defined fluently.
+> Please note that the API changed significantly from 0.2.0 to 1.0.0.
 
 ## Indexes and Foreign Keys
 
-You can setup a variety of Indexes and Foreign_Key's for your table(s). These can be set as the schema example above.
+You can setup a variety of indexes and foreign keys for your table(s). These can be set as in the schema example above.
 
 ### Index
 
-You can create index for any column of your table and denote the field as either just an index, unique, primary, full text or as a hash.
+You can create an index for any column of your table and denote the field as either unique, primary, full text, hash, or just a regular index.
 
 ```php
 <?php
@@ -75,14 +75,14 @@ $schema_a = new Schema('my_table', function(Schema $schema){
     $schema->index('details')->full_text();
 });
 ```
-The above would generate
+The above would generate:
 
 ```sql
 CREATE TABLE my_table(
     id INT AUTO_INCREMENT
     user INT(11),
     details TEXT,
-    PIRMARY KEY ix_id (id),
+    PRIMARY KEY ix_id (id),
     UNIQUE INDEX ix_user (user),
     FULLTEXT INDEX ix_details (details)
 );
@@ -104,19 +104,19 @@ $schema = new Schema('my_table', function(Schema $schema){
     $schema->index('details', 'unique_keys')->unique();
 });
 ```
-The above would generate the following for MYSQL
+The above would generate the following for MySQL:
 
 ```sql
 CREATE TABLE my_table(
     id INT AUTO_INCREMENT
     user INT(11),
     details TEXT,
-    PIRMARY KEY ix_id (id),
+    PRIMARY KEY ix_id (id),
     UNIQUE INDEX unique_keys (user, details)
 );
 ```
 ### Foreign Key
-Like regular indexes, foreign keys can be assigned against a table. When the table is built, it will assume the reference table exists, so ensure that you create them in the correct order if you are creating all tables at once.
+Like regular indexes, foreign keys can be assigned to a table. When the table is built, it will assume the reference table exists, so ensure that you create them in the correct order if you are creating all tables at once.
 
 ```php
 <?php
@@ -134,22 +134,22 @@ $schema = new Schema('my_table', function(Schema $schema){
         ->reference('users', 'id');
 });
 ```
-The above would produce for MYSQL (provided the user table exists with an ID column)
+The above would produce for MySQL (provided the user table exists with an ID column):
 
 ```sql
 CREATE TABLE my_table(
     id INT AUTO_INCREMENT
     user INT(11),
     details TEXT,
-    PIRMARY KEY ix_id (id),
+    PRIMARY KEY ix_id (id),
     FOREIGN INDEX custom_keyname (user) REFERENCES users(id)
 );
 ```
 
 
-## Creating & Droppings Tables
+## Creating & Dropping Tables
 
-You can populate the builder with any engine, included in this package is the WPDB/dbDelta engine which can be used to create and drop table
+You can populate the builder with any engine. Included in this package is the `DB_Delta_Engine` engine, which internally uses the WordPress `dbDelta` function to create and drop tables.
 
 ### Create
 ```php
@@ -198,7 +198,7 @@ http://www.opensource.org/licenses/mit-license.html
 
 ## Change Log ##
 * 1.0.0 - Added 2 new methods to the engine interface and wpdb implementation to return the queries used to create table and drop table. 
-* 0.3.0 - Change to how much of the API works, some of the externals have changed (no loner accepts fully fluent creation and index/foreign keys have been seperated.)
-* 0.2.2 - No change, branches a mess
-* 0.2.1 - Added in more tests, now has 100% test coverage. Added in more valdation around columns, tablename and indexes. Previously threw php errors for missing or malformed data. Now throw exceptions if Table has no name, a column is lacking key, null, type or length and all indexes which are foreign keys, must have a valid refierence table and column. No changes public methods.
-* 0.2.0 - Moved to composer, renamed all namespaces to match the composer format.
+* 0.3.0 - Changed how much of the API works; some of the externals have changed. It no longer accepts fully fluent creation, and index/foreign keys have been separated.
+* 0.2.2 - No change, branches a mess.
+* 0.2.1 - Added in more tests, now has 100% test coverage. Added in more valdation around columns, tablename and indexes. Previously threw PHP errors for missing or malformed data. Now throws exceptions if Table has no name, a column is lacking key, null, type or length and all indexes which are foreign keys, must have a valid reference table and column. No changes to public methods.
+* 0.2.0 - Moved to Composer, renamed all namespaces to match the Composer format.
