@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * Ecxeption for the table builder.
+ * Exception for the table builder.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,14 +26,56 @@ declare(strict_types=1);
 namespace PinkCrab\Table_Builder\Exception;
 
 use Exception;
+use Throwable;
+use PinkCrab\Table_Builder\Schema;
 
 class Engine_Exception extends Exception {
 
-	public function __construct(
-        string $message = '',
-        int $code = 0,
-        ?Throwable $previous = null
-    ) {
+	/**
+	 * The table schema.
+	 *
+	 * @var Schema|null
+	 */
+	private $schema;
 
+	public function __construct(
+		?Schema $schema = null,
+		string $message = '',
+		int $code = 0,
+		?Throwable $previous = null
+	) {
+		$this->schema = $schema;
+		parent::__construct( $message, $code, $previous );
+	}
+
+	/**
+	 * Get the table schema.
+	 *
+	 * @returnSchema|null
+	 */
+	public function get_schema(): ?Schema {
+		return $this->schema;
+	}
+
+	/**
+	 * Throw an exception for errors when creating table.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @param string $error
+	 * @return self
+	 */
+	public static function create_table( Schema $schema, string $error ): self {
+		return new self( $schema, $error );
+	}
+
+	/**
+	 * Throw an exception for errors when dropping a table.
+	 *
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @param string $error
+	 * @return self
+	 */
+	public static function drop_table( Schema $schema, string $error ): self {
+		return new self( $schema, $error );
 	}
 }
