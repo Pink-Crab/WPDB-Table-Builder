@@ -165,4 +165,15 @@ trait Column_Types {
 		}
 		return $this;
 	}
+
+	/**
+	 * Sets column as JSON with an optional default.
+	 *
+	 * @since 1.1.0
+	 * @return Column
+	 */
+	public function json(): Column {
+		$this->type( 'json' );
+		return $this;
+	}
 }
