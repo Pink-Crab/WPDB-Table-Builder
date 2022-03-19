@@ -51,11 +51,7 @@ class Test_Table_With_JSON extends WP_UnitTestCase {
 				->unsigned();
 
 			$this->schema->column( 'json_man' )
-				->type( 'json' )
-				->default('["1",2]');
-
-			$this->schema->column( 'json_helper_w_def' )
-				->json( json_encode( array('1',2,3,4) ) );
+				->type( 'json' );
 
 			$this->schema->column( 'json_helper_no_def' )
 				->json();
