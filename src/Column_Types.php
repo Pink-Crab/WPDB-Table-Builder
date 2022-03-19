@@ -38,7 +38,7 @@ trait Column_Types {
 	 */
 	public function varchar( ?int $length = null ): Column {
 		$this->type( 'varchar' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
@@ -53,7 +53,7 @@ trait Column_Types {
 	 */
 	public function text( ?int $length = null ): Column {
 		$this->type( 'text' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
@@ -68,7 +68,7 @@ trait Column_Types {
 	 */
 	public function int( ?int $length = null ): Column {
 		$this->type( 'int' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
@@ -83,7 +83,7 @@ trait Column_Types {
 	 */
 	public function float( ?int $length = null ): Column {
 		$this->type( 'float' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
@@ -98,7 +98,7 @@ trait Column_Types {
 	 */
 	public function double( ?int $length = null ): Column {
 		$this->type( 'double' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
@@ -113,7 +113,7 @@ trait Column_Types {
 	 */
 	public function datetime( ?string $default = null ): Column {
 		$this->type( 'datetime' );
-		if ( $default ) {
+		if ( null !== $default ) {
 			$this->default( $default );
 		}
 		return $this;
@@ -128,7 +128,7 @@ trait Column_Types {
 	 */
 	public function timestamp( ?string $default = null ): Column {
 		$this->type( 'timestamp' );
-		if ( $default ) {
+		if ( null !== $default ) {
 			$this->default( $default );
 		}
 		return $this;
@@ -144,7 +144,7 @@ trait Column_Types {
 	public function unsigned_int( ?int $length = null ): Column {
 		$this->type( 'int' );
 		$this->unsigned();
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
@@ -160,7 +160,7 @@ trait Column_Types {
 	public function unsigned_medium( ?int $length = null ): Column {
 		$this->type( 'mediumint' );
 		$this->unsigned();
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
