@@ -128,7 +128,7 @@ class DB_Delta_Translator {
 		$type = strtoupper( $type );
 
 		// String values.
-		if ( in_array( $type, array( 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
+		if ( in_array( $type, array( 'JSON', 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
 			return " DEFAULT '{$defualt}'";
 		}
 
