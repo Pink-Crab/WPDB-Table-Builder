@@ -55,8 +55,8 @@ Returns the key_name, either defualt or defined.
 $index_a = new Index('id', 'id_key'); // Defined key_name
 $index_a = new Index('user');         // Default key_name (ix_{column_name})
 
-$index_a->get_key_name(); // 'id_key;
-$index_a->get_key_name(); // 'ix_user;
+$index_a->get_key_name(); // 'id_key';
+$index_a->get_key_name(); // 'ix_user';
 ```
 
 ***

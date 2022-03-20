@@ -183,9 +183,9 @@ $schema->get_indexes(); // [Index{column: id..}, Index{column: booking_ref..}]
 ***
 
 ## foreign_key( string $column, ?string $key_name = null ): Foreign_Key
-> @param string $column Column index is applied to  
-> @param string|null $key_name The indexes reference  
-> @return \PinkCrab\Table_Builder\Foreign_Key  
+> @param `string $column` Column index is applied to  
+> @param `string|null $key_name` The indexes reference  
+> @return `\PinkCrab\Table_Builder\Foreign_Key`  
 
 Creates a Foreign Key relationship with another table. Can be set with a custom or default key_name. Returns a partially applied 
 
