@@ -109,7 +109,7 @@ class DB_Delta_Translator {
 			case 'DECIMAL':
 			case 'DEC':
 				$precision = $precision ?? 1;
-				return is_null( $length ) ? $type : "{$type}({$length}, {$precision})";
+				return is_null( $length ) ? $type : "{$type}({$length},{$precision})";
 
 			default:
 				return $type;

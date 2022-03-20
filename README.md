@@ -2,18 +2,25 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version-1.0.0-green.svg?style=flat " ") 
+![alt text](https://img.shields.io/badge/Current_Version-1.1.0-green.svg?style=flat " ") 
 [![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
 ![](https://github.com/Pink-Crab/Module__Table_Builder/workflows/GitHub_CI/badge.svg " ")
 [![codecov](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/?branch=master)
 
 
-[For more details please visit our docs.](https://perique.info/lib/Table%20Builder/)
+> **Related Pages**
+> » [Schema](docs/Schema.md)  
+> » [Column](docs/Column.md)  
+> » [Index](docs/Index.md)  
+> » [Foreign_Key](docs/Foreign_Key.md)  
+
+
+[You can read the docs on the Perique site also](https://perique.info/lib/Table%20Builder/)
 
 
 ## Version
-**Release 1.0.0**
+**Release 1.1.0**
 
 ## Why?
 For those of you who have used `dbDelta` to create tables in WordPress, to say it's a bit fussy is an understatement. 
@@ -51,6 +58,10 @@ $schema_b->index('id')->primary();
 $schema_b->index('user')->unique();
 ```
 > [See Schema Docs](docs/Schema.md)
+
+## Columns
+
+The schema is defined from various columns, each column is defined as its own object with a collection of [methods](docs/Column.md#setters) and [helper/shortcuts](docs/Column.md#type-helpers-shortcuts)
 
 ## Indexes and Foreign Keys
 
