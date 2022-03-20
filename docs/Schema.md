@@ -240,7 +240,7 @@ $schema = new Schema('table', function(Schema $schema): void{
         ->reference_column('id');
 });
 
-$schema->get_indexes(); // [Foreign_Key{column: user..}]
+$schema->get_foreign_keys(); // [Foreign_Key{column: user..}]
 ```
 
 # Column Type Helpers
