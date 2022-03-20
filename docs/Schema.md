@@ -10,9 +10,9 @@
 
 ***
 
-## public function __construct(string $table_name, ?callable $configure = null )
-* @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build
-* @param callable|null $configure Used to set the schema values are the same time as declaring the schema object.
+## __construct(string $table_name, ?callable $configure = null )
+> @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build  
+> @param callable|null $configure Used to set the schema values are the same time as declaring the schema object.  
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -25,9 +25,9 @@ $schema->column('id');
 
 ***
 
-## public function prefix( ?string $prefix = null ): self
-* @param string|null $prefix
-* @return self
+## prefix( ?string $prefix = null ): self
+> @param string|null $prefix  
+> @return Schema    
 
 You can set an optional table name prefix either at Schema definition or during the build/drop processes.
 ```php
@@ -35,7 +35,7 @@ $schema = new Schema('table');
 $schema->prefix('my_'); // table name = my_table
 
 
-// Using WPDB to get the current sites prefix (acounts for multisite)
+// Using WPDB to get the current sites prefix (accounts for multisite)
 global $wpdb;
 $schema = new Schema('table');
 $schema->prefix($wpdb->prefix); // table name = wp_table (assuming the prefix set in WPDB is wp_)
@@ -43,9 +43,9 @@ $schema->prefix($wpdb->prefix); // table name = wp_table (assuming the prefix se
 
 ***
 
-## public function column( string $name ): Column
-* @param string $name
-* @return Column
+## column( string $name ): Column
+> @param string $name  
+> @return Column  
 
 Returns a partially constructed Column object, which has its own fluent API for defining the column details. See Column methods for a more detailed explanation.
 
@@ -54,21 +54,21 @@ $schema = new Schema('table', function(Schema $schema): void{
     // Using shortcut types
     $schema->column('id')
         ->text(12)          // Sets as text with a length of 11
-        ->default('empty'); // Sets defualt to empty
+        ->default('empty'); // Sets default to empty
 
     // Using verbose type definitions.
     $schema->column('user_id')
         ->type('text')      // Sets type to TEXT
-        ->length(12)        // Sets length to 11
-        ->default('empty'); // Sets defualt to empty
+        ->length(12)        // Sets length to 12
+        ->default('empty'); // Sets default to empty
 });
 ```
 
 ***
 
-## public function has_column( string $name ): bool
-* @param string $name
-* @return Column
+## has_column( string $name ): bool
+> @param string $name  
+> @return Column  
 
 Checks if a column has been set based in its name.
 
@@ -84,10 +84,10 @@ $schema->has_column('user_id'); // TRUE
 
 ***
 
-## public function get_columns(): array
-* @return array<Column>
+## get_columns(): array
+> @return Column[]  
 
-Retruns an array of Column objects.
+Returns an array of Column objects.
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -101,10 +101,10 @@ $schema->get_columns(); // [Column{name: id..}, Column{name: user_id....}]
 
 ***
 
-## public function remove_column( string $name ): self 
-* @param string $name
-* @return self
-* @throws Exception If columnn doesnt exist.
+## remove_column( string $name ): self 
+> @param string $name  
+> @return Schema    
+> @throws Schema_Validation (Code 301) If column doesn't exist.  
 
 Removes a colum from the table, can be used to conditionally remove a column before being created. Will throw an exception of the column doesnt exist.
 
@@ -124,11 +124,11 @@ if(! is_multisite()){
 
 ***
 
-## public function index( string $column, ?string $keyname = null ): Index
-* @param string $keyname
-* @return \PinkCrab\Table_Builder\Index
+## index( string $column, ?string $key_name = null ): Index
+> @param string $key_name  
+> @return \PinkCrab\Table_Builder\Index  
 
-Sets an Index for the table, returns a partially populated Index instance bound to the defined column. The keyname can either be defined or is generated as "ix_{column_name}". Multiple Indexes set with matching keynames will be defined as a single expression ```INDEX keyname (col1,col2,col3)```
+Sets an Index for the table, returns a partially populated Index instance bound to the defined column. The key_name can either be defined or is generated as "ix_{column_name}". Multiple Indexes set with matching key_names will be defined as a single expression ```INDEX key_name (col1,col2,col3)```
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -144,8 +144,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ```
 ***
 
-## public function has_indexes(): bool
-* @return bool
+## has_indexes(): bool
+> @return bool  
 
 Returns if the table has indexes applied.
 
@@ -162,8 +162,8 @@ $schema->has_indexes(); // TRUE
 ```
 ***
 
-## public function get_indexes(): array
-* @return array<Index>
+## get_indexes(): array
+> @return Index[] 
 
 Returns an array of all indexes currently set to the Schema.
 
@@ -182,12 +182,12 @@ $schema->get_indexes(); // [Index{column: id..}, Index{column: booking_ref..}]
 
 ***
 
-## public function foreign_key( string $column, ?string $keyname = null ): Foreign_Key
-* @param string $column Column index is applied to
-* @param string|null $keyname The indexes reference
-* @return \PinkCrab\Table_Builder\Foreign_Key
+## foreign_key( string $column, ?string $key_name = null ): Foreign_Key
+> @param string $column Column index is applied to  
+> @param string|null $key_name The indexes reference  
+> @return \PinkCrab\Table_Builder\Foreign_Key  
 
-Creates a Foreign Key relationship with another table. Can be set with a custom or default keyname. Returns a partially applied 
+Creates a Foreign Key relationship with another table. Can be set with a custom or default key_name. Returns a partially applied 
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -203,8 +203,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 ***
 
-## public function has_foreign_keys(): bool
-* @return bool
+## has_foreign_keys(): bool
+> @return bool  
 
 Returns if the table has Foreign Keys applied.
 
@@ -223,8 +223,8 @@ $schema->has_foreign_keys(); // TRUE
 ```
 ***
 
-## public function get_foreign_keys(): array
-* @return array<Foreign_Key>
+## get_foreign_keys(): array
+> @return Foreign_Key[]  
 
 Returns an array of all Foreign Keys currently set to the Schema.
 
@@ -235,10 +235,190 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->column('user')->int(12);
     $schema->column('booking_ref')->varchar(16);
     $schema->index('id')->primary();
-        $schema->foreign_key('user', 'user_fk')
+    $schema->foreign_key('user', 'user_fk')
         ->reference_table('users')
         ->reference_column('id');
 });
 
 $schema->get_indexes(); // [Foreign_Key{column: user..}]
+```
+
+# Column Type Helpers
+
+## json(): Column
+> @return Schema  
+
+Defines a column as JSON
+> **IF USING MYSQL A DEFAULT CAN NOT BE DEFINED, YOU CAN USING MARIADB**
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('json_data')->json();
+    // Using Type
+    $schema->column('json_data')->type('json');
+});
+```
+***
+
+## varchar( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `VARCHAR(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->varchar(16);
+    // Using Type
+    $schema->column('some_string')->type('varchar')->length(16);
+});
+```
+
+***
+
+## text( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `TEXT(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->text(16);
+    // Using Type
+    $schema->column('some_string')->type('text')->length(16);
+});
+```
+
+***
+
+## int( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `INT(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->int(16);
+    // Using Type
+    $schema->column('some_string')->type('int')->length(16);
+});
+```
+
+***
+
+## float( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `FLOAT(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->float(16);
+    // Using Type
+    $schema->column('some_string')->type('float')->length(16);
+});
+```
+
+***
+
+## double( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `DOUBLE(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->double(16);
+    // Using Type
+    $schema->column('some_string')->type('double')->length(16);
+});
+```
+
+***
+
+## unsigned_int( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `UNSIGNED INT(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->unsigned_int(16);
+    // Using Type
+    $schema->column('some_string')->type('unsigned_int')->length(16);
+});
+```
+
+***
+
+
+## unsigned_medium( ?int $length = null ): Column
+> @param int|null $length  
+> @return Schema  
+
+Defines a `UNSIGNED MEDIUM(length)` with an optional length
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_medium(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->unsigned_medium(16);
+    // Using Type
+    $schema->column('some_string')->type('unsigned_int')->length(16);
+});
+```
+
+***
+
+## datetime( ?string $default = null ): Column
+> @param string|null $default  
+> @return Schema  
+
+Defines a `DATETIME` with an optional default value
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    
+    $schema->column('id')->unsigned_int(12)->auto_increment();
+    $schema->index('id')->primary();
+    
+    // Using helper
+    $schema->column('some_string')->datetime('2012-12-31 23:59:59');
+    // Using Type
+    $schema->column('some_string')->type('datetime')->default('2012-12-31 23:59:59');
+});
 ```

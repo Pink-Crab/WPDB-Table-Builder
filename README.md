@@ -50,7 +50,7 @@ $schema_b->column('user')->int(11);
 $schema_b->index('id')->primary();
 $schema_b->index('user')->unique();
 ```
-> Please note that the API changed significantly from 0.2.0 to 1.0.0.
+> [See Schema Docs](docs/Schema.md)
 
 ## Indexes and Foreign Keys
 
@@ -115,6 +115,9 @@ CREATE TABLE my_table(
     UNIQUE INDEX unique_keys (user, details)
 );
 ```
+
+> See [INDEX docs](docs/Index.md)  
+
 ### Foreign Key
 Like regular indexes, foreign keys can be assigned to a table. When the table is built, it will assume the reference table exists, so ensure that you create them in the correct order if you are creating all tables at once.
 
@@ -145,6 +148,8 @@ CREATE TABLE my_table(
     FOREIGN INDEX custom_keyname (user) REFERENCES users(id)
 );
 ```
+
+> See [Foreign Key docs](docs/Index.md)  
 
 
 ## Creating & Dropping Tables

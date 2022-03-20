@@ -30,7 +30,7 @@ use PinkCrab\Table_Builder\Column;
 trait Column_Types {
 
 	/**
-	 * Sets column as varchar wtih a definied length.
+	 * Sets column as varchar with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -45,7 +45,7 @@ trait Column_Types {
 	}
 
 	/**
-	 * Sets column as text wtih a definied length.
+	 * Sets column as text with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -60,7 +60,7 @@ trait Column_Types {
 	}
 
 	/**
-	 * Sets column as int wtih a definied length.
+	 * Sets column as int with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -75,7 +75,7 @@ trait Column_Types {
 	}
 
 	/**
-	 * Sets column as float wtih a definied length.
+	 * Sets column as float with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -90,7 +90,7 @@ trait Column_Types {
 	}
 
 	/**
-	 * Sets column as double wtih a definied length.
+	 * Sets column as double with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -135,7 +135,7 @@ trait Column_Types {
 	}
 
 	/**
-	 * Sets column as an unsighed int wtih a definied length.
+	 * Sets column as an unsigned int with a defined length.
 	 *
 	 * @since 0.3.0
 	 * @param int|null $length
@@ -151,7 +151,7 @@ trait Column_Types {
 	}
 
 	/**
-	 * Sets column as an unsighed mediumint wtih a definied length.
+	 * Sets column as an unsigned mediumint with a defined length.
 	 *
 	 * @since 0.3.0
 	 * @param int|null $length
