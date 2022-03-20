@@ -55,6 +55,23 @@ CREATE TABLE table(
 
 ***
 
+## nullable( string $nullable = true ): Column
+> @param string $nullable Defines if the column can allow NULL as a value  
+> @return self  
+ ```php
+$schema = new Schema('table', function(Schema $schema): void{
+    // Defined a column with the type of nullable
+    $schema->column('foo')->varchar(255)->nullable(true);
+]);
+```
+```sql
+CREATE TABLE table(
+    foo VARCHAR(11),
+);
+```
+
+***
+
 # Type Helpers
 
 ## json(): Column
