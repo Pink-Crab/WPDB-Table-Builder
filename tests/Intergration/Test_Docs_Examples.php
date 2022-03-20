@@ -92,9 +92,9 @@ dump($generated_query);
 		$this->assertStringContainsString( 'shortcut_length INT(12) ', $generated_query );
 
 		// Length with Precision
-		$this->assertStringContainsString( 'verbose_precision DOUBLE(123, 2)', $generated_query );
-		$this->assertStringContainsString( 'shortcut_precision FLOAT(12, 4)', $generated_query );
-		$this->assertStringContainsString( 'assumed_precision DECIMAL(3, 1)', $generated_query );
+		$this->assertStringContainsString( 'verbose_precision DOUBLE(123,2)', $generated_query );
+		$this->assertStringContainsString( 'shortcut_precision FLOAT(12,4)', $generated_query );
+		$this->assertStringContainsString( 'assumed_precision DECIMAL(3,1)', $generated_query );
 
 		// Unsigned
 		$this->assertStringContainsString( 'is_unsigned INT UNSIGNED', $generated_query );

@@ -62,7 +62,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'AUTO_INCREMENT', $columns['unsigned_column'] );
 
 		// float column
-		$this->assertStringContainsString( 'FLOAT(11, 2)', $columns['float_column'] );
+		$this->assertStringContainsString( 'FLOAT(11,2)', $columns['float_column'] );
 		$this->assertStringContainsString( 'NOT NULL', $columns['float_column'] );
 		$this->assertStringContainsString( 'DEFAULT 123.50', $columns['float_column'] );
 
@@ -76,7 +76,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'NOT NULL', $columns['longblob_column'] );
 	}
 
-	/** @testdox If an index has been created for a priamry key, it should be parsed as a valid SQL expression (for DbDeleta) to create the index. */
+	/** @testdox If an index has been created for a primary key, it should be parsed as a valid SQL expression (for DbDeleta) to create the index. */
 	public function test_can_translate_primary_key(): void {
 		$schema = new Schema( 'test' );
 		$schema->column( 'id' )->unsigned_int( 11 )->auto_increment();
