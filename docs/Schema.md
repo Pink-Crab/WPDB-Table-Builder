@@ -74,7 +74,6 @@ Checks if a column has been set based in its name.
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    // Using shortcut types
     $schema->column('id')->int(12)->auto_increment();
     $schema->column('user_id')->type('text')->default('empty'); 
 });
@@ -91,7 +90,6 @@ Returns an array of Column objects.
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    // Using shortcut types
     $schema->column('id')->int(12)->auto_increment();
     $schema->column('user_id')->type('text')->default('empty'); 
 });
@@ -110,7 +108,6 @@ Removes a colum from the table, can be used to conditionally remove a column bef
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    // Using shortcut types
     $schema->column('id')->int(12)->auto_increment();
     $schema->column('user_id')->type('text')->default('empty'); 
     $schema->column('site_id')->type('text')->nullable();
@@ -214,6 +211,7 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->column('id')->unsigned_int(12)->auto_increment();
     $schema->column('user')->int(12);
     $schema->column('booking_ref')->varchar(16);
+    
     $schema->foreign_key('user', 'user_fk')
         ->reference_table('users')
         ->reference_column('id');
@@ -234,7 +232,9 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->column('id')->unsigned_int(12)->auto_increment();
     $schema->column('user')->int(12);
     $schema->column('booking_ref')->varchar(16);
+    
     $schema->index('id')->primary();
+    
     $schema->foreign_key('user', 'user_fk')
         ->reference_table('users')
         ->reference_column('id');
