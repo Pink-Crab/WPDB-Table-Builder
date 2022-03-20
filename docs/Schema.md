@@ -11,8 +11,8 @@
 ***
 
 ## __construct(string $table_name, ?callable $configure = null )
-> @param `string $table_name` The name of your table, if you wish to use a prefix, you can set this during the build  
-> @param `callable|null $configure` Used to set the schema values are the same time as declaring the schema object.  
+> @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build  
+> @param callable|null $configure Used to set the schema values are the same time as declaring the schema object.  
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -26,8 +26,8 @@ $schema->column('id');
 ***
 
 ## prefix( ?string $prefix = null ): self
-> @param `string|null $prefix ` 
-> @return `Schema`    
+> @param string|null $prefix  
+> @return Schema    
 
 You can set an optional table name prefix either at Schema definition or during the build/drop processes.
 ```php
@@ -44,8 +44,8 @@ $schema->prefix($wpdb->prefix); // table name = wp_table (assuming the prefix se
 ***
 
 ## column( string $name ): Column
-> @param `string $name`  
-> @return `Column`  
+> @param string $name  
+> @return Column  
 
 Returns a partially constructed Column object, which has its own fluent API for defining the column details. See Column methods for a more detailed explanation.
 
@@ -67,8 +67,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## has_column( string $name ): bool
-> @param `string $name`  
-> @return `Column`  
+> @param string $name  
+> @return Column  
 
 Checks if a column has been set based in its name.
 
@@ -102,9 +102,9 @@ $schema->get_columns(); // [Column{name: id..}, Column{name: user_id....}]
 ***
 
 ## remove_column( string $name ): self 
-> @param `string $name`  
-> @return `Schema`    
-> @throws `Schema_Validation (Code 301)` If column doesn't exist.  
+> @param string $name  
+> @return Schema    
+> @throws Schema_Validation (Code 301) If column doesn't exist.  
 
 Removes a colum from the table, can be used to conditionally remove a column before being created. Will throw an exception of the column doesnt exist.
 
@@ -125,8 +125,8 @@ if(! is_multisite()){
 ***
 
 ## index( string $column, ?string $key_name = null ): Index
-> @param `string $key_name`  
-> @return `\PinkCrab\Table_Builder\Index`  
+> @param string $key_name  
+> @return \PinkCrab\Table_Builder\Index  
 
 Sets an Index for the table, returns a partially populated Index instance bound to the defined column. The key_name can either be defined or is generated as "ix_{column_name}". Multiple Indexes set with matching key_names will be defined as a single expression ```INDEX key_name (col1,col2,col3)```
 
@@ -145,7 +145,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## has_indexes(): bool
-> @return `bool`  
+> @return bool  
 
 Returns if the table has indexes applied.
 
@@ -163,7 +163,7 @@ $schema->has_indexes(); // TRUE
 ***
 
 ## get_indexes(): array
-> @return `Index[]` 
+> @return Index[] 
 
 Returns an array of all indexes currently set to the Schema.
 
@@ -183,9 +183,9 @@ $schema->get_indexes(); // [Index{column: id..}, Index{column: booking_ref..}]
 ***
 
 ## foreign_key( string $column, ?string $key_name = null ): Foreign_Key
-> @param `string $column` Column index is applied to  
-> @param `string|null $key_name` The indexes reference  
-> @return `\PinkCrab\Table_Builder\Foreign_Key`  
+> @param string $column Column index is applied to  
+> @param string|null $key_name The indexes reference  
+> @return \PinkCrab\Table_Builder\Foreign_Key  
 
 Creates a Foreign Key relationship with another table. Can be set with a custom or default key_name. Returns a partially applied 
 
@@ -204,7 +204,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## has_foreign_keys(): bool
-> @return `bool`  
+> @return bool  
 
 Returns if the table has Foreign Keys applied.
 
@@ -224,7 +224,7 @@ $schema->has_foreign_keys(); // TRUE
 ***
 
 ## get_foreign_keys(): array
-> @return `Foreign_Key[]`  
+> @return Foreign_Key[]  
 
 Returns an array of all Foreign Keys currently set to the Schema.
 
@@ -246,7 +246,7 @@ $schema->get_indexes(); // [Foreign_Key{column: user..}]
 # Column Type Helpers
 
 ## json(): Column
-> @return `Schema`  
+> @return Schema  
 
 Defines a column as JSON
 > **IF USING MYSQL A DEFAULT CAN NOT BE DEFINED, YOU CAN USING MARIADB**
@@ -265,8 +265,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## varchar( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
 Defines a `VARCHAR(length)` with an optional length
 ```php
@@ -285,8 +285,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## text( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
 Defines a `TEXT(length)` with an optional length
 ```php
@@ -305,8 +305,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## int( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
 Defines a `INT(length)` with an optional length
 ```php
@@ -325,8 +325,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## float( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
 Defines a `FLOAT(length)` with an optional length
 ```php
@@ -345,8 +345,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## double( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
 Defines a `DOUBLE(length)` with an optional length
 ```php
@@ -365,8 +365,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## unsigned_int( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
 Defines a `UNSIGNED INT(length)` with an optional length
 ```php
@@ -386,10 +386,10 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 
 ## unsigned_medium( ?int $length = null ): Column
-> @param `int|null $length`  
-> @return `Schema`  
+> @param int|null $length  
+> @return Schema  
 
-Defines a `UNSIGNED MEDIUM(length)` with an optional length
+Defines a `UNSIGNED INT(length)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
     
@@ -407,7 +407,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 ## datetime( ?string $default = null ): Column
 > @param string|null $default  
-> @return `Schema`  
+> @return Schema  
 
 Defines a `DATETIME` with an optional default value
 ```php
