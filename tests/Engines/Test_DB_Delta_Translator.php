@@ -26,7 +26,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$schema->column( 'varchar_column' )->varchar( 2 );
 		$schema->column( 'int_column' )->int( 24 );
 		$schema->column( 'unsigned_column' )->unsigned_int( 11 )->auto_increment();
-		$schema->column( 'float_column' )->float( 11 )->default( '123.50' );
+		$schema->column( 'float_column' )->float( 11, 2 )->default( '123.50' );
 		$schema->column( 'timestamp_column' )->timestamp( 'NOW()' );
 		$schema->column( 'longblob_column' )->type( 'LONGBLOB' );
 
@@ -62,7 +62,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'AUTO_INCREMENT', $columns['unsigned_column'] );
 
 		// float column
-		$this->assertStringContainsString( 'FLOAT(11)', $columns['float_column'] );
+		$this->assertStringContainsString( 'FLOAT(11, 2)', $columns['float_column'] );
 		$this->assertStringContainsString( 'NOT NULL', $columns['float_column'] );
 		$this->assertStringContainsString( 'DEFAULT 123.50', $columns['float_column'] );
 

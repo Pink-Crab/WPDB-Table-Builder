@@ -19,18 +19,6 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->column('foo')->type('text');
 ]);
 ```
-
-***
-
-## type( string $type ): Column
-> @param string $type Defines the column type, only valid MYSQL types should be used  
-> @return self  
- ```php
-$schema = new Schema('table', function(Schema $schema): void{
-    // Defined a column with the type of TEXT
-    $schema->column('foo')->type('text');
-]);
-```
 ```sql
 CREATE TABLE table(
     foo TEXT,
@@ -49,7 +37,24 @@ $schema = new Schema('table', function(Schema $schema): void{
 ```
 ```sql
 CREATE TABLE table(
-    foo INT(11),
+    foo INT(11)  NOT NULL,
+);
+```
+
+***
+
+## precision( string $precision ): Column
+> @param string $precision Defines the precision of floating point columns. 
+> @return self  
+ ```php
+$schema = new Schema('table', function(Schema $schema): void{
+    // Defined a column with the type of LENGTH
+    $schema->column('foo')->type('decimal')->length(12)->precision(2);
+]);
+```
+```sql
+CREATE TABLE table(
+    foo DECIMAL(12, 2)  NOT NULL,
 );
 ```
 
@@ -62,11 +67,31 @@ CREATE TABLE table(
 $schema = new Schema('table', function(Schema $schema): void{
     // Defined a column with the type of nullable
     $schema->column('foo')->varchar(255)->nullable(true);
+    $schema->column('bar')->text()->nullable(false);
 ]);
 ```
 ```sql
 CREATE TABLE table(
-    foo VARCHAR(11),
+    foo VARCHAR(255) NULL, 
+    bar TEXT NOT NULL, 
+);
+```
+
+***
+
+## default( string $default ): Column
+> @param string $default Defines the default value for a column
+> @return self  
+ ```php
+$schema = new Schema('table', function(Schema $schema): void{
+    // Defined a column with the type of nullable
+    $schema->column('foo')->varchar(255)->default('HAPPY');
+]);
+```
+```sql
+CREATE TABLE table(
+    foo VARCHAR(255) NULL, 
+    bar TEXT NOT NULL, 
 );
 ```
 

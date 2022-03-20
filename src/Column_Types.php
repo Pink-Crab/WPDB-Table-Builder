@@ -79,12 +79,16 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
+	 * @param int|null $precision
 	 * @return Column
 	 */
-	public function float( ?int $length = null ): Column {
+	public function float( ?int $length = null, ?int $precision = null ): Column {
 		$this->type( 'float' );
 		if ( null !== $length ) {
 			$this->length( $length );
+		}
+		if ( null !== $precision ) {
+			$this->precision( $precision );
 		}
 		return $this;
 	}
@@ -94,12 +98,16 @@ trait Column_Types {
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
+	 * @param int|null $precision
 	 * @return Column
 	 */
-	public function double( ?int $length = null ): Column {
+	public function double( ?int $length = null, ?int $precision = null ): Column {
 		$this->type( 'double' );
 		if ( null !== $length ) {
 			$this->length( $length );
+		}
+		if ( null !== $precision ) {
+			$this->precision( $precision );
 		}
 		return $this;
 	}

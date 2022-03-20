@@ -65,6 +65,14 @@ class Column {
 	protected $length = null;
 
 	/**
+	 * The column precision
+	 * Used for floating point values
+	 *
+	 * @var int|null
+	 */
+	protected $precision = null;
+
+	/**
 	 * Denotes if the column is nullable
 	 *
 	 * @var bool|null
@@ -119,6 +127,19 @@ class Column {
 	}
 
 	/**
+	 * Sets the column precision
+	 * 
+	 * Only used for floating point numbers
+	 *
+	 * @param integer $precision
+	 * @return self
+	 */
+	public function precision( int $precision ): self {
+		$this->precision = $precision;
+		return $this;
+	}
+
+	/**
 	 * Denotes if the column is nullable
 	 *
 	 * @param boolean $nullable
@@ -132,10 +153,10 @@ class Column {
 	/**
 	 * Sets the default value
 	 *
-	 * @param string $default
+	 * @param mixed $default
 	 * @return self
 	 */
-	public function default( string $default ): self {
+	public function default( $default ): self {
 		$this->default = $default;
 		return $this;
 	}
@@ -207,6 +228,15 @@ class Column {
 	}
 
 	/**
+	 * Get used for floating point values
+	 *
+	 * @return int|null
+	 */
+	public function get_precision(): ?int {
+		return $this->precision;
+	}
+
+	/**
 	 * Get denotes if the column is nullable
 	 * Returns false if column not set.
 	 *
@@ -219,14 +249,14 @@ class Column {
 	/**
 	 * Get the columns default value
 	 *
-	 * @return string|null
+	 * @return mixed|null
 	 */
-	public function get_default(): ?string {
+	public function get_default() {
 		return $this->default;
 	}
 
 	/**
-	 * Get if the column has the auto incrememnt flag.
+	 * Get if the column has the auto increment flag.
 	 * False if not set.
 	 *
 	 * @return bool
@@ -244,4 +274,5 @@ class Column {
 	public function is_unsigned(): bool {
 		return $this->unsigned ?? false;
 	}
+
 }

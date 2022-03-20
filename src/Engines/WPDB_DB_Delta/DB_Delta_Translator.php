@@ -45,7 +45,7 @@ class DB_Delta_Translator {
 				return sprintf(
 					'%s %s%s%s%s%s',
 					$column->get_name(),
-					$this->type_mapper( $column->get_type() ?? '', $column->get_length() ),
+					$this->type_mapper( $column->get_type() ?? '', $column->get_length(), $column->get_precision() ),
 					$column->is_unsigned() ? ' UNSIGNED' : '',
 					$column->is_nullable() ? ' NULL' : ' NOT NULL',
 					$column->is_auto_increment() ? ' AUTO_INCREMENT' : '',
@@ -78,7 +78,7 @@ class DB_Delta_Translator {
 	 * @param int|null $length
 	 * @return string
 	 */
-	protected function type_mapper( string $type, ?int $length ): string {
+	protected function type_mapper( string $type, ?int $length, ?int $precision ): string {
 		$type = strtoupper( $type );
 		switch ( $type ) {
 			// With length
@@ -96,17 +96,20 @@ class DB_Delta_Translator {
 			case 'INT':
 			case 'INTEGER':
 			case 'BIGINT':
-				// Floats
-			case 'FLOAT':
-			case 'DOUBLE':
-			case 'DOUBLE PRECISION':
-			case 'DECIMAL':
-			case 'DEC':
 				// Date
 			case 'DATETIME':
 			case 'TIMESTAMP':
 			case 'TIME':
 				return is_null( $length ) ? $type : "{$type}({$length})";
+
+			// Floats
+			case 'FLOAT':
+			case 'DOUBLE':
+			case 'DOUBLE PRECISION':
+			case 'DECIMAL':
+			case 'DEC':
+				$precision = $precision ?? 1;
+				return is_null( $length ) ? $type : "{$type}({$length}, {$precision})";
 
 			default:
 				return $type;
@@ -117,11 +120,11 @@ class DB_Delta_Translator {
 	 * Parses the default value based on column type.
 	 *
 	 * @param string $type
-	 * @param string|null $defualt
+	 * @param mixed|null $default
 	 * @return string
 	 */
-	protected function parse_default( string $type, ?string $defualt ): string {
-		if ( is_null( $defualt ) ) {
+	protected function parse_default( string $type, $default ): string {
+		if ( is_null( $default ) ) {
 			return '';
 		}
 
@@ -129,10 +132,10 @@ class DB_Delta_Translator {
 
 		// String values.
 		if ( in_array( $type, array( 'JSON', 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
-			return " DEFAULT '{$defualt}'";
+			return " DEFAULT '{$default}'";
 		}
 
-		return " DEFAULT {$defualt}";
+		return " DEFAULT {$default}";
 	}
 
 		/**
