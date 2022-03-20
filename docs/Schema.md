@@ -11,8 +11,8 @@
 ***
 
 ## __construct(string $table_name, ?callable $configure = null )
-> @param string $table_name The name of your table, if you wish to use a prefix, you can set this during the build  
-> @param callable|null $configure Used to set the schema values are the same time as declaring the schema object.  
+> @param `string $table_name` The name of your table, if you wish to use a prefix, you can set this during the build  
+> @param `callable|null $configure` Used to set the schema values are the same time as declaring the schema object.  
 
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
