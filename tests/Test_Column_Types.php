@@ -91,6 +91,15 @@ class Test_Column_Types extends WP_UnitTestCase {
 
 		$this->assertEquals( 'double', $column_with_length->get_type() );
 		$this->assertEquals( 12, $column_with_length->get_length() );
+		$this->assertEquals( null, $column_with_length->get_precision() );
+
+		// With precision set.
+		$column_with_precision = new Column( 'with_precision' );
+		$column_with_precision->double( 24, 6 );
+
+		$this->assertEquals( 'double', $column_with_precision->get_type() );
+		$this->assertEquals( 24, $column_with_precision->get_length() );
+		$this->assertEquals( 6, $column_with_precision->get_precision() );
 	}
 
 	/** @testdox It should be possible to set common types such as UNSIGNED INT and it legnth in a simple and short fashion */
