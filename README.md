@@ -9,7 +9,7 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/?branch=master)
 
 
-> **Related Pages**
+> **Related Pages**  
 > » [Schema](docs/Schema.md)  
 > » [Column](docs/Column.md)  
 > » [Index](docs/Index.md)  
