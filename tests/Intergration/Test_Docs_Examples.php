@@ -86,7 +86,7 @@ class Test_Docs_Examples extends WP_UnitTestCase {
 		$builder->create_table( $schema );
 
 		$generated_query = $GLOBALS['wpdb']->last_query;
-
+dump($generated_query);
 		// Length
 		$this->assertStringContainsString( 'verbose_length MEDIUMINT(123)', $generated_query );
 		$this->assertStringContainsString( 'shortcut_length INT(12) ', $generated_query );
