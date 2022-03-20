@@ -90,8 +90,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ```
 ```sql
 CREATE TABLE table(
-    foo VARCHAR(255) NULL, 
-    bar TEXT NOT NULL, 
+    foo VARCHAR(255) NOT NULL DEFAULT 'HAPPY'
 );
 ```
 
