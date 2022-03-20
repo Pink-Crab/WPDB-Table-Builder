@@ -30,7 +30,7 @@ use PinkCrab\Table_Builder\Column;
 trait Column_Types {
 
 	/**
-	 * Sets column as varchar wtih a definied length.
+	 * Sets column as varchar with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -38,14 +38,14 @@ trait Column_Types {
 	 */
 	public function varchar( ?int $length = null ): Column {
 		$this->type( 'varchar' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
 	}
 
 	/**
-	 * Sets column as text wtih a definied length.
+	 * Sets column as text with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -53,14 +53,14 @@ trait Column_Types {
 	 */
 	public function text( ?int $length = null ): Column {
 		$this->type( 'text' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
 	}
 
 	/**
-	 * Sets column as int wtih a definied length.
+	 * Sets column as int with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
@@ -68,38 +68,46 @@ trait Column_Types {
 	 */
 	public function int( ?int $length = null ): Column {
 		$this->type( 'int' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
 	}
 
 	/**
-	 * Sets column as float wtih a definied length.
+	 * Sets column as float with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
+	 * @param int|null $precision
 	 * @return Column
 	 */
-	public function float( ?int $length = null ): Column {
+	public function float( ?int $length = null, ?int $precision = null ): Column {
 		$this->type( 'float' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
+		}
+		if ( null !== $precision ) {
+			$this->precision( $precision );
 		}
 		return $this;
 	}
 
 	/**
-	 * Sets column as double wtih a definied length.
+	 * Sets column as double with a defined length.
 	 *
 	 * @since 0.2.0
 	 * @param int|null $length
+	 * @param int|null $precision
 	 * @return Column
 	 */
-	public function double( ?int $length = null ): Column {
+	public function double( ?int $length = null, ?int $precision = null ): Column {
 		$this->type( 'double' );
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
+		}
+		if ( null !== $precision ) {
+			$this->precision( $precision );
 		}
 		return $this;
 	}
@@ -113,7 +121,7 @@ trait Column_Types {
 	 */
 	public function datetime( ?string $default = null ): Column {
 		$this->type( 'datetime' );
-		if ( $default ) {
+		if ( null !== $default ) {
 			$this->default( $default );
 		}
 		return $this;
@@ -128,14 +136,14 @@ trait Column_Types {
 	 */
 	public function timestamp( ?string $default = null ): Column {
 		$this->type( 'timestamp' );
-		if ( $default ) {
+		if ( null !== $default ) {
 			$this->default( $default );
 		}
 		return $this;
 	}
 
 	/**
-	 * Sets column as an unsighed int wtih a definied length.
+	 * Sets column as an unsigned int with a defined length.
 	 *
 	 * @since 0.3.0
 	 * @param int|null $length
@@ -144,14 +152,14 @@ trait Column_Types {
 	public function unsigned_int( ?int $length = null ): Column {
 		$this->type( 'int' );
 		$this->unsigned();
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
 		return $this;
 	}
 
 	/**
-	 * Sets column as an unsighed mediumint wtih a definied length.
+	 * Sets column as an unsigned mediumint with a defined length.
 	 *
 	 * @since 0.3.0
 	 * @param int|null $length
@@ -160,9 +168,20 @@ trait Column_Types {
 	public function unsigned_medium( ?int $length = null ): Column {
 		$this->type( 'mediumint' );
 		$this->unsigned();
-		if ( $length ) {
+		if ( null !== $length ) {
 			$this->length( $length );
 		}
+		return $this;
+	}
+
+	/**
+	 * Sets column as JSON with an optional default.
+	 *
+	 * @since 1.1.0
+	 * @return Column
+	 */
+	public function json(): Column {
+		$this->type( 'json' );
 		return $this;
 	}
 }

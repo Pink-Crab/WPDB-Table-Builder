@@ -115,7 +115,7 @@ class Test_Simple_Table extends WP_UnitTestCase {
 	}
 
 	/**
-	 * Test the defualts are used.
+	 * Test the defaults are used.
 	 * Called from same class, as the temp transactions are not fun.
 	 *
 	 * @return void

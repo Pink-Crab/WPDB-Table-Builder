@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 /**
- * The primary class for creating and dropping tables.
+ * Exception for the schema model.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -17,59 +17,59 @@ declare(strict_types=1);
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @since 0.3.0
+ * @since 1.1.0
  * @author Glynn Quelch <glynn.quelch@gmail.com>
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @package PinkCrab\Table_Builder
  */
 
-namespace PinkCrab\Table_Builder;
+namespace PinkCrab\Table_Builder\Exception;
 
-use PinkCrab\Table_Builder\Engines\Engine;
+use Exception;
+use Throwable;
 use PinkCrab\Table_Builder\Schema;
 
-
-class Builder {
+class Schema_Exception extends Exception {
 
 	/**
-	 * The engine used to create the tables
+	 * The table schema.
 	 *
-	 * @var Engine
+	 * @var Schema|null
 	 */
-	protected $engine;
+	private $schema;
 
-	public function __construct( Engine $engine, ?callable $engine_config = null ) {
-		$this->engine = $engine_config
-			? $engine_config( $engine )
-			: $engine;
+	public function __construct(
+		?Schema $schema = null,
+		string $message = '',
+		int $code = 0,
+		?Throwable $previous = null
+	) {
+		$this->schema = $schema;
+		parent::__construct( $message, $code, $previous );
 	}
 
 	/**
-	 * Creates the table
+	 * Get the table schema.
 	 *
-	 * @param Schema $schema
-	 * @return bool
+	 * @return Schema|null
 	 */
-	public function create_table( Schema $schema ): bool {
-		return $this->engine->create_table( $schema );
+	public function get_schema(): ?Schema {
+		return $this->schema;
 	}
 
 	/**
-	 * Drop a table
+	 * Throw an exception when a column doesn't exist.
 	 *
-	 * @param Schema $schema
-	 * @return bool
+	 * @param \PinkCrab\Table_Builder\Schema $schema
+	 * @param string $column
+	 * @return Schema_Exception
 	 */
-	public function drop_table( Schema $schema ): bool {
-		return $this->engine->drop_table( $schema );
+	public static function column_not_exist( Schema $schema, string $column ): Schema_Exception {
+		return new Schema_Exception(
+			$schema,
+			\sprintf( 'column with name %s is not currently defined', $column ),
+			301
+		);
 	}
 
-	/**
-	 * Access to the builders engine.
-	 *
-	 * @return Engine
-	 */
-	public function get_engine(): Engine {
-		return $this->engine;
-	}
 }

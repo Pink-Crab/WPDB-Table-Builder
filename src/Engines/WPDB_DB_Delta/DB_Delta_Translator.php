@@ -45,7 +45,7 @@ class DB_Delta_Translator {
 				return sprintf(
 					'%s %s%s%s%s%s',
 					$column->get_name(),
-					$this->type_mapper( $column->get_type() ?? '', $column->get_length() ),
+					$this->type_mapper( $column->get_type() ?? '', $column->get_length(), $column->get_precision() ),
 					$column->is_unsigned() ? ' UNSIGNED' : '',
 					$column->is_nullable() ? ' NULL' : ' NOT NULL',
 					$column->is_auto_increment() ? ' AUTO_INCREMENT' : '',
@@ -78,7 +78,7 @@ class DB_Delta_Translator {
 	 * @param int|null $length
 	 * @return string
 	 */
-	protected function type_mapper( string $type, ?int $length ): string {
+	protected function type_mapper( string $type, ?int $length, ?int $precision ): string {
 		$type = strtoupper( $type );
 		switch ( $type ) {
 			// With length
@@ -96,17 +96,20 @@ class DB_Delta_Translator {
 			case 'INT':
 			case 'INTEGER':
 			case 'BIGINT':
-				// Floats
-			case 'FLOAT':
-			case 'DOUBLE':
-			case 'DOUBLE PRECISION':
-			case 'DECIMAL':
-			case 'DEC':
 				// Date
 			case 'DATETIME':
 			case 'TIMESTAMP':
 			case 'TIME':
 				return is_null( $length ) ? $type : "{$type}({$length})";
+
+			// Floats
+			case 'FLOAT':
+			case 'DOUBLE':
+			case 'DOUBLE PRECISION':
+			case 'DECIMAL':
+			case 'DEC':
+				$precision = $precision ?? 1;
+				return is_null( $length ) ? $type : "{$type}({$length},{$precision})";
 
 			default:
 				return $type;
@@ -117,22 +120,22 @@ class DB_Delta_Translator {
 	 * Parses the default value based on column type.
 	 *
 	 * @param string $type
-	 * @param string|null $defualt
+	 * @param mixed|null $default
 	 * @return string
 	 */
-	protected function parse_default( string $type, ?string $defualt ): string {
-		if ( is_null( $defualt ) ) {
+	protected function parse_default( string $type, $default ): string {
+		if ( is_null( $default ) ) {
 			return '';
 		}
 
 		$type = strtoupper( $type );
 
 		// String values.
-		if ( in_array( $type, array( 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
-			return " DEFAULT '{$defualt}'";
+		if ( in_array( $type, array( 'JSON', 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
+			return " DEFAULT '{$default}'";
 		}
 
-		return " DEFAULT {$defualt}";
+		return " DEFAULT {$default}";
 	}
 
 		/**
@@ -169,7 +172,7 @@ class DB_Delta_Translator {
 			function( array $index_group ): string {
 
 				// Extract all parts from group.
-				$key_name   = $index_group[0]->get_keyname();
+				$key_name   = $index_group[0]->get_key_name();
 				$index_type = $index_group[0]->get_type();
 				$columns    = array_map(
 					function( $e ) {
@@ -201,7 +204,7 @@ class DB_Delta_Translator {
 			function( Foreign_Key $foreign_key ): string {
 				return \sprintf(
 					'FOREIGN KEY %s(%s) REFERENCES %s(%s)%s%s',
-					$foreign_key->get_keyname(),
+					$foreign_key->get_key_name(),
 					$foreign_key->get_column(),
 					$foreign_key->get_reference_table(),
 					$foreign_key->get_reference_column(),
@@ -214,7 +217,7 @@ class DB_Delta_Translator {
 	}
 
 	/**
-	 * Groups the indexes by keyname and type.
+	 * Groups the indexes by key_name and type.
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return array<string, Index[]>
@@ -228,7 +231,7 @@ class DB_Delta_Translator {
 					return $carry;
 				}
 
-				$carry[ $index->get_keyname() . '_' . $index->get_type() ][] = $index;
+				$carry[ $index->get_key_name() . '_' . $index->get_type() ][] = $index;
 
 				return $carry;
 			},

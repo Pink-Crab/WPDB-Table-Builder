@@ -33,7 +33,7 @@ class Index {
 	 * @since 0.1.0
 	 * @var string
 	 */
-	protected $keyname;
+	protected $key_name;
 
 	/**
 	 * Column referenced
@@ -67,9 +67,9 @@ class Index {
 	 */
 	protected $primary = false;
 
-	public function __construct( string $column, ?string $keyname = null ) {
-		$this->keyname = $keyname ?? 'ix_' . $column;
-		$this->column  = $column;
+	public function __construct( string $column, ?string $key_name = null ) {
+		$this->key_name = $key_name ?? 'ix_' . $column;
+		$this->column   = $column;
 	}
 
 	/**
@@ -112,8 +112,8 @@ class Index {
 	 *
 	 * @return string
 	 */
-	public function get_keyname(): string {
-		return $this->keyname;
+	public function get_key_name(): string {
+		return $this->key_name;
 	}
 
 	/**
@@ -123,7 +123,7 @@ class Index {
 	 */
 	public function export() {
 		return (object) array(
-			'keyname'   => $this->keyname,
+			'key_name'  => $this->key_name,
 			'column'    => $this->column,
 			'primary'   => $this->primary,
 			'unique'    => $this->unique,

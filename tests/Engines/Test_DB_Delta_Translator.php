@@ -26,7 +26,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$schema->column( 'varchar_column' )->varchar( 2 );
 		$schema->column( 'int_column' )->int( 24 );
 		$schema->column( 'unsigned_column' )->unsigned_int( 11 )->auto_increment();
-		$schema->column( 'float_column' )->float( 11 )->default( '123.50' );
+		$schema->column( 'float_column' )->float( 11, 2 )->default( '123.50' );
 		$schema->column( 'timestamp_column' )->timestamp( 'NOW()' );
 		$schema->column( 'longblob_column' )->type( 'LONGBLOB' );
 
@@ -62,7 +62,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'AUTO_INCREMENT', $columns['unsigned_column'] );
 
 		// float column
-		$this->assertStringContainsString( 'FLOAT(11)', $columns['float_column'] );
+		$this->assertStringContainsString( 'FLOAT(11,2)', $columns['float_column'] );
 		$this->assertStringContainsString( 'NOT NULL', $columns['float_column'] );
 		$this->assertStringContainsString( 'DEFAULT 123.50', $columns['float_column'] );
 
@@ -76,7 +76,7 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertStringContainsString( 'NOT NULL', $columns['longblob_column'] );
 	}
 
-	/** @testdox If an index has been created for a priamry key, it should be parsed as a valid SQL expression (for DbDeleta) to create the index. */
+	/** @testdox If an index has been created for a primary key, it should be parsed as a valid SQL expression (for DbDeleta) to create the index. */
 	public function test_can_translate_primary_key(): void {
 		$schema = new Schema( 'test' );
 		$schema->column( 'id' )->unsigned_int( 11 )->auto_increment();
@@ -109,8 +109,8 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertEquals( 'FULLTEXT INDEX ix_varchar_column (varchar_column)', $indexes['ix_varchar_column_fulltext'] );
 	}
 
-	/** @testdox It should be possible to has multiple indexes using the same keyname, be expresses as a single SQL expression. */
-	public function test_can_group_indexes_by_keyname(): void {
+	/** @testdox It should be possible to has multiple indexes using the same key_name, be expresses as a single SQL expression. */
+	public function test_can_group_indexes_by_key_name(): void {
 		$schema = new Schema( 'test' );
 		$schema->column( 'col1' )->text()->nullable()->default( 'text default' );
 		$schema->column( 'col2' )->varchar( 2 );
