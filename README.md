@@ -16,7 +16,7 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 > » [Foreign_Key](docs/Foreign_Key.md)  
 
 
-[You can read the docs on the Perique site also](https://perique.info/lib/Table%20Builder/)
+[You can read the docs on the Perique.info](https://perique.info/lib/Table%20Builder/)
 
 
 ## Version
@@ -213,8 +213,16 @@ try{
 http://www.opensource.org/licenses/mit-license.html  
 
 ## Change Log ##
+* 1.1.0 - Added JSON column support, fixed precision issue with floating point column, improved docs (with help from [ZebulanStanphill](https://github.com/ZebulanStanphill))
 * 1.0.0 - Added 2 new methods to the engine interface and wpdb implementation to return the queries used to create table and drop table. 
 * 0.3.0 - Changed how much of the API works; some of the externals have changed. It no longer accepts fully fluent creation, and index/foreign keys have been separated.
 * 0.2.2 - No change, branches a mess.
 * 0.2.1 - Added in more tests, now has 100% test coverage. Added in more valdation around columns, tablename and indexes. Previously threw PHP errors for missing or malformed data. Now throws exceptions if Table has no name, a column is lacking key, null, type or length and all indexes which are foreign keys, must have a valid reference table and column. No changes to public methods.
 * 0.2.0 - Moved to Composer, renamed all namespaces to match the Composer format.
+
+## Contributions ##
+If you would like to contribute to this project, please feel to create an issue, then submit a PR.
+
+> [Glynn Quelch](https://github.com/gin0115/)  
+> [ZebulanStanphill](https://github.com/ZebulanStanphill)
+
