@@ -188,7 +188,7 @@ class DB_Delta_Validator {
 
 		if ( count( $missing_references ) > 0 ) {
 			foreach ( $missing_references as $missing_reference ) {
-				$this->errors[] = \sprintf( 'Foreign Keys column %s has missing reference table or column details', $missing_reference->get_keyname() );
+				$this->errors[] = \sprintf( 'Foreign Keys column %s has missing reference table or column details', $missing_reference->get_key_name() );
 			}
 		}
 	}

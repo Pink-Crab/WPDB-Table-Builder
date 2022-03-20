@@ -19,15 +19,15 @@ use PinkCrab\Table_Builder\Foreign_Key;
 class Test_Foreign_Key extends WP_UnitTestCase {
 
 	/** @testdox When creating a new Foreign_Key, if no key name is passed, it should be inferred as ix_{column_name} */
-	public function test_can_create_with_inferred_keyname(): void {
+	public function test_can_create_with_inferred_key_name(): void {
 		$f_key = new Foreign_Key( 'column' );
-		$this->assertEquals( 'fk_column', $f_key->get_keyname() );
+		$this->assertEquals( 'fk_column', $f_key->get_key_name() );
 	}
 
-	/** @testdox When creating an new Foreign_Key, it should be possible to define the keyname. */
-	public function test_can_create_index_with_defined_keyname(): void {
-		$f_key = new Foreign_Key( 'column', 'keyname' );
-		$this->assertEquals( 'keyname', $f_key->get_keyname() );
+	/** @testdox When creating an new Foreign_Key, it should be possible to define the key_name. */
+	public function test_can_create_index_with_defined_key_name(): void {
+		$f_key = new Foreign_Key( 'column', 'key_name' );
+		$this->assertEquals( 'key_name', $f_key->get_key_name() );
 	}
 
 	/** @testdox It should be possible to get the column that the Foreign Key is attached to */

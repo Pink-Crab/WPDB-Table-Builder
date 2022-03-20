@@ -19,15 +19,15 @@ use PinkCrab\Table_Builder\Index;
 class Test_Index extends WP_UnitTestCase {
 
 	/** @testdox When creating a new table index, if no key name is passed, it should be inferred as ix_{column_name} */
-	public function test_can_create_with_inferred_keyname(): void {
+	public function test_can_create_with_inferred_key_name(): void {
 		$index = new Index( 'column' );
-		$this->assertEquals( 'ix_column', $index->get_keyname() );
+		$this->assertEquals( 'ix_column', $index->get_key_name() );
 	}
 
-	/** @testdox When creating an new table index, it should be possible to define the keyname. */
-	public function test_can_create_index_with_defined_keyname(): void {
-		$index = new Index( 'column', 'keyname' );
-		$this->assertEquals( 'keyname', $index->get_keyname() );
+	/** @testdox When creating an new table index, it should be possible to define the key_name. */
+	public function test_can_create_index_with_defined_key_name(): void {
+		$index = new Index( 'column', 'key_name' );
+		$this->assertEquals( 'key_name', $index->get_key_name() );
 	}
 
 	/** @testdox It should be possible to get the column name that an index is applied to */
@@ -86,14 +86,14 @@ class Test_Index extends WP_UnitTestCase {
 
 	/** @testdox It should be possible to export the current indexes details as a stdClass */
 	public function test_can_export_index_as_stdClass(): void {
-		$index = new Index( 'column', 'keyname' );
+		$index = new Index( 'column', 'key_name' );
 		$index->unique();
 		$index->full_text( false );
 		$index->primary( true );
 		
         $export = $index->export();
 
-		$this->assertEquals( 'keyname', $export->keyname );
+		$this->assertEquals( 'key_name', $export->key_name );
 		$this->assertEquals( 'column', $export->column );
 		$this->assertTrue( $export->unique );
 		$this->assertFalse( $export->full_text );
