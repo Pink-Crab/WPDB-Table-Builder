@@ -411,7 +411,7 @@ Returns the column is set to unsigned (assumes false if not defined.)
 
 ## export(): stdClass
 > @return object{  
-> >name:string,  
+>       name:string,  
 >    type:string,  
 >    length:int|null,  
 >    precision:int|null,  
