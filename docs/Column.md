@@ -285,6 +285,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## unsigned_int( ?int $length = null ): Column
+
 > @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Column  
 
@@ -410,13 +411,16 @@ Returns the column is set to unsigned (assumes false if not defined.)
 *** 
 
 ## export(): stdClass
+
 > @return object{  
->       name:string,  
->    type:string,  
->    length:int|null,  
->    precision:int|null,  
->    nullable:bool,  
->    default:string|int|float,  
->    unsigned:bool,  
->    auto_increment:bool,  
+> name:string, 
+> type:string, 
+> length:int|null, 
+> precision:int|null, 
+> nullable:bool, 
+> default:string|int|float, 
+> unsigned:bool, 
+> auto_increment:bool, 
 > }
+
+Returns a stdClass object with the columns values.
