@@ -2,11 +2,11 @@
 
 > **Related Pages**
 >
-> » Column
+> » [Column](Column.md)
 > 
-> » [Index](Index)
+> » [Index](Index.md)
 > 
-> » [Foreign_Key](Foreign_Key)
+> » [Foreign_Key](Foreign_Key.md)
 
 ***
 
