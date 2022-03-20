@@ -153,7 +153,6 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `INT(length)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
     // Using helper
     $schema->column('some_string')->int(16);
     // Verbose
@@ -188,7 +187,6 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `DOUBLE(length, precision)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-        
     // Using helper
     $schema->column('some_string')->double(16,2);
     // Verbose
@@ -205,10 +203,6 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `UNSIGNED INT(length)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('some_string')->unsigned_int(16);
     // Verbose
@@ -226,10 +220,6 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `UNSIGNED INT(length)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_medium(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('some_string')->unsigned_medium(16);
     // Verbose
@@ -246,10 +236,6 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `DATETIME` with an optional default value
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('some_string')->datetime('2012-12-31 23:59:59');
     // Verbose
