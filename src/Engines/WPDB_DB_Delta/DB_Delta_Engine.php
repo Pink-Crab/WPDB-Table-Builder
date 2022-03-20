@@ -31,6 +31,7 @@ use PinkCrab\Table_Builder\Engines\Engine;
 use PinkCrab\Table_Builder\Exception\Engine_Exception;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Translator;
+use PinkCrab\Table_Builder\Exception\WPDB_DB_Delta\WPDB_Validator_Exception;
 
 class DB_Delta_Engine implements Engine {
 
@@ -82,13 +83,9 @@ class DB_Delta_Engine implements Engine {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
-			throw new \Exception(
-				sprintf(
-					'Failed to create table %s as failed validation: %s',
-					$schema->get_table_name(),
-					join( ', ' . PHP_EOL, $this->validator->get_errors() )
-				),
-				1
+			throw WPDB_Validator_Exception::failed_validation(
+				$schema,
+				$this->validator->get_errors()
 			);
 		}
 
@@ -100,6 +97,7 @@ class DB_Delta_Engine implements Engine {
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
 	 * @throws \Exception If fails validation. (code 1)
+	 * @throws Engine_Exception If errors thrown creating table (code 101)
 	 */
 	public function create_table( Schema $schema ): bool {
 
@@ -149,14 +147,7 @@ class DB_Delta_Engine implements Engine {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
-			throw new \Exception(
-				sprintf(
-					'Failed to drop table %s as failed validation: %s',
-					$schema->get_table_name(),
-					join( ', ' . PHP_EOL, $this->validator->get_errors() )
-				),
-				2
-			);
+			throw WPDB_Validator_Exception::failed_validation( $schema, $this->validator->get_errors() );
 		}
 	}
 

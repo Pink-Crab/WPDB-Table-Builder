@@ -17,6 +17,7 @@ use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Builder;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Engine;
+use PinkCrab\Table_Builder\Exception\WPDB_DB_Delta\WPDB_Validator_Exception;
 
 class Test_Invlaid_Schema extends WP_UnitTestCase {
 
@@ -42,17 +43,17 @@ class Test_Invlaid_Schema extends WP_UnitTestCase {
 
 	/** @testdox It should not be possible to create a table from an invalid schema. Attempting to do so should generate an error and prevent the table from being created. */
 	public function test_throws_exception_attempting_to_create_from_invalid_schema(): void {
-		$this->expectException( \Exception::class );
-		$this->expectExceptionCode( 1 );
-		$this->expectExceptionMessageMatches( '/Failed to create table/' );
+		$this->expectException( WPDB_Validator_Exception::class );
+		$this->expectExceptionCode( 201 );
+		$this->expectExceptionMessage( 'test_drop_table failed with 1 errors' );
 		$this->builder->create_table( $this->schema );
 	}
 
 	/** @testdox It should not be possible to drop a table from an invalid schema. Attempting to do so should generate an error and prevent the table from being created. */
 	public function test_throws_exception_attempting_to_drop_from_invalid_schema(): void {
-		$this->expectException( \Exception::class );
-		$this->expectExceptionCode( 2 );
-		$this->expectExceptionMessageMatches( '/Failed to drop table/' );
+		$this->expectException( WPDB_Validator_Exception::class );
+		$this->expectExceptionCode( 201 );
+		$this->expectExceptionMessage( 'test_drop_table failed with 1 errors' );
 		$this->builder->drop_table( $this->schema );
 	}
 }
