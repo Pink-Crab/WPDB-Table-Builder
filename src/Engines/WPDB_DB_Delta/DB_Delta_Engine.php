@@ -25,7 +25,6 @@ declare(strict_types=1);
 
 namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
-use Exception;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Engine;
 use PinkCrab\Table_Builder\Exception\Engine_Exception;
@@ -77,7 +76,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return void
-	 * @throws \Exception If fails validation. (code 1)
+	 * @throws WPDB_Validator_Exception if fails validation (code 201)
 	 */
 	private function set_query_for_create( Schema $schema ): void {
 		$this->schema = $schema;
@@ -96,7 +95,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
-	 * @throws \Exception If fails validation. (code 1)
+	 * @throws WPDB_Validator_Exception if fails validation (code 201)
 	 * @throws Engine_Exception If errors thrown creating table (code 101)
 	 */
 	public function create_table( Schema $schema ): bool {
@@ -129,7 +128,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return string
-	 * @throws \Exception If fails validation. (code 1)
+	 * @throws WPDB_Validator_Exception if fails validation (code 201)
 	 */
 	public function create_table_query( Schema $schema ): string {
 		$this->set_query_for_create( $schema );
@@ -141,7 +140,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return void
-	 * @throws \Exception If fails validation. (code 2)
+	 * @throws WPDB_Validator_Exception If fails schema validation (code 201)
 	 */
 	private function set_query_for_drop( Schema $schema ): void {
 		$this->schema = $schema;
@@ -156,7 +155,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
-	 * @throws \Exception If fails validation. (code 2)
+	 * @throws WPDB_Validator_Exception If fails schema validation (code 201)
 	 * @throws Engine_Exception If error thrown dropping table. (code 102)
 	 */
 	public function drop_table( Schema $schema ): bool {
@@ -185,7 +184,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return string
-	 * @throws \Exception If fails validation. (code 2)
+	 * @throws WPDB_Validator_Exception If fails schema validation (code 201)
 	 */
 	public function drop_table_query( Schema $schema ): string {
 		$this->set_query_for_drop( $schema );
