@@ -186,13 +186,23 @@ class Column {
 	/**
 	 * Returns the column details as a stdClass
 	 *
-	 * @return object{name:string,type:string}
+	 * @return object{
+	 *  name:string,
+	 *  type:string,
+	 *  length:int|null,
+	 *  precision:int|null,
+	 *  nullable:bool,
+	 *  default:string|int|float,
+	 *  unsigned:bool,
+	 *  auto_increment:bool,
+	 *}
 	 */
 	public function export() {
 		return (object) array(
 			'name'           => $this->name,
 			'type'           => $this->type,
 			'length'         => $this->length,
+			'precision'      => $this->precision,
 			'nullable'       => $this->nullable ?? false,
 			'default'        => $this->default,
 			'unsigned'       => $this->unsigned ?? false,

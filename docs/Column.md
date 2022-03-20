@@ -171,7 +171,7 @@ CREATE TABLE table(
 
 ***
 
-# Type Helpers
+# Type Helpers (Shortcuts)
 
 ## json(): Column
 
@@ -285,7 +285,6 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## unsigned_int( ?int $length = null ): Column
-
 > @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Column  
 
@@ -335,3 +334,89 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->column('some_string')->type('datetime')->default('2012-12-31 23:59:59');
 });
 ```
+
+# Getters
+
+## get_name(): string
+
+> @return string  
+
+Returns the defined column name.
+
+*** 
+
+## get_name(): string
+
+> @return string  
+
+Returns the defined column name.
+
+*** 
+
+## get_type(): string|null
+
+> @return string|null  
+
+Returns the type if defined (null if not)
+
+*** 
+
+## get_length(): int|null
+
+> @return int|null  
+
+Returns the length if defined (null if not)
+
+*** 
+
+## get_precision(): int|null
+
+> @return int|null  
+
+Returns the precision if defined (null if not)
+
+*** 
+
+## is_nullable(): bool
+
+> @return bool  
+
+Returns the column is nullable (assumes false if not defined.)
+
+*** 
+
+## get_default(): mixed
+
+> @return mixed  
+
+Returns the default value, if not set will return null.
+
+*** 
+
+## is_auto_increment(): bool
+
+> @return bool  
+
+Returns the column is set to auto increment (assumes false if not defined.)
+
+*** 
+
+## is_unsigned(): bool
+
+> @return bool  
+
+Returns the column is set to unsigned (assumes false if not defined.)
+
+*** 
+
+## export(): stdClass
+> @return object{
+>  name:string,
+>  type:string,
+>  length:int|null,
+>  precision:int|null,
+>  nullable:bool,
+>  default:string|int|float,
+>  unsigned:bool,
+>  auto_increment:bool,
+> }
