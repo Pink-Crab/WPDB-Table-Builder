@@ -26,8 +26,8 @@ CREATE TABLE table(
 ```
 ***
 
-## length( string $length ): Column
-> @param string $length Defines the column length, only valid MYSQL lengths should be used  
+## length( int $length ): Column
+> @param int $length Defines the column length, only valid MYSQL lengths should be used  
 > @return self  
  ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -43,8 +43,8 @@ CREATE TABLE table(
 
 ***
 
-## precision( string $precision ): Column
-> @param string $precision Defines the precision of floating point columns. 
+## precision( int $precision ): Column
+> @param int $precision Defines the precision of floating point columns. 
 > @return self  
  ```php
 $schema = new Schema('table', function(Schema $schema): void{
@@ -119,7 +119,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## varchar( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Schema  
 
 Defines a `VARCHAR(length)` with an optional length
@@ -139,7 +139,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## text( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Column  
 
 Defines a `TEXT(length)` with an optional length
@@ -159,7 +159,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## int( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Column  
 
 Defines a `INT(length)` with an optional length
@@ -178,11 +178,12 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 ***
 
-## float( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+## float( ?int $length = null, ?int $precision = null ): Column
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
+> > @param int|null $precision Sets number of decimal places to allow.    
 > @return Column  
 
-Defines a `FLOAT(length)` with an optional length
+Defines a `FLOAT(length, precision)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
     
@@ -190,19 +191,20 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->index('id')->primary();
     
     // Using helper
-    $schema->column('some_string')->float(16);
+    $schema->column('some_string')->float(16,4);
     // Using Type
-    $schema->column('some_string')->type('float')->length(16);
+    $schema->column('some_string')->type('float')->length(16)->precision(4);
 });
 ```
 
 ***
 
-## double( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+## double( ?int $length = null, ?int $precision = null  ): Column
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
+> > @param int|null $precision Sets number of decimal places to allow.    
 > @return Column  
 
-Defines a `DOUBLE(length)` with an optional length
+Defines a `DOUBLE(length, precision)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
     
@@ -210,16 +212,16 @@ $schema = new Schema('table', function(Schema $schema): void{
     $schema->index('id')->primary();
     
     // Using helper
-    $schema->column('some_string')->double(16);
+    $schema->column('some_string')->double(16,2);
     // Using Type
-    $schema->column('some_string')->type('double')->length(16);
+    $schema->column('some_string')->type('double')->length(16)->precision(2);
 });
 ```
 
 ***
 
 ## unsigned_int( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Column  
 
 Defines a `UNSIGNED INT(length)` with an optional length
@@ -240,7 +242,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 
 ## unsigned_medium( ?int $length = null ): Column
-> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
 > @return Column  
 
 Defines a `UNSIGNED INT(length)` with an optional length

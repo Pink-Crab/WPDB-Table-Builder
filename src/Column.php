@@ -128,7 +128,7 @@ class Column {
 
 	/**
 	 * Sets the column precision
-	 * 
+	 *
 	 * Only used for floating point numbers
 	 *
 	 * @param integer $precision
