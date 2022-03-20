@@ -106,13 +106,9 @@ Defines a column as JSON
 > **IF USING MYSQL A DEFAULT CAN NOT BE DEFINED, YOU CAN USING MARIADB**
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('json_data')->json();
-    // Using Type
+    // Verbose
     $schema->column('json_data')->type('json');
 });
 ```
@@ -125,13 +121,9 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `VARCHAR(length)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('some_string')->varchar(16);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('varchar')->length(16);
 });
 ```
@@ -144,14 +136,10 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 Defines a `TEXT(length)` with an optional length
 ```php
-$schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
+$schema = new Schema('table', function(Schema $schema): void{   
     // Using helper
     $schema->column('some_string')->text(16);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('text')->length(16);
 });
 ```
@@ -166,12 +154,9 @@ Defines a `INT(length)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
     
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('some_string')->int(16);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('int')->length(16);
 });
 ```
@@ -186,13 +171,9 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `FLOAT(length, precision)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
     // Using helper
     $schema->column('some_string')->float(16,4);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('float')->length(16)->precision(4);
 });
 ```
@@ -207,13 +188,10 @@ $schema = new Schema('table', function(Schema $schema): void{
 Defines a `DOUBLE(length, precision)` with an optional length
 ```php
 $schema = new Schema('table', function(Schema $schema): void{
-    
-    $schema->column('id')->unsigned_int(12)->auto_increment();
-    $schema->index('id')->primary();
-    
+        
     // Using helper
     $schema->column('some_string')->double(16,2);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('double')->length(16)->precision(2);
 });
 ```
@@ -233,7 +211,7 @@ $schema = new Schema('table', function(Schema $schema): void{
     
     // Using helper
     $schema->column('some_string')->unsigned_int(16);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('unsigned_int')->length(16);
 });
 ```
@@ -254,7 +232,7 @@ $schema = new Schema('table', function(Schema $schema): void{
     
     // Using helper
     $schema->column('some_string')->unsigned_medium(16);
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('unsigned_int')->length(16);
 });
 ```
@@ -274,7 +252,7 @@ $schema = new Schema('table', function(Schema $schema): void{
     
     // Using helper
     $schema->column('some_string')->datetime('2012-12-31 23:59:59');
-    // Using Type
+    // Verbose
     $schema->column('some_string')->type('datetime')->default('2012-12-31 23:59:59');
 });
 ```
