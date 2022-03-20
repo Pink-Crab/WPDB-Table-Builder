@@ -223,7 +223,7 @@ $schema = new Schema('table', function(Schema $schema): void{
     // Using helper
     $schema->column('some_string')->unsigned_medium(16);
     // Verbose
-    $schema->column('some_string')->type('unsigned_int')->length(16);
+    $schema->column('some_string')->type('unsigned_medium')->length(16);
 });
 ```
 
