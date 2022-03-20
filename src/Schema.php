@@ -29,6 +29,7 @@ use Exception;
 use PinkCrab\Table_Builder\Index;
 use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Foreign_Key;
+use PinkCrab\Table_Builder\Exception\Schema_Exception;
 
 class Schema {
 
@@ -184,18 +185,11 @@ class Schema {
 	 * @since 0.3.0
 	 * @param string $name
 	 * @return self
-	 * @throws Exception If columnn doesnt exist.
+	 * @throws Schema_Exception (301) If column doesn't exist.
 	 */
 	public function remove_column( string $name ): self {
 		if ( ! $this->has_column( $name ) ) {
-			throw new Exception(
-				sprintf(
-					'%s doest exist in table %s',
-					$name,
-					$this->get_table_name()
-				),
-				1
-			);
+			throw Schema_Exception::column_not_exist( $this, $name );
 		}
 
 		unset( $this->columns[ $name ] );
