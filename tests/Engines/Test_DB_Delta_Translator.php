@@ -109,8 +109,8 @@ class Test_DB_Delta_Translator extends WP_UnitTestCase {
 		$this->assertEquals( 'FULLTEXT INDEX ix_varchar_column (varchar_column)', $indexes['ix_varchar_column_fulltext'] );
 	}
 
-	/** @testdox It should be possible to has multiple indexes using the same keyname, be expresses as a single SQL expression. */
-	public function test_can_group_indexes_by_keyname(): void {
+	/** @testdox It should be possible to has multiple indexes using the same key_name, be expresses as a single SQL expression. */
+	public function test_can_group_indexes_by_key_name(): void {
 		$schema = new Schema( 'test' );
 		$schema->column( 'col1' )->text()->nullable()->default( 'text default' );
 		$schema->column( 'col2' )->varchar( 2 );

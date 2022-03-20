@@ -169,7 +169,7 @@ class DB_Delta_Translator {
 			function( array $index_group ): string {
 
 				// Extract all parts from group.
-				$key_name   = $index_group[0]->get_keyname();
+				$key_name   = $index_group[0]->get_key_name();
 				$index_type = $index_group[0]->get_type();
 				$columns    = array_map(
 					function( $e ) {
@@ -201,7 +201,7 @@ class DB_Delta_Translator {
 			function( Foreign_Key $foreign_key ): string {
 				return \sprintf(
 					'FOREIGN KEY %s(%s) REFERENCES %s(%s)%s%s',
-					$foreign_key->get_keyname(),
+					$foreign_key->get_key_name(),
 					$foreign_key->get_column(),
 					$foreign_key->get_reference_table(),
 					$foreign_key->get_reference_column(),
@@ -214,7 +214,7 @@ class DB_Delta_Translator {
 	}
 
 	/**
-	 * Groups the indexes by keyname and type.
+	 * Groups the indexes by key_name and type.
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return array<string, Index[]>
@@ -228,7 +228,7 @@ class DB_Delta_Translator {
 					return $carry;
 				}
 
-				$carry[ $index->get_keyname() . '_' . $index->get_type() ][] = $index;
+				$carry[ $index->get_key_name() . '_' . $index->get_type() ][] = $index;
 
 				return $carry;
 			},

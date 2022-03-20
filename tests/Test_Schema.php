@@ -136,7 +136,7 @@ class Test_Schema extends WP_UnitTestCase {
 		$indexes = array_values( $indexes );
 		$a_index = $indexes[0]->export();
 
-		$this->assertEquals( 'ix_a', $a_index->keyname );
+		$this->assertEquals( 'ix_a', $a_index->key_name );
 		$this->assertEquals( 'a', $a_index->column );
 		$this->assertTrue( $a_index->unique );
 		$this->assertFalse( $a_index->full_text );
@@ -162,7 +162,7 @@ class Test_Schema extends WP_UnitTestCase {
 		$f_keys   = array_values( $f_keys );
 		$named_fk = $f_keys[0]->export();
 
-		$this->assertEquals( 'named_fk', $named_fk->keyname );
+		$this->assertEquals( 'named_fk', $named_fk->key_name );
 		$this->assertEquals( 'a', $named_fk->column );
 		$this->assertEquals( 'foo', $named_fk->reference_table );
 		$this->assertEquals( 'bar', $named_fk->reference_column );

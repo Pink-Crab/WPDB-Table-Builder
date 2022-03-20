@@ -37,7 +37,7 @@ class Foreign_Key {
 	 * @since 0.1.0
 	 * @var string
 	 */
-	protected $keyname;
+	protected $key_name;
 
 	/**
 	 * Column referenced
@@ -79,9 +79,9 @@ class Foreign_Key {
 	 */
 	protected $on_delete = '';
 
-	public function __construct( string $column, ?string $keyname = null ) {
-		$this->keyname = $keyname ?? 'fk_' . $column;
-		$this->column  = $column;
+	public function __construct( string $column, ?string $key_name = null ) {
+		$this->key_name = $key_name ?? 'fk_' . $column;
+		$this->column   = $column;
 	}
 
 	/**
@@ -151,8 +151,8 @@ class Foreign_Key {
 	 *
 	 * @return string
 	 */
-	public function get_keyname(): string {
-		return $this->keyname;
+	public function get_key_name(): string {
+		return $this->key_name;
 	}
 
 	/**
@@ -207,7 +207,7 @@ class Foreign_Key {
 	 */
 	public function export() {
 		return (object) array(
-			'keyname'          => $this->keyname,
+			'key_name'         => $this->key_name,
 			'column'           => $this->column,
 			'reference_column' => $this->reference_column,
 			'reference_table'  => $this->reference_table,

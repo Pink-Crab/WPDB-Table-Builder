@@ -27,8 +27,10 @@ namespace PinkCrab\Table_Builder\Engines\WPDB_DB_Delta;
 
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Engines\Engine;
+use PinkCrab\Table_Builder\Exception\Engine_Exception;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Validator;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Translator;
+use PinkCrab\Table_Builder\Exception\WPDB_DB_Delta\WPDB_Validator_Exception;
 
 class DB_Delta_Engine implements Engine {
 
@@ -74,19 +76,15 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return void
-	 * @throws \Exception If fails validation. (code 1)
+	 * @throws WPDB_Validator_Exception if fails validation (code 201)
 	 */
 	private function set_query_for_create( Schema $schema ): void {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
-			throw new \Exception(
-				sprintf(
-					'Failed to create table %s as failed validation: %s',
-					$schema->get_table_name(),
-					join( ', ' . PHP_EOL, $this->validator->get_errors() )
-				),
-				1
+			throw WPDB_Validator_Exception::failed_validation(
+				$schema,
+				$this->validator->get_errors()
 			);
 		}
 
@@ -97,7 +95,8 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
-	 * @throws \Exception If fails validation. (code 1)
+	 * @throws WPDB_Validator_Exception if fails validation (code 201)
+	 * @throws Engine_Exception If errors thrown creating table (code 101)
 	 */
 	public function create_table( Schema $schema ): bool {
 
@@ -106,9 +105,22 @@ class DB_Delta_Engine implements Engine {
 
 		// Include WP dbDelta.
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
-		dbDelta( $query );
 
-		return $this->wpdb->last_error === '';
+		\ob_start();
+		dbDelta( $query );
+		$output = \ob_get_clean();
+
+		// If output captured, throw.
+		if ( '' !== $output ) {
+			throw Engine_Exception::create_table( $schema, $output ?: '' );
+		}
+
+		// Throw if WPDB has errors.
+		if ( '' !== $this->wpdb->last_error ) {
+			throw Engine_Exception::create_table( $schema, $this->wpdb->last_error );
+		}
+
+		return true;
 	}
 
 	/**
@@ -116,7 +128,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return string
-	 * @throws \Exception If fails validation. (code 1)
+	 * @throws WPDB_Validator_Exception if fails validation (code 201)
 	 */
 	public function create_table_query( Schema $schema ): string {
 		$this->set_query_for_create( $schema );
@@ -128,20 +140,13 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return void
-	 * @throws \Exception If fails validation. (code 2)
+	 * @throws WPDB_Validator_Exception If fails schema validation (code 201)
 	 */
 	private function set_query_for_drop( Schema $schema ): void {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
-			throw new \Exception(
-				sprintf(
-					'Failed to drop table %s as failed validation: %s',
-					$schema->get_table_name(),
-					join( ', ' . PHP_EOL, $this->validator->get_errors() )
-				),
-				2
-			);
+			throw WPDB_Validator_Exception::failed_validation( $schema, $this->validator->get_errors() );
 		}
 	}
 
@@ -150,14 +155,28 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return bool
-	 * @throws \Exception If fails validation. (code 2)
+	 * @throws WPDB_Validator_Exception If fails schema validation (code 201)
+	 * @throws Engine_Exception If error thrown dropping table. (code 102)
 	 */
 	public function drop_table( Schema $schema ): bool {
 
 		$query = $this->drop_table_query( $schema );
 
+		\ob_start();
 		$this->wpdb->get_results( $query ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		return $this->wpdb->last_error === '';
+		$output = \ob_get_clean();
+
+		// If output captured, throw.
+		if ( '' !== $output ) {
+			throw Engine_Exception::drop_table( $schema, $output ?: '' );
+		}
+
+		// Throw if WPDB has errors.
+		if ( '' !== $this->wpdb->last_error ) {
+			throw Engine_Exception::drop_table( $schema, $this->wpdb->last_error );
+		}
+
+		return true;
 	}
 
 	/**
@@ -165,7 +184,7 @@ class DB_Delta_Engine implements Engine {
 	 *
 	 * @param \PinkCrab\Table_Builder\Schema $schema
 	 * @return string
-	 * @throws \Exception If fails validation. (code 2)
+	 * @throws WPDB_Validator_Exception If fails schema validation (code 201)
 	 */
 	public function drop_table_query( Schema $schema ): string {
 		$this->set_query_for_drop( $schema );
@@ -195,6 +214,4 @@ CREATE TABLE $table (
 $body ) COLLATE $collate 
 SQL;
 	}
-
-
 }

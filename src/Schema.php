@@ -29,6 +29,7 @@ use Exception;
 use PinkCrab\Table_Builder\Index;
 use PinkCrab\Table_Builder\Column;
 use PinkCrab\Table_Builder\Foreign_Key;
+use PinkCrab\Table_Builder\Exception\Schema_Exception;
 
 class Schema {
 
@@ -103,7 +104,7 @@ class Schema {
 	/**
 	 * Sets the table names prefix
 	 *
-	 * If null, will be treated as no preix.
+	 * If null, will be treated as no prefix.
 	 *
 	 * @since 0.3.0
 	 * @param string|null $prefix
@@ -151,10 +152,10 @@ class Schema {
 
 
 	/**
-	 * Get table colums
+	 * Get table columns
 	 *
 	 * @since 0.3.0
-	 * @return array<Column>
+	 * @return Column[]
 	 */
 	public function get_columns(): array {
 		return $this->columns;
@@ -184,18 +185,11 @@ class Schema {
 	 * @since 0.3.0
 	 * @param string $name
 	 * @return self
-	 * @throws Exception If columnn doesnt exist.
+	 * @throws Schema_Exception (301) If column doesn't exist.
 	 */
 	public function remove_column( string $name ): self {
 		if ( ! $this->has_column( $name ) ) {
-			throw new Exception(
-				sprintf(
-					'%s doest exist in table %s',
-					$name,
-					$this->get_table_name()
-				),
-				1
-			);
+			throw Schema_Exception::column_not_exist( $this, $name );
 		}
 
 		unset( $this->columns[ $name ] );
@@ -208,11 +202,11 @@ class Schema {
 	 *
 	 * @since 0.3.0
 	 * @param string $column The column this FK index is set to.
-	 * @param string|null $keyname if not set, will use the column name a tempalte.
+	 * @param string|null $key_name if not set, will use the column name a tempalte.
 	 * @return \PinkCrab\Table_Builder\Foreign_Key
 	 */
-	public function foreign_key( string $column, ?string $keyname = null ): Foreign_Key {
-		$foreign_key = new Foreign_Key( $column, $keyname );
+	public function foreign_key( string $column, ?string $key_name = null ): Foreign_Key {
+		$foreign_key = new Foreign_Key( $column, $key_name );
 
 		$this->foreign_keys[] = $foreign_key;
 		return $foreign_key;
@@ -251,11 +245,11 @@ class Schema {
 	 * Sets an index to the table.
 	 *
 	 * @since 0.3.0
-	 * @param string $keyname
+	 * @param string $key_name
 	 * @return \PinkCrab\Table_Builder\Index
 	 */
-	public function index( string $column, ?string $keyname = null ): Index {
-		$index = new Index( $column, $keyname );
+	public function index( string $column, ?string $key_name = null ): Index {
+		$index = new Index( $column, $key_name );
 
 		$this->indexes[] = $index;
 		return $index;
