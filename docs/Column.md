@@ -411,12 +411,12 @@ Returns the column is set to unsigned (assumes false if not defined.)
 
 ## export(): stdClass
 > @return object{  
->  name:string,  
->  type:string,  
->  length:int|null,  
->  precision:int|null,  
->  nullable:bool,  
->  default:string|int|float,  
->  unsigned:bool,  
->  auto_increment:bool,  
+>    name:string,  
+>    type:string,  
+>    length:int|null,  
+>    precision:int|null,  
+>    nullable:bool,  
+>    default:string|int|float,  
+>    unsigned:bool,  
+>    auto_increment:bool,  
 > }
