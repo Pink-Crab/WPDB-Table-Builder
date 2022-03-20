@@ -246,7 +246,7 @@ $schema->get_indexes(); // [Foreign_Key{column: user..}]
 # Column Type Helpers
 
 ## json(): Column
-> @return Schema  
+> @return Column  
 
 Defines a column as JSON
 > **IF USING MYSQL A DEFAULT CAN NOT BE DEFINED, YOU CAN USING MARIADB**
@@ -265,7 +265,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## varchar( ?int $length = null ): Column
-> @param int|null $length  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
 > @return Schema  
 
 Defines a `VARCHAR(length)` with an optional length
@@ -285,8 +285,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## text( ?int $length = null ): Column
-> @param int|null $length  
-> @return Schema  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @return Column  
 
 Defines a `TEXT(length)` with an optional length
 ```php
@@ -305,8 +305,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## int( ?int $length = null ): Column
-> @param int|null $length  
-> @return Schema  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @return Column  
 
 Defines a `INT(length)` with an optional length
 ```php
@@ -325,8 +325,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## float( ?int $length = null ): Column
-> @param int|null $length  
-> @return Schema  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @return Column  
 
 Defines a `FLOAT(length)` with an optional length
 ```php
@@ -345,8 +345,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## double( ?int $length = null ): Column
-> @param int|null $length  
-> @return Schema  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @return Column  
 
 Defines a `DOUBLE(length)` with an optional length
 ```php
@@ -365,8 +365,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 ***
 
 ## unsigned_int( ?int $length = null ): Column
-> @param int|null $length  
-> @return Schema  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @return Column  
 
 Defines a `UNSIGNED INT(length)` with an optional length
 ```php
@@ -386,8 +386,8 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 
 ## unsigned_medium( ?int $length = null ): Column
-> @param int|null $length  
-> @return Schema  
+> @param int|null $length Sets the max length of the columns value, passing null ommits setting length.  
+> @return Column  
 
 Defines a `UNSIGNED INT(length)` with an optional length
 ```php
@@ -407,7 +407,7 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 ## datetime( ?string $default = null ): Column
 > @param string|null $default  
-> @return Schema  
+> @return Column  
 
 Defines a `DATETIME` with an optional default value
 ```php
