@@ -6,6 +6,8 @@
 
 ***
 
+> When creating a foreign key reference, ensure the column you are linking to is set as a unique/primary index. Also ensure your reference table exists, or is created before this one.
+
 ## __construct( string $column, ?string $key_name = null )
 > @param string $column The column this Foreign_Key applies to  
 > @param string|null $key_name Sets a custom key_name to the Foreign_Key  
