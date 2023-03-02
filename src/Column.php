@@ -186,7 +186,8 @@ class Column {
 	/**
 	 * Returns the column details as a stdClass
 	 *
-	 * @return object{
+	 * @return \stdClass
+	 * @return-shape object{
 	 *  name:string,
 	 *  type:string,
 	 *  length:int|null,
@@ -197,7 +198,7 @@ class Column {
 	 *  auto_increment:bool,
 	 *}
 	 */
-	public function export() {
+	public function export(): \stdClass {
 		return (object) array(
 			'name'           => $this->name,
 			'type'           => $this->type,

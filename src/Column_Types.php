@@ -176,7 +176,7 @@ trait Column_Types {
 
 	/**
 	 * Sets column as an unsigned bigint with a defined length.
-	 * 
+	 *
 	 * @param int|null $length
 	 * @return Column
 	 */
