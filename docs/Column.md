@@ -320,6 +320,24 @@ $schema = new Schema('table', function(Schema $schema): void{
 
 ***
 
+## unsigned_big( ?int $length = null ): Column
+
+> @param int|null $length Sets the max length of the columns value, passing null omits setting length.  
+> @return Column  
+
+Defines a `UNSIGNED INT(length)` with an optional length
+
+```php
+$schema = new Schema('table', function(Schema $schema): void{
+    // Using helper
+    $schema->column('some_string')->unsigned_big(16);
+    // Verbose
+    $schema->column('some_string')->type('unsigned_big')->length(16);
+});
+```
+
+***
+
 ## datetime( ?string $default = null ): Column
 
 > @param string|null $default  

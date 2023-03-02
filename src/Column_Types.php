@@ -175,6 +175,21 @@ trait Column_Types {
 	}
 
 	/**
+	 * Sets column as an unsigned bigint with a defined length.
+	 *
+	 * @param int|null $length
+	 * @return Column
+	 */
+	public function unsigned_big( ?int $length = null ): Column {
+		$this->type( 'bigint' );
+		$this->unsigned();
+		if ( null !== $length ) {
+			$this->length( $length );
+		}
+		return $this;
+	}
+
+	/**
 	 * Sets column as JSON with an optional default.
 	 *
 	 * @since 1.1.0

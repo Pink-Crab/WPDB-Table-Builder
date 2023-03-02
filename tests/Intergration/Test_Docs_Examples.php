@@ -54,20 +54,21 @@ class Test_Docs_Examples extends WP_UnitTestCase {
 		$this->assertStringContainsString( "default_string VARCHAR(255) NOT NULL DEFAULT 'HAPPY'", $generated_query );
 	}
 
-	/** Shows all column properties that can be used on NUMERIC based columns. Examples used in docs */
+	/**  @testdox Shows all column properties that can be used on NUMERIC based columns. Examples used in docs */
 	public function test_numeric_columns() {
 		$schema = new Schema(
 			'ex_numeric_cols',
 			function( $schema ) {
 				// Length
-				$schema->column( 'verbose_length' )->type( 'mediumint' )->length( 123 );
-				$schema->column( 'shortcut_length' )->int( 12 );
+				$schema->column( 'verbose_length' )->type( 'bigint' )->length( 123 );
+				$schema->column( 'shortcut_length' )->type( 'mediumint' )->length( 9 );
+				$schema->column( 'assumed_length' )->int( 12 );
 
 				// Length with Precision
 				$schema->column( 'verbose_precision' )->type( 'double' )
-                    ->length( 123 )->precision( 2 );
-                $schema->column( 'assumed_precision' )->type( 'decimal' )
-                    ->length( 3 );
+					->length( 123 )->precision( 2 );
+				$schema->column( 'assumed_precision' )->type( 'decimal' )
+					->length( 3 );
 				$schema->column( 'shortcut_precision' )->float( 12, 4 );
 
 				// Unsigned
@@ -88,8 +89,9 @@ class Test_Docs_Examples extends WP_UnitTestCase {
 		$generated_query = $GLOBALS['wpdb']->last_query;
 
 		// Length
-		$this->assertStringContainsString( 'verbose_length MEDIUMINT(123)', $generated_query );
-		$this->assertStringContainsString( 'shortcut_length INT(12) ', $generated_query );
+		$this->assertStringContainsString( 'verbose_length BIGINT(123)', $generated_query );
+		$this->assertStringContainsString( 'shortcut_length MEDIUMINT(9)', $generated_query );
+		$this->assertStringContainsString( 'assumed_length INT(12) ', $generated_query );
 
 		// Length with Precision
 		$this->assertStringContainsString( 'verbose_precision DOUBLE(123,2)', $generated_query );

@@ -18,7 +18,7 @@ use PinkCrab\Table_Builder\Column;
 
 class Test_Column_Types extends WP_UnitTestCase {
 
-	/** @testdox It should be possible to set common types such as INT and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as INT and it length in a simple and short fashion */
 	public function test_int_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->int();
@@ -33,7 +33,7 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$this->assertEquals( 12, $column_with_length->get_length() );
 	}
 
-	/** @testdox It should be possible to set common types such as VARCHAR and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as VARCHAR and it length in a simple and short fashion */
 	public function test_varchar_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->varchar();
@@ -48,7 +48,7 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$this->assertEquals( 12, $column_with_length->get_length() );
 	}
 
-	/** @testdox It should be possible to set common types such as TEXT and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as TEXT and it length in a simple and short fashion */
 	public function test_text_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->text();
@@ -63,7 +63,7 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$this->assertEquals( 12, $column_with_length->get_length() );
 	}
 
-	/** @testdox It should be possible to set common types such as FLOAT and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as FLOAT and it length in a simple and short fashion */
 	public function test_float_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->float();
@@ -78,7 +78,7 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$this->assertEquals( 12, $column_with_length->get_length() );
 	}
 
-	/** @testdox It should be possible to set common types such as DOUBLE and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as DOUBLE and it length in a simple and short fashion */
 	public function test_double_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->double();
@@ -102,7 +102,7 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$this->assertEquals( 6, $column_with_precision->get_precision() );
 	}
 
-	/** @testdox It should be possible to set common types such as UNSIGNED INT and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as UNSIGNED INT and it length in a simple and short fashion */
 	public function test_unsigned_int_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->unsigned_int();
@@ -119,7 +119,7 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$this->assertEquals( 12, $column_with_length->get_length() );
 	}
 
-	/** @testdox It should be possible to set common types such as UNSIGNED MEDIUM and it legnth in a simple and short fashion */
+	/** @testdox It should be possible to set common types such as UNSIGNED MEDIUM and it length in a simple and short fashion */
 	public function test_unsigned_medium_type(): void {
 		$column_no_length = new Column( 'no_length' );
 		$column_no_length->unsigned_medium();
@@ -132,6 +132,23 @@ class Test_Column_Types extends WP_UnitTestCase {
 		$column_with_length->unsigned_medium( 12 );
 
 		$this->assertEquals( 'mediumint', $column_with_length->get_type() );
+		$this->assertTrue( $column_no_length->is_unsigned() );
+		$this->assertEquals( 12, $column_with_length->get_length() );
+	}
+
+	/** @testdox It should be possible to set common types such as UNSIGNED BIG and it length in a simple and short fashion */
+	public function test_unsigned_big_type(): void {
+		$column_no_length = new Column( 'no_length' );
+		$column_no_length->unsigned_big();
+
+		$this->assertEquals( 'bigint', $column_no_length->get_type() );
+		$this->assertEquals( null, $column_no_length->get_length() );
+		$this->assertTrue( $column_no_length->is_unsigned() );
+
+		$column_with_length = new Column( 'with_length' );
+		$column_with_length->unsigned_big( 12 );
+
+		$this->assertEquals( 'bigint', $column_with_length->get_type() );
 		$this->assertTrue( $column_no_length->is_unsigned() );
 		$this->assertEquals( 12, $column_with_length->get_length() );
 	}
