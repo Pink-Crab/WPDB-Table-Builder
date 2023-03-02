@@ -60,8 +60,9 @@ class Test_Docs_Examples extends WP_UnitTestCase {
 			'ex_numeric_cols',
 			function( $schema ) {
 				// Length
-				$schema->column( 'verbose_length' )->type( 'mediumint' )->length( 123 );
-				$schema->column( 'shortcut_length' )->int( 12 );
+				$schema->column( 'verbose_length' )->type( 'bigint' )->length( 123 );
+				$schema->column( 'shortcut_length' )->type( 'mediumint' )->length( 9 );
+				$schema->column( 'assumed_length' )->int( 12 );
 
 				// Length with Precision
 				$schema->column( 'verbose_precision' )->type( 'double' )
