@@ -5,11 +5,9 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 [![Latest Stable Version](http://poser.pugx.org/pinkcrab/table_builder/v)](https://packagist.org/packages/pinkcrab/table_builder) [![Total Downloads](http://poser.pugx.org/pinkcrab/table_builder/downloads)](https://packagist.org/packages/pinkcrab/table_builder) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/table_builder/v/unstable)](https://packagist.org/packages/pinkcrab/table_builder) [![License](http://poser.pugx.org/pinkcrab/table_builder/license)](https://packagist.org/packages/pinkcrab/table_builder) [![PHP Version Require](http://poser.pugx.org/pinkcrab/table_builder/require/php)](https://packagist.org/packages/pinkcrab/table_builder)
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/WPDB-Table-Builder?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/WPDB-Table-Builder)
-
 [![WordPress 5.9 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_5_9.yaml)
 [![WordPress 6.0 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_0.yaml)
 [![WordPress 6.1 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_1.yaml)
-
 [![codecov](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/116cab42353b20f4366e/maintainability)](https://codeclimate.com/github/Pink-Crab/WPDB-Table-Builder/maintainability)
@@ -230,4 +228,5 @@ If you would like to contribute to this project, please feel to create an issue,
 
 > [Glynn Quelch](https://github.com/gin0115/)  
 > [ZebulanStanphill](https://github.com/ZebulanStanphill)
+> [Iniznet](https://github.com/iniznet)
 
