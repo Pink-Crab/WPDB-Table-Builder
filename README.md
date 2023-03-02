@@ -217,6 +217,7 @@ try{
 http://www.opensource.org/licenses/mit-license.html  
 
 ## Change Log ##
+* 1.2.0 - Added in helper method for unsigned_big() (thanks [iniznet](https://github.com/iniznet)), updated dev deps and GH pipelines.
 * 1.1.0 - Added JSON column support, fixed precision issue with floating point column, improved docs (with help from [ZebulanStanphill](https://github.com/ZebulanStanphill))
 * 1.0.0 - Added 2 new methods to the engine interface and wpdb implementation to return the queries used to create table and drop table. 
 * 0.3.0 - Changed how much of the API works; some of the externals have changed. It no longer accepts fully fluent creation, and index/foreign keys have been separated.
