@@ -2,11 +2,17 @@
 A chainable table schema constructor with (WPDB) DB Delta builder built in.
 
 
-![alt text](https://img.shields.io/badge/Current_Version-1.1.0-green.svg?style=flat " ") 
-[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
-![](https://github.com/Pink-Crab/Module__Table_Builder/workflows/GitHub_CI/badge.svg " ")
+[![Latest Stable Version](http://poser.pugx.org/pinkcrab/table_builder/v)](https://packagist.org/packages/pinkcrab/table_builder) [![Total Downloads](http://poser.pugx.org/pinkcrab/table_builder/downloads)](https://packagist.org/packages/pinkcrab/table_builder) [![Latest Unstable Version](http://poser.pugx.org/pinkcrab/table_builder/v/unstable)](https://packagist.org/packages/pinkcrab/table_builder) [![License](http://poser.pugx.org/pinkcrab/table_builder/license)](https://packagist.org/packages/pinkcrab/table_builder) [![PHP Version Require](http://poser.pugx.org/pinkcrab/table_builder/require/php)](https://packagist.org/packages/pinkcrab/table_builder)
+![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/WPDB-Table-Builder?label=Contributors)
+![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/WPDB-Table-Builder)
+
+[![WordPress 5.9 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_5_9.yaml)
+[![WordPress 6.0 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_0.yaml)
+[![WordPress 6.1 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_1.yaml)
+
 [![codecov](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/116cab42353b20f4366e/maintainability)](https://codeclimate.com/github/Pink-Crab/WPDB-Table-Builder/maintainability)
 
 
 > **Related Pages**  
@@ -16,12 +22,6 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 > » [Foreign_Key](docs/Foreign_Key.md)  
 
 
-[You can read the docs on the Perique.info](https://perique.info/lib/Table%20Builder/)
-
-
-## Version
-**Release 1.1.0**
-
 ## Why?
 For those of you who have used `dbDelta` to create tables in WordPress, to say it's a bit fussy is an understatement. 
 
@@ -29,6 +29,11 @@ The `PinkCrab\Table_Builder` module makes creating tables much easier by providi
 
 Out of the box, this package comes with the `DB_Delta` builder engine only, but thanks to the `SQL_Builder` interface, engines for other table formats can be created easily.
 
+## Install
+
+```bash
+composer require pinkcrab/table_builder
+```
 
 
 ## Defining a Table's Schema
