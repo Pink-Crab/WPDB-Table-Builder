@@ -32,6 +32,11 @@ The `PinkCrab\Table_Builder` module makes creating tables much easier by providi
 
 Out of the box, this package comes with the `DB_Delta` builder engine only, but thanks to the `SQL_Builder` interface, engines for other table formats can be created easily.
 
+## Install
+
+```bash
+composer require pinkcrab/table_builder
+```
 
 
 ## Defining a Table's Schema
