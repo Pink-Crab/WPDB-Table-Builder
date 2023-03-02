@@ -227,6 +227,6 @@ http://www.opensource.org/licenses/mit-license.html
 If you would like to contribute to this project, please feel to create an issue, then submit a PR.
 
 > [Glynn Quelch](https://github.com/gin0115/)  
-> [ZebulanStanphill](https://github.com/ZebulanStanphill)
+> [ZebulanStanphill](https://github.com/ZebulanStanphill)  
 > [Iniznet](https://github.com/iniznet)
 
