@@ -22,9 +22,6 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 > » [Foreign_Key](docs/Foreign_Key.md)  
 
 
-[You can read the docs on the Perique.info](https://perique.info/lib/Table%20Builder/)
-
-
 ## Why?
 For those of you who have used `dbDelta` to create tables in WordPress, to say it's a bit fussy is an understatement. 
 
