@@ -82,12 +82,9 @@ class DB_Delta_Engine implements Engine {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
-			throw WPDB_Validator_Exception::failed_validation(
-				$schema,
-				$this->validator->get_errors()
-			);
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
+			throw WPDB_Validator_Exception::failed_validation( $schema, $this->validator->get_errors() );
 		}
-
 	}
 
 	/**
@@ -112,11 +109,13 @@ class DB_Delta_Engine implements Engine {
 
 		// If output captured, throw.
 		if ( '' !== $output ) {
-			throw Engine_Exception::create_table( $schema, $output ?: '' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
+			throw Engine_Exception::create_table( $schema, $output ? $output : '' );
 		}
 
 		// Throw if WPDB has errors.
 		if ( '' !== $this->wpdb->last_error ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
 			throw Engine_Exception::create_table( $schema, $this->wpdb->last_error );
 		}
 
@@ -146,6 +145,7 @@ class DB_Delta_Engine implements Engine {
 		$this->schema = $schema;
 
 		if ( ! $this->validator->validate( $schema ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
 			throw WPDB_Validator_Exception::failed_validation( $schema, $this->validator->get_errors() );
 		}
 	}
@@ -168,11 +168,13 @@ class DB_Delta_Engine implements Engine {
 
 		// If output captured, throw.
 		if ( '' !== $output ) {
-			throw Engine_Exception::drop_table( $schema, $output ?: '' );
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
+			throw Engine_Exception::drop_table( $schema, $output ? $output : '' );
 		}
 
 		// Throw if WPDB has errors.
 		if ( '' !== $this->wpdb->last_error ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
 			throw Engine_Exception::drop_table( $schema, $this->wpdb->last_error );
 		}
 

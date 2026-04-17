@@ -153,11 +153,11 @@ class Column {
 	/**
 	 * Sets the default value
 	 *
-	 * @param mixed $default
+	 * @param mixed $default_value
 	 * @return self
 	 */
-	public function default( $default ): self {
-		$this->default = $default;
+	public function default( $default_value ): self {
+		$this->default = $default_value;
 		return $this;
 	}
 
@@ -285,5 +285,4 @@ class Column {
 	public function is_unsigned(): bool {
 		return $this->unsigned ?? false;
 	}
-
 }

@@ -172,7 +172,7 @@ class Schema {
 		return count(
 			array_filter(
 				$this->get_columns(),
-				function( Column $column ) use ( $name ): bool {
+				function ( Column $column ) use ( $name ): bool {
 					return $column->get_name() === $name;
 				}
 			)
@@ -189,6 +189,7 @@ class Schema {
 	 */
 	public function remove_column( string $name ): self {
 		if ( ! $this->has_column( $name ) ) {
+			// phpcs:ignore WordPress.Security.EscapeOutput.ExceptionNotEscaped -- exception payload, not direct output.
 			throw Schema_Exception::column_not_exist( $this, $name );
 		}
 
@@ -264,6 +265,4 @@ class Schema {
 	public function get_indexes(): array {
 		return $this->indexes;
 	}
-
-
 }

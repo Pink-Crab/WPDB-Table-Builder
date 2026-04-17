@@ -116,13 +116,13 @@ trait Column_Types {
 	 * Sets column as datetime with an optional default.
 	 *
 	 * @since 0.2.0
-	 * @param string|null $default
+	 * @param string|null $default_value
 	 * @return Column
 	 */
-	public function datetime( ?string $default = null ): Column {
+	public function datetime( ?string $default_value = null ): Column {
 		$this->type( 'datetime' );
-		if ( null !== $default ) {
-			$this->default( $default );
+		if ( null !== $default_value ) {
+			$this->default( $default_value );
 		}
 		return $this;
 	}
@@ -131,13 +131,13 @@ trait Column_Types {
 	 * Sets column as timestamp with an optional default.
 	 *
 	 * @since 0.2.0
-	 * @param string|null $default
+	 * @param string|null $default_value
 	 * @return Column
 	 */
-	public function timestamp( ?string $default = null ): Column {
+	public function timestamp( ?string $default_value = null ): Column {
 		$this->type( 'timestamp' );
-		if ( null !== $default ) {
-			$this->default( $default );
+		if ( null !== $default_value ) {
+			$this->default( $default_value );
 		}
 		return $this;
 	}

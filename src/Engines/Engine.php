@@ -51,7 +51,7 @@ interface Engine {
 	 * @param Schema $schema
 	 * @return bool
 	 */
-	public function drop_table( Schema $schema): bool;
+	public function drop_table( Schema $schema ): bool;
 
 	/**
 	 * Returns the query generated to drop a table.

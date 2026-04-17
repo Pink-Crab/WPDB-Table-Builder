@@ -23,7 +23,7 @@ class Test_Invlaid_Schema extends WP_UnitTestCase {
 
 	protected $builder;
 
-	protected $scehma;
+	protected $schema;
 
 	public function setUp(): void {
 		$this->schema = new Schema(

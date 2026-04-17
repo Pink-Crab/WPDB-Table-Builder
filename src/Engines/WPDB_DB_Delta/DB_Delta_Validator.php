@@ -83,7 +83,7 @@ class DB_Delta_Validator {
 	protected function validate_columns( Schema $schema ): void {
 		$result = array_reduce(
 			$schema->get_columns(),
-			function( array $result, Column $column ): array {
+			function ( array $result, Column $column ): array {
 				if ( is_null( $column->get_type() ) ) {
 					$result[] = $column;
 				}
@@ -96,7 +96,7 @@ class DB_Delta_Validator {
 			$this->errors = array_merge(
 				$this->errors,
 				array_map(
-					function( Column $column ): string {
+					function ( Column $column ): string {
 						return \sprintf( 'Column "%s" has no type defined', $column->get_name() );
 					},
 					$result
@@ -115,7 +115,7 @@ class DB_Delta_Validator {
 
 		$primary_keys = array_filter(
 			$schema->get_indexes(),
-			function( Index $index ): bool {
+			function ( Index $index ): bool {
 				return $index->is_primary();
 			}
 		);
@@ -138,7 +138,7 @@ class DB_Delta_Validator {
 		/** @var array<Index> */
 		$missing_columns = array_filter(
 			$schema->get_indexes(),
-			function( Index $index ) use ( $column_names ): bool {
+			function ( Index $index ) use ( $column_names ): bool {
 				return ! in_array( $index->get_column(), $column_names, true );
 			}
 		);
@@ -165,7 +165,7 @@ class DB_Delta_Validator {
 		/** @var array<Foreign_Key> */
 		$missing_columns = array_filter(
 			$schema->get_foreign_keys(),
-			function( Foreign_Key $foreign_key ) use ( $column_names ): bool {
+			function ( Foreign_Key $foreign_key ) use ( $column_names ): bool {
 				return ! in_array( $foreign_key->get_column(), $column_names, true );
 			}
 		);
@@ -181,7 +181,7 @@ class DB_Delta_Validator {
 		/** @var array<Foreign_Key> */
 		$missing_references = array_filter(
 			$schema->get_foreign_keys(),
-			function( Foreign_Key $foreign_key ) : bool {
+			function ( Foreign_Key $foreign_key ): bool {
 				return $foreign_key->get_reference_table() === null || $foreign_key->get_reference_column() === null;
 			}
 		);

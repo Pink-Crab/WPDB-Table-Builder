@@ -21,8 +21,11 @@ use PinkCrab\PHPUnit_Helpers\Reflection;
 use PinkCrab\Table_Builder\Table_Schema;
 use PinkCrab\Table_Builder\Builders\DB_Delta;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Engine;
+use PinkCrab\Table_Builder\Tests\DB_Column_Meta_Compat_Trait;
 
 class Test_Table_With_Indexes extends WP_UnitTestCase {
+
+	use DB_Column_Meta_Compat_Trait;
 
 
 
@@ -93,7 +96,7 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 		// Expected results.
 		$expected = array(
 			'id'           => array(
-				'Type'    => 'int(10) unsigned',
+				'Type'    => $this->int_type( 'int', 10, true ),
 				'Null'    => 'NO',
 				'Key'     => 'PRI',
 				'Default' => null,
@@ -104,26 +107,26 @@ class Test_Table_With_Indexes extends WP_UnitTestCase {
 				'Null'    => 'NO',
 				'Key'     => 'UNI',
 				'Default' => null,
-				'Extra'   => '',
+				'Extra'   => $this->extra_empty(),
 			),
 			'user_email'   => array(
 				'Type'    => 'varchar(256)',
 				'Null'    => 'NO',
 				'Key'     => 'UNI',
 				'Default' => null,
-				'Extra'   => '',
+				'Extra'   => $this->extra_empty(),
 			),
 			'created_on'   => array(
 				'Type'  => 'datetime',
 				'Null'  => 'NO',
 				'Key'   => '',
-				'Extra' => '',
+				'Extra' => $this->extra_empty(),
 			),
 			'last_updated' => array(
 				'Type'  => 'datetime',
 				'Null'  => 'NO',
 				'Key'   => '',
-				'Extra' => '',
+				'Extra' => $this->extra_empty(),
 			),
 		);
 
