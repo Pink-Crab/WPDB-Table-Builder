@@ -17,8 +17,11 @@ use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Builder;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Engine;
+use PinkCrab\Table_Builder\Tests\Int_Width_Aware_Trait;
 
 class Test_Simple_Table extends WP_UnitTestCase {
+
+	use Int_Width_Aware_Trait;
 
 
 
@@ -84,7 +87,7 @@ class Test_Simple_Table extends WP_UnitTestCase {
 		// Expected results.
 		$expected = array(
 			'id'   => array(
-				'Type'  => 'int(11) unsigned',
+				'Type'  => $this->int_type( 'int', 11, true ),
 				'Null'  => 'NO',
 				'Key'   => 'PRI',
 				'Extra' => 'auto_increment',

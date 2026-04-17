@@ -12,10 +12,11 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['8.0', '8.1', '8.2', '8.3', '8.4']
+        mysql-versions: ['mysql:9', 'mysql:8.4', 'mysql:8.0', 'mariadb:12', 'mariadb:11.8', 'mariadb:11.4', 'mariadb:11.2', 'mariadb:11.0', 'mariadb:10.11', 'mariadb:10.6']
     runs-on: ${{ matrix.operating-system }}
     services:
       mysql-service:
-        image: mysql:8.4
+        image: ${{ matrix.mysql-versions }}
         env:
           MYSQL_ROOT_PASSWORD: 'crab'
           MYSQL_DATABASE: pc_core_tests
