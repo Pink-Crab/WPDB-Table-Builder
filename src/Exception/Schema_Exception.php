@@ -71,5 +71,4 @@ class Schema_Exception extends Exception {
 			301
 		);
 	}
-
 }

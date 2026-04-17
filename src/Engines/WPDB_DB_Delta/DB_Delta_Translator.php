@@ -40,7 +40,7 @@ class DB_Delta_Translator {
 	 */
 	public function translate_columns( Schema $schema ): array {
 		return array_map(
-			function( Column $column ): string {
+			function ( Column $column ): string {
 
 				return sprintf(
 					'%s %s%s%s%s%s',
@@ -120,11 +120,11 @@ class DB_Delta_Translator {
 	 * Parses the default value based on column type.
 	 *
 	 * @param string $type
-	 * @param mixed|null $default
+	 * @param mixed|null $default_value
 	 * @return string
 	 */
-	protected function parse_default( string $type, $default ): string {
-		if ( is_null( $default ) ) {
+	protected function parse_default( string $type, $default_value ): string {
+		if ( is_null( $default_value ) ) {
 			return '';
 		}
 
@@ -132,10 +132,10 @@ class DB_Delta_Translator {
 
 		// String values.
 		if ( in_array( $type, array( 'JSON', 'CHAR', 'VARCHAR', 'BINARY', 'VARBINARY', 'TEXT', 'BLOB' ), true ) ) {
-			return " DEFAULT '{$default}'";
+			return " DEFAULT '{$default_value}'";
 		}
 
-		return " DEFAULT {$default}";
+		return " DEFAULT {$default_value}";
 	}
 
 		/**
@@ -148,12 +148,12 @@ class DB_Delta_Translator {
 	 */
 	protected function transform_primary( Schema $schema ): array {
 		return array_map(
-			function( $index ) {
+			function ( $index ) {
 				return "PRIMARY KEY  ({$index->get_column()})";
 			},
 			array_filter(
 				$schema->get_indexes(),
-				function( $index ): bool {
+				function ( $index ): bool {
 					return $index->is_primary();
 				}
 			)
@@ -169,13 +169,13 @@ class DB_Delta_Translator {
 	protected function transform_indexes( Schema $schema ): array {
 		return array_map(
 			/** @param Index[] $index_group */
-			function( array $index_group ): string {
+			function ( array $index_group ): string {
 
 				// Extract all parts from group.
 				$key_name   = $index_group[0]->get_key_name();
 				$index_type = $index_group[0]->get_type();
 				$columns    = array_map(
-					function( $e ) {
+					function ( $e ) {
 						return $e->get_column();
 					},
 					$index_group
@@ -187,7 +187,6 @@ class DB_Delta_Translator {
 					$key_name,
 					join( ', ', $columns )
 				);
-
 			},
 			$this->group_indexes( $schema )
 		);
@@ -201,7 +200,7 @@ class DB_Delta_Translator {
 	 */
 	protected function transform_foreign_keys( Schema $schema ): array {
 		return array_map(
-			function( Foreign_Key $foreign_key ): string {
+			function ( Foreign_Key $foreign_key ): string {
 				return \sprintf(
 					'FOREIGN KEY %s(%s) REFERENCES %s(%s)%s%s',
 					$foreign_key->get_key_name(),
@@ -225,7 +224,7 @@ class DB_Delta_Translator {
 	protected function group_indexes( Schema $schema ): array {
 		return array_reduce(
 			$schema->get_indexes(),
-			function( array $carry, Index $index ): array {
+			function ( array $carry, Index $index ): array {
 				// Remove all primiary keys.
 				if ( $index->is_primary() ) {
 					return $carry;

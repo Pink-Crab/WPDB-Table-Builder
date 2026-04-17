@@ -6,9 +6,10 @@ A chainable table schema constructor with (WPDB) DB Delta builder built in.
 ![GitHub contributors](https://img.shields.io/github/contributors/Pink-Crab/WPDB-Table-Builder?label=Contributors)
 ![GitHub issues](https://img.shields.io/github/issues-raw/Pink-Crab/WPDB-Table-Builder)
 
-[![WordPress 5.9 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_5_9.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_5_9.yaml)
-[![WordPress 6.0 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_0.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_0.yaml)
-[![WordPress 6.1 Test Suite [PHP7.2-8.1]](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_1.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_1.yaml)
+[![WP6.6 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_6.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_6.yaml)
+[![WP6.7 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_7.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_7.yaml)
+[![WP6.8 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_8.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_8.yaml)
+[![WP6.9 [PHP8.0-8.4] Tests](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_9.yaml/badge.svg)](https://github.com/Pink-Crab/WPDB-Table-Builder/actions/workflows/WP_6_9.yaml)
 
 [![codecov](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder/branch/master/graph/badge.svg?token=UBWL8S4O8L)](https://codecov.io/gh/Pink-Crab/WPDB-Table-Builder)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Pink-Crab/WPDB-Table-Builder/?branch=master)
@@ -217,6 +218,7 @@ try{
 http://www.opensource.org/licenses/mit-license.html  
 
 ## Change Log ##
+* 1.2.1 - Updated dev dependencies, PHP min to 8.0, WP test matrix to 6.6–6.9, aligned configs with shared standards.
 * 1.2.0 - Added in helper method for unsigned_big() (thanks [iniznet](https://github.com/iniznet)), updated dev deps and GH pipelines.
 * 1.1.0 - Added JSON column support, fixed precision issue with floating point column, improved docs (with help from [ZebulanStanphill](https://github.com/ZebulanStanphill))
 * 1.0.0 - Added 2 new methods to the engine interface and wpdb implementation to return the queries used to create table and drop table. 
