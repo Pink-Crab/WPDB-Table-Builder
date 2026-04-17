@@ -17,11 +17,11 @@ use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Builder;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Engine;
-use PinkCrab\Table_Builder\Tests\Int_Width_Aware_Trait;
+use PinkCrab\Table_Builder\Tests\DB_Column_Meta_Compat_Trait;
 
 class Test_Simple_Table extends WP_UnitTestCase {
 
-	use Int_Width_Aware_Trait;
+	use DB_Column_Meta_Compat_Trait;
 
 
 
@@ -96,13 +96,13 @@ class Test_Simple_Table extends WP_UnitTestCase {
 				'Type'  => 'varchar(255)',
 				'Null'  => 'YES',
 				'Key'   => '',
-				'Extra' => '',
+				'Extra' => $this->extra_empty(),
 			),
 			'date' => array(
 				'Type'  => 'datetime',
 				'Null'  => 'NO',
 				'Key'   => '',
-				'Extra' => '',
+				'Extra' => $this->extra_empty(),
 			),
 		);
 

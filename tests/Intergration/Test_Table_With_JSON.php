@@ -17,11 +17,11 @@ use WP_UnitTestCase;
 use PinkCrab\Table_Builder\Schema;
 use PinkCrab\Table_Builder\Builder;
 use PinkCrab\Table_Builder\Engines\WPDB_DB_Delta\DB_Delta_Engine;
-use PinkCrab\Table_Builder\Tests\Int_Width_Aware_Trait;
+use PinkCrab\Table_Builder\Tests\DB_Column_Meta_Compat_Trait;
 
 class Test_Table_With_JSON extends WP_UnitTestCase {
 
-	use Int_Width_Aware_Trait;
+	use DB_Column_Meta_Compat_Trait;
 
 
 
@@ -91,13 +91,13 @@ class Test_Table_With_JSON extends WP_UnitTestCase {
 				'Type'  => ['longtext', 'json'], // MYSQL uses JSON, MariaDB uses longtext
 				'Null'  => 'YES',
 				'Key'   => '',
-				'Extra' => '',
+				'Extra' => $this->extra_empty(),
 			),
 			'json_helper_no_def' => array(
 				'Type'  => ['longtext', 'json'], // MYSQL uses JSON, MariaDB uses longtext
 				'Null'  => 'NO',
 				'Key'   => '',
-				'Extra' => '',
+				'Extra' => $this->extra_empty(),
 			),
 		);
 		
